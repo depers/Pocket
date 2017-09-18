@@ -3,8 +3,13 @@ package cn.bravedawn.fastec.example;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.Toast;
 
 import cn.bravedawn.latte.delegates.LatteDelegate;
+import cn.bravedawn.latte.net.RestClient;
+import cn.bravedawn.latte.net.callback.IError;
+import cn.bravedawn.latte.net.callback.IFailure;
+import cn.bravedawn.latte.net.callback.ISuccess;
 
 /**
  * Created by 冯晓 on 2017/9/15.
@@ -18,6 +23,36 @@ public class ExampleDelegate extends LatteDelegate{
 
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, View rootView) {
+        testRestClient();
+    }
+
+
+    private void testRestClient(){
+        RestClient.builder()
+                .url("http://www.bravedawn.cn/blog/Home/")
+                .loader(getContext())
+                //.params("", "")
+                .success(new ISuccess() {
+                    @Override
+                    public void onSuccess(String response) {
+                        //Toast.makeText(getContext(), response, Toast.LENGTH_LONG).show();
+                    }
+                })
+                .failure(new IFailure() {
+                    @Override
+                    public void onFailure() {
+
+                    }
+                })
+                .error(new IError() {
+                    @Override
+                    public void onError(int code, String msg) {
+
+                    }
+                })
+                .build()
+                .get();
 
     }
+
 }
