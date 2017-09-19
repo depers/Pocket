@@ -1,4 +1,4 @@
-package cn.bravedawn.latte.net.callback.download;
+package cn.bravedawn.latte.net.download;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -71,7 +71,7 @@ public class SaveFileTask extends AsyncTask<Object, Void, File>{
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.setAction(Intent.ACTION_VIEW);
             intent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");
-            Latte.getApplication().startActivity(intent);
+            Latte.getApplicationContext().startActivity(intent);
         }
     }
 }

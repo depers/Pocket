@@ -2,6 +2,8 @@ package cn.bravedawn.latte.net.callback;
 
 import android.os.Handler;
 
+import cn.bravedawn.latte.app.ConfigKeys;
+import cn.bravedawn.latte.app.Latte;
 import cn.bravedawn.latte.ui.LatteLoader;
 import cn.bravedawn.latte.ui.LoaderStyle;
 import retrofit2.Call;
@@ -59,13 +61,14 @@ public class RequestCallbacks implements Callback<String>{
     }
 
     private void stopLoading(){
+        final long delayed = Latte.getConfiguration(ConfigKeys.LOADER_DELAYED);
         if (LOADER_STYLE != null){
             HANDLER.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     LatteLoader.stopLoading();
                 }
-            }, 1000);
+            }, delayed);
         }
     }
 }

@@ -5,6 +5,8 @@ import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.ContentFrameLayout;
 
+import com.joanzapata.iconify.fonts.FontAwesomeModule;
+
 import cn.bravedawn.latte.R;
 import cn.bravedawn.latte.app.Latte;
 import cn.bravedawn.latte.delegates.LatteDelegate;
@@ -22,10 +24,6 @@ public abstract class ProxyActivity extends SupportActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initContainer(savedInstanceState);
-
-        Latte.init(this)
-                .withApiHost("http://127.0.0.1:8080")
-                .configure();
     }
 
     private void initContainer(@Nullable Bundle savedInstanceState) {

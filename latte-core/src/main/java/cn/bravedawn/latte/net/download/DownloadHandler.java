@@ -1,8 +1,7 @@
-package cn.bravedawn.latte.net.callback.download;
+package cn.bravedawn.latte.net.download;
 
 import android.os.AsyncTask;
 
-import java.io.File;
 import java.util.WeakHashMap;
 
 import cn.bravedawn.latte.net.RestCreator;
