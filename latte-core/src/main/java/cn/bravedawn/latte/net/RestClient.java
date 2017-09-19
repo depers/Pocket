@@ -107,7 +107,7 @@ public class RestClient {
                         .create(MediaType.parse(MultipartBody.FORM.toString()), FILE);
                 final MultipartBody.Part body = MultipartBody
                         .Part.createFormData("file", FILE.getName(), requestBody);
-                call = RestCreator.getRestService().upload(URL, body);
+                call = service.upload(URL, body);
                 break;
             default:
                 break;

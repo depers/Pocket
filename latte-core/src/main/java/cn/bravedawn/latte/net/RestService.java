@@ -52,6 +52,4 @@ public interface RestService {
     @Multipart
     @POST
     Call<String> upload(@Url String url, @Part MultipartBody.Part file);
-
-
 }
