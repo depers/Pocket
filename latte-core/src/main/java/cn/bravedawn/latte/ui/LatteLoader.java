@@ -11,7 +11,7 @@ import com.wang.avi.AVLoadingIndicatorView;
 import java.util.ArrayList;
 
 import cn.bravedawn.latte.R;
-import cn.bravedawn.latte.util.DimenUtil;
+import cn.bravedawn.latte.util.dimen.DimenUtil;
 
 /**
  * Created by 冯晓 on 2017/9/18.

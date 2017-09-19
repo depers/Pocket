@@ -12,6 +12,7 @@ import cn.bravedawn.latte.net.callback.IFailure;
 import cn.bravedawn.latte.net.callback.IRequest;
 import cn.bravedawn.latte.net.callback.ISuccess;
 import cn.bravedawn.latte.net.callback.RequestCallbacks;
+import cn.bravedawn.latte.net.callback.download.DownloadHandler;
 import cn.bravedawn.latte.ui.LatteLoader;
 import cn.bravedawn.latte.ui.LoaderStyle;
 import okhttp3.MediaType;
@@ -19,7 +20,6 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.http.Multipart;
 
 /**
  * Created by 冯晓 on 2017/9/15.
@@ -30,6 +30,9 @@ public class RestClient {
     private final String URL;
     private static final WeakHashMap<String, Object> PARAMS = RestCreator.getParam();
     private final IRequest REQUEST;
+    private final String DOWNLAOD_DIR;
+    private final String EXTENSION;
+    private final String NAME;
     private final ISuccess SUCCESS;
     private final IFailure FAILURE;
     private final IError ERROR;
@@ -47,7 +50,10 @@ public class RestClient {
                       RequestBody body,
                       LoaderStyle loaderStyle,
                       File file,
-                      Context context) {
+                      Context context,
+                      String downloadDir,
+                      String extension,
+                      String name) {
         this.URL = url;
         this.PARAMS.putAll(params);
         this.REQUEST = request;
@@ -58,6 +64,9 @@ public class RestClient {
         this.LOADERSTYLE = loaderStyle;
         this.FILE = file;
         this.CONTENT = context;
+        this.DOWNLAOD_DIR = downloadDir;
+        this.EXTENSION = extension;
+        this.NAME = name;
     }
 
     public static RestClientBuilder builder(){
@@ -149,5 +158,11 @@ public class RestClient {
     public final void delete(){
         request(HttpMethod.DELETE);
     }
+
+    public final void download(){
+        new DownloadHandler(URL, REQUEST, DOWNLAOD_DIR, EXTENSION, NAME, SUCCESS, FAILURE, ERROR)
+                .handleDownload();
+    }
+
 
 }
