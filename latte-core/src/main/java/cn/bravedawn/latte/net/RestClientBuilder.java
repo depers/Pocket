@@ -1,21 +1,17 @@
 package cn.bravedawn.latte.net;
 
 import android.content.Context;
-import android.os.IBinder;
 
 import java.io.File;
-import java.util.Map;
 import java.util.WeakHashMap;
 
 import cn.bravedawn.latte.net.callback.IError;
 import cn.bravedawn.latte.net.callback.IFailure;
 import cn.bravedawn.latte.net.callback.IRequest;
 import cn.bravedawn.latte.net.callback.ISuccess;
-import cn.bravedawn.latte.ui.LatteLoader;
-import cn.bravedawn.latte.ui.LoaderStyle;
+import cn.bravedawn.latte.ui.loader.LoaderStyle;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
 
 /**
  * Created by 冯晓 on 2017/9/15.

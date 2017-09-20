@@ -1,4 +1,4 @@
-package cn.bravedawn.latte.ui;
+package cn.bravedawn.latte.ui.loader;
 
 /**
  * Created by 傅令杰 on 2017/4/2

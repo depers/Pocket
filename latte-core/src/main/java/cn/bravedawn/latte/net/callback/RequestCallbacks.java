@@ -4,8 +4,8 @@ import android.os.Handler;
 
 import cn.bravedawn.latte.app.ConfigKeys;
 import cn.bravedawn.latte.app.Latte;
-import cn.bravedawn.latte.ui.LatteLoader;
-import cn.bravedawn.latte.ui.LoaderStyle;
+import cn.bravedawn.latte.ui.loader.LatteLoader;
+import cn.bravedawn.latte.ui.loader.LoaderStyle;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

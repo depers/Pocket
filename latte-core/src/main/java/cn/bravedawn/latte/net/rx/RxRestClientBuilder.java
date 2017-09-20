@@ -5,13 +5,8 @@ import android.content.Context;
 import java.io.File;
 import java.util.WeakHashMap;
 
-import cn.bravedawn.latte.net.RestClient;
 import cn.bravedawn.latte.net.RestCreator;
-import cn.bravedawn.latte.net.callback.IError;
-import cn.bravedawn.latte.net.callback.IFailure;
-import cn.bravedawn.latte.net.callback.IRequest;
-import cn.bravedawn.latte.net.callback.ISuccess;
-import cn.bravedawn.latte.ui.LoaderStyle;
+import cn.bravedawn.latte.ui.loader.LoaderStyle;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 

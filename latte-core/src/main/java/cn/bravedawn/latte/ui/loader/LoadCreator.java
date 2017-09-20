@@ -1,4 +1,4 @@
-package cn.bravedawn.latte.ui;
+package cn.bravedawn.latte.ui.loader;
 
 import android.content.Context;
 

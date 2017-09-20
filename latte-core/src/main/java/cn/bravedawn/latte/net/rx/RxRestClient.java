@@ -2,29 +2,18 @@ package cn.bravedawn.latte.net.rx;
 
 import android.content.Context;
 import android.database.Observable;
-import android.support.annotation.RawRes;
 
 import java.io.File;
 import java.util.WeakHashMap;
 
 import cn.bravedawn.latte.net.HttpMethod;
 import cn.bravedawn.latte.net.RestCreator;
-import cn.bravedawn.latte.net.RestService;
-import cn.bravedawn.latte.net.callback.IError;
-import cn.bravedawn.latte.net.callback.IFailure;
-import cn.bravedawn.latte.net.callback.IRequest;
-import cn.bravedawn.latte.net.callback.ISuccess;
-import cn.bravedawn.latte.net.callback.RequestCallbacks;
-import cn.bravedawn.latte.net.download.DownloadHandler;
-import cn.bravedawn.latte.ui.LatteLoader;
-import cn.bravedawn.latte.ui.LoaderStyle;
+import cn.bravedawn.latte.ui.loader.LatteLoader;
+import cn.bravedawn.latte.ui.loader.LoaderStyle;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import okhttp3.Response;
 import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
 
 /**
  * Created by 冯晓 on 2017/9/15.
