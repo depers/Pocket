@@ -11,6 +11,7 @@ import cn.bravedawn.latte.app.Latte;
 import cn.bravedawn.latte.delegates.LatteDelegate;
 import cn.bravedawn.latte.ec.launcher.LauncherDelegate;
 import cn.bravedawn.latte.ec.launcher.LauncherScrollDelegate;
+import cn.bravedawn.latte.ec.sign.SignUpDelegate;
 
 public class ExampleMainActivity extends ProxyActivity {
 
@@ -25,6 +26,6 @@ public class ExampleMainActivity extends ProxyActivity {
 
     @Override
     public LatteDelegate setRootDelegate() {
-        return new LauncherDelegate();
+        return new SignUpDelegate();
     }
 }
