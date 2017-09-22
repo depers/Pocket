@@ -1,5 +1,6 @@
 package cn.bravedawn.latte.ec.sign;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
@@ -12,6 +13,9 @@ import butterknife.OnClick;
 import cn.bravedawn.latte.delegates.LatteDelegate;
 import cn.bravedawn.latte.ec.R;
 import cn.bravedawn.latte.ec.R2;
+import cn.bravedawn.latte.net.RestClient;
+import cn.bravedawn.latte.net.callback.ISuccess;
+import cn.bravedawn.latte.util.log.LatteLogger;
 
 /**
  * Created by 冯晓 on 2017/9/21.
@@ -34,22 +38,42 @@ public class SignUpDelegate extends LatteDelegate {
     @BindView(R2.id.edit_sign_up_verifyPwd)
     TextInputEditText mVerPassword = null;
 
+    private ISignListener mISignListener = null;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (activity instanceof ISignListener){
+            mISignListener = (ISignListener) activity;
+        }
+    }
+
+
+
     @OnClick(R2.id.btn_sign_up)
     void onClickSignUp() {
         if (checkForm()) {
-//            RestClient.builder()
-//                    .url("sign_up")
-//                    .params("", "")
-//                    .success(new ISuccess() {
-//                        @Override
-//                        public void onSuccess(String response) {
-//
-//                        }
-//                    })
-//                    .build()
-//                    .post();
-            Toast.makeText(getContext(), "验证通过", Toast.LENGTH_LONG).show();
+            RestClient.builder()
+                    .url("sign_up")
+                    .params("name", mName.getText().toString())
+                    .params("email", mEmail.getText().toString())
+                    .params("phone", mPhone.getText().toString())
+                    .params("password", mPassword.getText().toString())
+                    .success(new ISuccess() {
+                        @Override
+                        public void onSuccess(String response) {
+                            LatteLogger.json("USER_PROFILE", response);
+                            SignHandler.onSignUp(response, mISignListener);
+                        }
+                    })
+                    .build()
+                    .post();
         }
+    }
+
+    @OnClick(R2.id.tv_link_sign_in)
+    void onClickLink() {
+        start(new SignInDelegate());
     }
 
 

@@ -1,5 +1,6 @@
 package cn.bravedawn.latte.ec.launcher;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatTextView;
@@ -10,9 +11,13 @@ import java.util.Timer;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.bravedawn.latte.app.AccountManager;
+import cn.bravedawn.latte.app.IUserChecker;
 import cn.bravedawn.latte.delegates.LatteDelegate;
 import cn.bravedawn.latte.ec.R;
 import cn.bravedawn.latte.ec.R2;
+import cn.bravedawn.latte.ui.launcher.ILauncherListener;
+import cn.bravedawn.latte.ui.launcher.OnLauncherFinishTag;
 import cn.bravedawn.latte.ui.launcher.ScrollLauncherTag;
 import cn.bravedawn.latte.util.storage.LattePreference;
 import cn.bravedawn.latte.util.timer.BaseTimerTask;
@@ -29,10 +34,20 @@ public class LauncherDelegate extends LatteDelegate implements ITimeListener {
 
     private Timer mTimer = null;
     private int mCount = 5;
+    private ILauncherListener mILauncherListener = null;
 
     @OnClick(R2.id.tv_launcher_timer)
     void onClickTimerView() {
         checkIsShowScroll();
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (activity instanceof ILauncherListener){
+            mILauncherListener = (ILauncherListener) activity;
+
+        }
     }
 
     private void initTimer() {
@@ -47,7 +62,22 @@ public class LauncherDelegate extends LatteDelegate implements ITimeListener {
         if (!LattePreference.getAppFlag(ScrollLauncherTag.HAS_FIRST_LAUNCHER_APP.name())) {
             start(new LauncherScrollDelegate(), SINGLETASK);
         } else {
-            // todo 检查用户是否登陆了App
+            // todo 检查用户是否登陆了App，这里的代码需要再加工抽象
+            AccountManager.checkAccount(new IUserChecker() {
+                @Override
+                public void onSignIn() {
+                    if (mILauncherListener != null){
+                        mILauncherListener.onLauncherFinish(OnLauncherFinishTag.SIGNED);
+                    }
+                }
+
+                @Override
+                public void NotSignIn() {
+                    if (mILauncherListener != null){
+                        mILauncherListener.onLauncherFinish(OnLauncherFinishTag.NOT_SIGNED);
+                    }
+                }
+            });
         }
     }
 
