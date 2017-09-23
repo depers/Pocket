@@ -16,6 +16,8 @@ import cn.bravedawn.latte.ec.R2;
 import cn.bravedawn.latte.net.RestClient;
 import cn.bravedawn.latte.net.callback.ISuccess;
 import cn.bravedawn.latte.util.log.LatteLogger;
+import cn.bravedawn.latte.wechat.LatteWeChat;
+import cn.bravedawn.latte.wechat.callbacks.IWeChatSignInCallback;
 
 /**
  * Created by 冯晓 on 2017/9/21.
@@ -33,7 +35,12 @@ public class SignInDelegate extends LatteDelegate {
 
     @OnClick(R2.id.icon_sign_in_weChat)
     void onClickWeiXinSignIn() {
-
+        LatteWeChat.getInstance().onSignSuccess(new IWeChatSignInCallback() {
+            @Override
+            public void onSignSuccess(String userInfo) {
+                Toast.makeText(getContext(), userInfo, Toast.LENGTH_LONG).show();
+            }
+        }).signIn();
     }
 
     @OnClick(R2.id.tv_link_sign_up)
