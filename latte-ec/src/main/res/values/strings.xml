@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">LatteEc</string>
+    <!--delegate_index-->
+    <string name="search">搜索</string>
+    <string name="scan_icon">{icon-scan}</string>
+    <string name="message_icon">{fa-bullhorn}</string>
 </resources>
