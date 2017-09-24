@@ -22,13 +22,17 @@ public class MultipleItemEntity implements MultiItemEntity {
         this.FIELDS_REFERENCE.get().putAll(fields);
     }
 
+    public static MultipleEntityBuilder builder(){
+        return new MultipleEntityBuilder();
+    }
+
     @Override
     public int getItemType() {
         return (int) FIELDS_REFERENCE.get().get(MultipleFields.ITEM_TYPE);
     }
 
     @SuppressWarnings("unchecked")
-    public final <T> T etField(Object key){
+    public final <T> T getField(Object key){
         return (T) FIELDS_REFERENCE.get().get(key);
     }
 

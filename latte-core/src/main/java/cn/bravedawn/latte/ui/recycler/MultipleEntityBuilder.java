@@ -6,26 +6,26 @@ import java.util.LinkedHashMap;
  * Created by 冯晓 on 2017/9/24.
  */
 
-public class MultipleItemEntityBuilder {
+public class MultipleEntityBuilder {
 
     private static final LinkedHashMap<Object, Object> FIELDS = new LinkedHashMap<>();
 
-    public MultipleItemEntityBuilder(){
+    public MultipleEntityBuilder(){
         //先清除之前的数据
         FIELDS.clear();
     }
 
-    public final MultipleItemEntityBuilder setItemType(int itemType){
+    public final MultipleEntityBuilder setItemType(int itemType){
         FIELDS.put(MultipleFields.ITEM_TYPE, itemType);
         return this;
     }
 
-    public final MultipleItemEntityBuilder setItemField(Object key, Object value){
+    public final MultipleEntityBuilder setItemField(Object key, Object value){
         FIELDS.put(key, value);
         return this;
     }
 
-    public final MultipleItemEntityBuilder setItemFields(LinkedHashMap<Object, Object> fields){
+    public final MultipleEntityBuilder setItemFields(LinkedHashMap<Object, Object> fields){
         FIELDS.putAll(fields);
         return this;
     }
