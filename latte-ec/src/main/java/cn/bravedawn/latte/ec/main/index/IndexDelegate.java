@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.AppCompatEditText;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -21,6 +22,7 @@ import cn.bravedawn.latte.net.RestClient;
 import cn.bravedawn.latte.net.callback.ISuccess;
 import cn.bravedawn.latte.ui.recycler.MultipleFields;
 import cn.bravedawn.latte.ui.recycler.MultipleItemEntity;
+import cn.bravedawn.latte.ui.refresh.PagingBean;
 import cn.bravedawn.latte.ui.refresh.RefreshHandler;
 
 /**
@@ -48,21 +50,9 @@ public class IndexDelegate extends BottomItemDelegate {
 
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, View rootView) {
-        mRefreshHandler = new RefreshHandler(mRefreshLayout);
-        RestClient.builder()
-                .url("index")
-                .success(new ISuccess() {
-                    @Override
-                    public void onSuccess(String response) {
-                        final IndexDataConverter converter = new IndexDataConverter();
-                        converter.setJsonData(response);
-                        ArrayList<MultipleItemEntity> list = converter.convert();
-                        final String image = list.get(1).getField(MultipleFields.IMAGE_URL);
-                        Toast.makeText(getContext(), image, Toast.LENGTH_LONG).show();
-                    }
-                })
-                .build()
-                .get();
+        mRefreshHandler = RefreshHandler.create(mRefreshLayout, mRecyclerView,
+                new IndexDataConverter(), new PagingBean());
+
     }
 
     private void initRefreshLayout(){
@@ -74,11 +64,17 @@ public class IndexDelegate extends BottomItemDelegate {
         mRefreshLayout.setProgressViewOffset(true, 120, 300);
     }
 
+    private void initRecyclerView(){
+        final GridLayoutManager manager = new GridLayoutManager(getContext(), 4);
+        mRecyclerView.setLayoutManager(manager);
+    }
+
 
     @Override
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
         initRefreshLayout();
+        initRecyclerView();
         mRefreshHandler.firstPage("index");
     }
 
