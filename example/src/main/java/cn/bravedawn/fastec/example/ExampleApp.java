@@ -26,6 +26,7 @@ public class ExampleApp extends Application {
                 .withApiHost("http://127.0.0.1:8080")
                 .withInterceptor(new DebugInterceptor("index", R.raw.test))
                 .withInterceptor(new DebugInterceptor("sort_list", R.raw.sort_list_data))
+                .withInterceptor(new DebugInterceptor("sort_content_list", R.raw.sort_content_data_1))
                 .withWeChatAppId("")
                 .withWeChatAppSecret("")
                 .configure();

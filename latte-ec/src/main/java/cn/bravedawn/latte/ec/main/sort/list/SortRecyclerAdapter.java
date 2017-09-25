@@ -7,8 +7,10 @@ import android.view.View;
 
 import java.util.List;
 
+import cn.bravedawn.latte.delegates.LatteDelegate;
 import cn.bravedawn.latte.ec.R;
 import cn.bravedawn.latte.ec.main.sort.SortDelegate;
+import cn.bravedawn.latte.ec.main.sort.content.ContentDelegate;
 import cn.bravedawn.latte.ui.recycler.ItemType;
 import cn.bravedawn.latte.ui.recycler.MultipleFields;
 import cn.bravedawn.latte.ui.recycler.MultipleItemEntity;
@@ -58,6 +60,7 @@ public class SortRecyclerAdapter extends MultipleRecycleAdapter {
                             item.setField(MultipleFields.TAG, true);
                             notifyItemChanged(currentPosition);
                             mPrePosition = currentPosition;
+                            showContent(contentId);
                         }
                     }
                 });
@@ -78,4 +81,18 @@ public class SortRecyclerAdapter extends MultipleRecycleAdapter {
                 break;
         }
     }
+
+    private void showContent(int contentId){
+        final ContentDelegate contentDelegate = new ContentDelegate();
+        switchContent(contentDelegate);
+
+    }
+
+    private void switchContent(ContentDelegate delegate){
+        final LatteDelegate contentDelegate = DELEGATE.findChildFragment(ContentDelegate.class);
+        if (contentDelegate != null){
+            contentDelegate.replaceFragment(delegate, false);
+        }
+    }
+
 }
