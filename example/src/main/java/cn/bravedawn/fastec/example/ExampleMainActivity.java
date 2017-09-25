@@ -16,6 +16,7 @@ import cn.bravedawn.latte.ec.sign.ISignListener;
 import cn.bravedawn.latte.ec.sign.SignUpDelegate;
 import cn.bravedawn.latte.ui.launcher.ILauncherListener;
 import cn.bravedawn.latte.ui.launcher.OnLauncherFinishTag;
+import qiu.niorgai.StatusBarCompat;
 
 public class ExampleMainActivity extends ProxyActivity implements
         ISignListener,
@@ -29,6 +30,7 @@ public class ExampleMainActivity extends ProxyActivity implements
             actionBar.hide();
         }
         Latte.getConfigurator().withActivity(this);
+        StatusBarCompat.translucentStatusBar(this, true);
     }
 
     @Override

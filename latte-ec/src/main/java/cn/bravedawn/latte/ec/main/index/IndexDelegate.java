@@ -2,6 +2,7 @@ package cn.bravedawn.latte.ec.main.index;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.GridLayoutManager;
@@ -20,6 +21,7 @@ import cn.bravedawn.latte.ec.R;
 import cn.bravedawn.latte.ec.R2;
 import cn.bravedawn.latte.net.RestClient;
 import cn.bravedawn.latte.net.callback.ISuccess;
+import cn.bravedawn.latte.ui.recycler.BaseDecoration;
 import cn.bravedawn.latte.ui.recycler.MultipleFields;
 import cn.bravedawn.latte.ui.recycler.MultipleItemEntity;
 import cn.bravedawn.latte.ui.refresh.PagingBean;
@@ -67,6 +69,8 @@ public class IndexDelegate extends BottomItemDelegate {
     private void initRecyclerView(){
         final GridLayoutManager manager = new GridLayoutManager(getContext(), 4);
         mRecyclerView.setLayoutManager(manager);
+        mRecyclerView.addItemDecoration(BaseDecoration.create(
+                ContextCompat.getColor(getContext(), R.color.app_background), 5));
     }
 
 
