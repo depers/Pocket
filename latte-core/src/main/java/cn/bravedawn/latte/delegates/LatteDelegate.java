@@ -5,4 +5,9 @@ package cn.bravedawn.latte.delegates;
  */
 
 public abstract class LatteDelegate extends PermissionCheckerDelegate{
+
+    @SuppressWarnings("unused")
+    public <T extends LatteDelegate> T getParentDelegate(){
+        return (T) getParentFragment();
+    }
 }
