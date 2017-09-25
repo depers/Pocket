@@ -5,10 +5,12 @@ import android.graphics.Color;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import cn.bravedawn.latte.ec.R;
 import cn.bravedawn.latte.ui.recycler.RgbValue;
+import cn.bravedawn.latte.util.log.LatteLogger;
 
 /**
  * Created by 冯晓 on 2017/9/25.
@@ -52,7 +54,7 @@ public class TranslucentBehavior extends CoordinatorLayout.Behavior<Toolbar>{
             final float scale = (float) mDistanceY / targetHeight;
             final float alpha = scale * 255;
             child.setBackgroundColor(Color.argb((int) alpha, RGB_VALUE.red(), RGB_VALUE.green(), RGB_VALUE.blue()));
-        } else if(mDistanceY > targetHeight){
+        } else if(mDistanceY > targetHeight) {
             child.setBackgroundColor(Color.rgb(RGB_VALUE.red(), RGB_VALUE.green(), RGB_VALUE.blue()));
         }
 
