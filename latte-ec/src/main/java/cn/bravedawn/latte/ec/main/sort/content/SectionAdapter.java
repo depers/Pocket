@@ -44,6 +44,5 @@ public class SectionAdapter extends BaseSectionQuickAdapter<SectionBean, BaseVie
                 .dontAnimate()
                 .into(imageView);
 
-
     }
 }

@@ -14,6 +14,7 @@ import cn.bravedawn.latte.ec.R;
 import cn.bravedawn.latte.ec.R2;
 import cn.bravedawn.latte.net.RestClient;
 import cn.bravedawn.latte.net.callback.ISuccess;
+import cn.bravedawn.latte.util.log.LatteLogger;
 
 /**
  * Created by 冯晓 on 2017/9/25.

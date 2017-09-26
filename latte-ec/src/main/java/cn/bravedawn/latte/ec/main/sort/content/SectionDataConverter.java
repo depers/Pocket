@@ -49,6 +49,6 @@ public class SectionDataConverter {
             }
             // 商品内容循环结束
         }
-        return null;
+        return dataList;
     }
 }
