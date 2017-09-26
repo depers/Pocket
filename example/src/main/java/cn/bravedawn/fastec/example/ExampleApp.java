@@ -10,6 +10,7 @@ import cn.bravedawn.fastec.example.event.TestEvent;
 import cn.bravedawn.latte.ec.database.DatabaseManager;
 import cn.bravedawn.latte.ec.icon.FontEcModule;
 import cn.bravedawn.latte.net.Interceptors.DebugInterceptor;
+import cn.bravedawn.latte.net.rx.AddCookiesInterceptor;
 
 /**
  * Created by 冯晓 on 2017/9/13.
@@ -37,6 +38,10 @@ public class ExampleApp extends Application {
                 .withJavascriptInterface("latte")
                 // web事件
                 .withWebEvent("test", new TestEvent())
+                // 添加cookie同步拦截器
+                .withInterceptor(new AddCookiesInterceptor())
+                // 浏览器加载的host
+                .withWebHost("https://www.baidu/com/") //记得加一斜杆
                 .configure();
         initStetho();
         DatabaseManager.getInstance().init(this);
