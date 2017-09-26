@@ -13,7 +13,7 @@
             android:paddingTop="6dp"
             android:textSize="20sp"
             android:textColor="@android:color/white"
-            android:text="@string/sort"
+            android:text="@string/discover"
             android:paddingLeft="10dp"
             android:gravity="center_vertical"
             android:layout_width="match_parent"

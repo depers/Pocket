@@ -12,6 +12,8 @@ import com.orhanobut.logger.Logger;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import cn.bravedawn.latte.delegates.web.event.Event;
+import cn.bravedawn.latte.delegates.web.event.EventManager;
 import okhttp3.Interceptor;
 
 
@@ -106,11 +108,11 @@ public final class Configurator {
         return this;
     }
 
-/*    public Configurator withWebEvent(@NonNull String name, @NonNull Event event) {
+    public Configurator withWebEvent(@NonNull String name, @NonNull Event event) {
         final EventManager manager = EventManager.getInstance();
         manager.addEvent(name, event);
         return this;
-    }*/
+    }
 
     private void checkConfiguration() {
         final boolean isReady = (boolean) LATTE_CONFIGS.get(ConfigKeys.CONFIG_READY);

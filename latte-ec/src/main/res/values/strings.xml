@@ -7,4 +7,6 @@
     <!--delegate_sort-->
     <string name="sort">分类</string>
     <string name="content_more">more ></string>
+    <!--delegate_discover-->
+    <string name="discover">发现</string>
 </resources>
