@@ -21,6 +21,7 @@
     </android.support.v4.widget.SwipeRefreshLayout>
 
     <android.support.v7.widget.Toolbar
+        android:paddingTop="15dp"
         android:id="@+id/tb_index"
         android:layout_width="match_parent"
         android:layout_height="80dp"

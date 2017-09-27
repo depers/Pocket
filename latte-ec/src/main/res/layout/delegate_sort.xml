@@ -6,9 +6,10 @@
               android:layout_height="match_parent">
 
     <android.support.v7.widget.Toolbar
+        android:paddingTop="15dp"
         android:layout_width="match_parent"
         android:background="@android:color/holo_orange_light"
-        android:layout_height="60dp">
+        android:layout_height="75dp">
 
         <android.support.v7.widget.AppCompatTextView
             android:paddingTop="6dp"
