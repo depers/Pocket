@@ -1,15 +1,20 @@
 package cn.bravedawn.latte.ec.main.cart;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
 
+import com.joanzapata.iconify.widget.IconTextView;
+
 import java.util.ArrayList;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import cn.bravedawn.latte.delegates.bottom.BottomItemDelegate;
 import cn.bravedawn.latte.ec.R;
 import cn.bravedawn.latte.ec.R2;
@@ -26,6 +31,26 @@ public class ShopCartDelegate extends BottomItemDelegate implements ISuccess {
     @BindView(R2.id.rv_shop_cart)
     RecyclerView mRecyclerView = null;
 
+    @BindView(R2.id.icon_shop_cart_select_all)
+    IconTextView mIconTextView = null;
+
+    @OnClick(R2.id.icon_shop_cart_select_all)
+    void onClickSelectAll(){
+        final int tag = (int) mIconTextView.getTag();
+        if (tag == 0){
+            mIconTextView.setTextColor(ContextCompat.getColor(getContext(), R.color.app_main));
+            mIconTextView.setTag(1);
+            mAdapter.setIsSelectAll(true);
+            // 更新RecyclerView的显示状态
+            mAdapter.notifyDataSetChanged();
+        } else{
+            mIconTextView.setTextColor(Color.GRAY);
+            mIconTextView.setTag(0);
+            mAdapter.setIsSelectAll(false);
+            mAdapter.notifyDataSetChanged();
+        }
+    }
+
     private ShopCartAdapter mAdapter = null;
 
     @Override
@@ -35,7 +60,7 @@ public class ShopCartDelegate extends BottomItemDelegate implements ISuccess {
 
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, View rootView) {
-
+        mIconTextView.setTag(0);
     }
 
     @Override

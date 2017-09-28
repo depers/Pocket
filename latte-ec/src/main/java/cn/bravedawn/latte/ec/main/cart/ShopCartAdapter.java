@@ -25,11 +25,16 @@ import cn.bravedawn.latte.ui.recycler.MultipleViewHolder;
 
 public class ShopCartAdapter extends MultipleRecycleAdapter {
 
+    private boolean mIsSelectAll = false;
 
     protected ShopCartAdapter(List<MultipleItemEntity> data) {
         super(data);
         // 添加购物车item布局
         addItemType(ShopCartItemType.SHOP_CART_ITEM, R.layout.item_shop_cart);
+    }
+
+    public void setIsSelectAll(boolean isSelectAll){
+        this.mIsSelectAll = isSelectAll;
     }
 
     @Override
@@ -44,7 +49,7 @@ public class ShopCartAdapter extends MultipleRecycleAdapter {
                 final String desc = item.getField(ShopCartMultipleFields.DESC);
                 final int count = item.getField(ShopCartMultipleFields.COUNT);
                 final double price = item.getField(ShopCartMultipleFields.PRICE);
-                final boolean isSelected = item.getField(ShopCartMultipleFields.IS_SELECTED);
+
                 // 取出所有控件
                 final AppCompatImageView imageThumb = holder.getView(R.id.image_item_shop_cart);
                 final AppCompatTextView tvTitle = holder.getView(R.id.tv_item_shop_cart_title);
@@ -65,6 +70,9 @@ public class ShopCartAdapter extends MultipleRecycleAdapter {
                         .centerCrop()
                         .dontAnimate()
                         .into(imageThumb);
+                //  在左侧勾选渲染之前改变是否全选状态
+                item.setField(ShopCartMultipleFields.IS_SELECTED, mIsSelectAll);
+                final boolean isSelected = item.getField(ShopCartMultipleFields.IS_SELECTED);
                 // 根据数据状态显示左侧勾选
                 if (isSelected){
                     iconIsSelected.setTextColor(ContextCompat
