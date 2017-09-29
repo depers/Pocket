@@ -60,7 +60,7 @@ public class LauncherDelegate extends LatteDelegate implements ITimeListener {
     // 判断是否显示滑动启动页
     private void checkIsShowScroll() {
         if (!LattePreference.getAppFlag(ScrollLauncherTag.HAS_FIRST_LAUNCHER_APP.name())) {
-            start(new LauncherScrollDelegate(), SINGLETASK);
+            getSupportDelegate().start(new LauncherScrollDelegate(), SINGLETASK);
         } else {
             // todo 检查用户是否登陆了App，这里的代码需要再加工抽象
             AccountManager.checkAccount(new IUserChecker() {
@@ -93,7 +93,7 @@ public class LauncherDelegate extends LatteDelegate implements ITimeListener {
 
     @Override
     public void onTimer() {
-        getProsyActivity().runOnUiThread(new Runnable() {
+        getProxyActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 if (mTvTimer != null) {

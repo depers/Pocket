@@ -11,6 +11,7 @@ import android.support.v7.widget.ViewStubCompat;
 import android.view.View;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.joanzapata.iconify.widget.IconTextView;
 
 import java.util.ArrayList;
@@ -22,6 +23,8 @@ import butterknife.OnClick;
 import cn.bravedawn.latte.delegates.bottom.BottomItemDelegate;
 import cn.bravedawn.latte.ec.R;
 import cn.bravedawn.latte.ec.R2;
+import cn.bravedawn.latte.ec.pay.FastPay;
+import cn.bravedawn.latte.ec.pay.IAliPayResultListener;
 import cn.bravedawn.latte.net.RestClient;
 import cn.bravedawn.latte.net.callback.ISuccess;
 import cn.bravedawn.latte.ui.recycler.MultipleItemEntity;
@@ -31,7 +34,8 @@ import cn.bravedawn.latte.util.log.LatteLogger;
  * Created by 冯晓 on 2017/9/27.
  */
 
-public class ShopCartDelegate extends BottomItemDelegate implements ISuccess, ICartItemListener{
+public class ShopCartDelegate extends BottomItemDelegate
+        implements ISuccess, ICartItemListener, IAliPayResultListener{
 
 
     private ShopCartAdapter mAdapter = null;
@@ -102,7 +106,7 @@ public class ShopCartDelegate extends BottomItemDelegate implements ISuccess, IC
 
     @OnClick(R2.id.tv_shop_cart_pay)
     void onClickPay(){
-
+        createOrder();
     }
 
     //创建订单，注意这和支付没有关系
@@ -124,7 +128,12 @@ public class ShopCartDelegate extends BottomItemDelegate implements ISuccess, IC
                     @Override
                     public void onSuccess(String response) {
                         // 进行具体的支付
-
+                        LatteLogger.d("ORDER ", response);
+                        final int orderId = JSON.parseObject(response).getInteger("result");
+                        FastPay.create(ShopCartDelegate.this)
+                                .setPayResultListener(ShopCartDelegate.this)
+                                .setOrderId(orderId)
+                                .beginPayDialog();
                     }
                 })
                 .build()
@@ -189,5 +198,30 @@ public class ShopCartDelegate extends BottomItemDelegate implements ISuccess, IC
     public void onItemClick(double itemTotalPrice) {
         final double totalPrice = mAdapter.getTotalPrice();
         mTvTotalPrice.setText(String.valueOf(totalPrice));
+    }
+
+    @Override
+    public void onPaySuccess() {
+
+    }
+
+    @Override
+    public void onPaying() {
+
+    }
+
+    @Override
+    public void onPayFail() {
+
+    }
+
+    @Override
+    public void onPayCancel() {
+
+    }
+
+    @Override
+    public void onPayConnectError() {
+
     }
 }

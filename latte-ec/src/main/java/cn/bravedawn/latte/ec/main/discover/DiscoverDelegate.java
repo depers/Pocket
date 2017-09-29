@@ -44,7 +44,7 @@ public class DiscoverDelegate extends BottomItemDelegate {
             }
         });
         delegate.setTopDelegate(this.getParentDelegate());
-        loadRootFragment(R.id.web_discover_container, delegate);
+        getSupportDelegate().loadRootFragment(R.id.web_discover_container, delegate);
     }
 
     /**
@@ -52,7 +52,7 @@ public class DiscoverDelegate extends BottomItemDelegate {
      * @return
      */
     @Override
-    protected FragmentAnimator onCreateFragmentAnimator() {
+    public FragmentAnimator onCreateFragmentAnimator() {
         return new DefaultHorizontalAnimator();
     }
 }

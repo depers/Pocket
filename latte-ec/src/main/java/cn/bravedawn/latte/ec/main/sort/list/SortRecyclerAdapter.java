@@ -16,6 +16,7 @@ import cn.bravedawn.latte.ui.recycler.MultipleFields;
 import cn.bravedawn.latte.ui.recycler.MultipleItemEntity;
 import cn.bravedawn.latte.ui.recycler.MultipleRecycleAdapter;
 import cn.bravedawn.latte.ui.recycler.MultipleViewHolder;
+import me.yokeyword.fragmentation.SupportHelper;
 
 /**
  * Created by 冯晓 on 2017/9/25.
@@ -89,9 +90,10 @@ public class SortRecyclerAdapter extends MultipleRecycleAdapter {
     }
 
     private void switchContent(ContentDelegate delegate){
-        final LatteDelegate contentDelegate = DELEGATE.findChildFragment(ContentDelegate.class);
+        final LatteDelegate contentDelegate =
+                SupportHelper.findFragment(DELEGATE.getChildFragmentManager(), ContentDelegate.class);
         if (contentDelegate != null){
-            contentDelegate.replaceFragment(delegate, false);
+            contentDelegate.getSupportDelegate().replaceChildFragment(delegate, false);
         }
     }
 

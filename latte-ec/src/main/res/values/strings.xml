@@ -23,4 +23,8 @@
     <string name="item_shop_cart_plus">{fa-plus-square-o}</string>
     <!--stub_shop_cart_no_item-->
     <string name="go_buy">去购物</string>
+    <!--dialog_pay_panel-->
+    <string name="icon_alipay">{icon-ali-pay}</string>
+    <string name="icon_weixin">{fa-weixin}</string>
+    <string name="cancel_pay">取消支付</string>
 </resources>

@@ -2,7 +2,6 @@ package cn.bravedawn.fastec.example;
 
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -10,7 +9,6 @@ import cn.bravedawn.latte.activities.ProxyActivity;
 import cn.bravedawn.latte.app.Latte;
 import cn.bravedawn.latte.delegates.LatteDelegate;
 import cn.bravedawn.latte.ec.launcher.LauncherDelegate;
-import cn.bravedawn.latte.ec.launcher.LauncherScrollDelegate;
 import cn.bravedawn.latte.ec.main.EcBottomDelegate;
 import cn.bravedawn.latte.ec.sign.ISignListener;
 import cn.bravedawn.latte.ec.sign.SignUpDelegate;
@@ -53,11 +51,11 @@ public class ExampleMainActivity extends ProxyActivity implements
         switch (tag){
             case SIGNED:
                 Toast.makeText(this, "启动结束，用户已登录", Toast.LENGTH_LONG).show();
-                startWithPop(new EcBottomDelegate());
+                getSupportDelegate().start(new EcBottomDelegate());
                 break;
             case NOT_SIGNED:
                 Toast.makeText(this, "启动结束，用户未登录", Toast.LENGTH_LONG).show();
-                startWithPop(new SignUpDelegate());
+                getSupportDelegate().start(new SignUpDelegate());
                 break;
             default:
                 break;

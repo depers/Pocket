@@ -38,8 +38,8 @@ dependencies {
     compile 'com.joanzapata.iconify:android-iconify-ionicons:2.2.2'
     compile 'com.joanzapata.iconify:android-iconify-fontawesome:2.2.2'
     //Fragment依赖
-    compile 'me.yokeyword:fragmentation:0.10.1'
-    compile 'me.yokeyword:fragmentation-swipeback:0.7.9'
+    compile 'me.yokeyword:fragmentation:1.0.3'
+    compile 'me.yokeyword:fragmentation-swipeback:1.0.3'
     // butterKnife依赖
     compile 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
@@ -67,13 +67,6 @@ dependencies {
     // 微信依赖(包含统计)
     //noinspection GradleDynamicVersion
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
-    // RecycleView依赖
-    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.28'
-    // RecycleView分割线
-    compile 'com.choices.divider:RecyclerView_Divider:1.0.0'
-    // 图片处理
-    compile 'com.github.bumptech.glide:glide:3.7.0'
-    compile 'com.github.bumptech.glide:okhttp3-integration:1.4.0@aar'
     // 沉浸式状态栏
     compile ('com.github.niorgai:StatusBarCompat:2.1.4', {
         exclude group: 'com.android.support'
