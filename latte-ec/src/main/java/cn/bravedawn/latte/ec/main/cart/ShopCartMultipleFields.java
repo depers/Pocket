@@ -10,4 +10,5 @@ enum ShopCartMultipleFields {
     COUNT,
     PRICE,
     IS_SELECTED,
+    POSITION,
 }

@@ -40,7 +40,7 @@ dependencies {
     //Fragment依赖
     compile 'me.yokeyword:fragmentation:0.10.1'
     compile 'me.yokeyword:fragmentation-swipeback:0.7.9'
-    // butterlnife依赖
+    // butterKnife依赖
     compile 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     //网络请求依赖

@@ -1,5 +1,6 @@
 package cn.bravedawn.latte.ec.main.cart;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatImageView;
@@ -14,6 +15,8 @@ import java.util.List;
 
 import cn.bravedawn.latte.app.Latte;
 import cn.bravedawn.latte.ec.R;
+import cn.bravedawn.latte.net.RestClient;
+import cn.bravedawn.latte.net.callback.ISuccess;
 import cn.bravedawn.latte.ui.recycler.MultipleFields;
 import cn.bravedawn.latte.ui.recycler.MultipleItemEntity;
 import cn.bravedawn.latte.ui.recycler.MultipleRecycleAdapter;
@@ -26,9 +29,18 @@ import cn.bravedawn.latte.ui.recycler.MultipleViewHolder;
 public class ShopCartAdapter extends MultipleRecycleAdapter {
 
     private boolean mIsSelectAll = false;
+    private ICartItemListener mCartItemListener = null;
+    private double mTotalPrice = 0.00;
 
     protected ShopCartAdapter(List<MultipleItemEntity> data) {
         super(data);
+        // 初始化总价
+        for (MultipleItemEntity entity : data){
+            final double price = entity.getField(ShopCartMultipleFields.PRICE);
+            final int count = entity.getField(ShopCartMultipleFields.COUNT);
+            final double total = price * count;
+            mTotalPrice = mTotalPrice + total;
+        }
         // 添加购物车item布局
         addItemType(ShopCartItemType.SHOP_CART_ITEM, R.layout.item_shop_cart);
     }
@@ -36,6 +48,15 @@ public class ShopCartAdapter extends MultipleRecycleAdapter {
     public void setIsSelectAll(boolean isSelectAll){
         this.mIsSelectAll = isSelectAll;
     }
+
+    public void setCartItemListener(ICartItemListener listener){
+        this.mCartItemListener = listener;
+    }
+
+    public double getTotalPrice(){
+        return mTotalPrice;
+    }
+
 
     @Override
     protected void convert(MultipleViewHolder holder, final MultipleItemEntity item) {
@@ -92,6 +113,62 @@ public class ShopCartAdapter extends MultipleRecycleAdapter {
                             iconIsSelected.setTextColor(ContextCompat
                                     .getColor(Latte.getApplicationContext(), R.color.app_main));
                             item.setField(ShopCartMultipleFields.IS_SELECTED, true);
+                        }
+                    }
+                });
+                // 添加加减点击事件
+                iconMinus.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        final int currentCount = item.getField(ShopCartMultipleFields.COUNT);
+                        if (Integer.parseInt(tvCount.getText().toString()) > 1){
+                            RestClient.builder()
+                                    .url("shop_cart_count")
+                                    .loader(mContext)
+                                    .params("count", currentCount)
+                                    .success(new ISuccess() {
+                                        @Override
+                                        public void onSuccess(String response) {
+                                            int countNum = Integer.parseInt(tvCount.getText().toString());
+                                            countNum--;
+                                            tvCount.setText(String.valueOf(countNum));
+                                            if (mCartItemListener != null){
+                                                mTotalPrice = mTotalPrice - price;
+                                                final double itemTotal = countNum * price;
+                                                mCartItemListener.onItemClick(itemTotal);
+                                            }
+                                        }
+                                    })
+                                    .build()
+                                    .post();
+                        }
+                    }
+                });
+
+                iconPlus.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        final int currentCount = item.getField(ShopCartMultipleFields.COUNT);
+                        if (Integer.parseInt(tvCount.getText().toString()) > 1){
+                            RestClient.builder()
+                                    .url("shop_cart_count")
+                                    .loader(mContext)
+                                    .params("count", currentCount)
+                                    .success(new ISuccess() {
+                                        @Override
+                                        public void onSuccess(String response) {
+                                            int countNum = Integer.parseInt(tvCount.getText().toString());
+                                            countNum++;
+                                            tvCount.setText(String.valueOf(countNum));
+                                            if (mCartItemListener != null){
+                                                mTotalPrice = mTotalPrice + price;
+                                                final double itemTotal = countNum * price;
+                                                mCartItemListener.onItemClick(itemTotal);
+                                            }
+                                        }
+                                    })
+                                    .build()
+                                    .post();
                         }
                     }
                 });

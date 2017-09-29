@@ -21,4 +21,6 @@
     <!--item-shop-cart-->
     <string name="item_shop_cart_minus">{fa-minus-square-o}</string>
     <string name="item_shop_cart_plus">{fa-plus-square-o}</string>
+    <!--stub_shop_cart_no_item-->
+    <string name="go_buy">去购物</string>
 </resources>

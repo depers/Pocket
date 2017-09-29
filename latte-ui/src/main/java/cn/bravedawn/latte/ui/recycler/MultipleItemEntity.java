@@ -5,7 +5,6 @@ import com.chad.library.adapter.base.entity.MultiItemEntity;
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.SoftReference;
 import java.util.LinkedHashMap;
-import java.util.WeakHashMap;
 
 /**
  * Created by 冯晓 on 2017/9/24.
@@ -39,9 +38,9 @@ public class MultipleItemEntity implements MultiItemEntity {
     public final LinkedHashMap<?, ?> getFields(){
         return FIELDS_REFERENCE.get();
     }
-
     public final MultipleItemEntity setField(Object key, Object value){
         FIELDS_REFERENCE.get().put(key, value);
         return this;
     }
+
 }

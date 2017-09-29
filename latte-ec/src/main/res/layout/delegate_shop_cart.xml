@@ -59,10 +59,12 @@
         android:layout_weight="8"/>
 
         <android.support.v7.widget.ViewStubCompat
+            android:id="@+id/stun_no_item"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_weight="8"
             android:background="@android:color/white"
+            android:layout="@layout/stub_shop_cart_no_item"
             android:minHeight="50dp"
             android:orientation="vertical"/>
         
@@ -121,8 +123,8 @@
                     android:layout_height="match_parent"/>
 
                 <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/tv_shop_cart_total_price"
                     android:textSize="20sp"
-                    android:text="@string/shop_cart_price"
                     android:textColor="@android:color/holo_orange_dark"
                     android:gravity="center|left"
                     android:layout_weight="1"
@@ -130,7 +132,8 @@
                     android:layout_height="match_parent"/>
             </android.support.v7.widget.LinearLayoutCompat>
 
-            <TextView
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_shop_cart_pay"
                 android:textSize="20sp"
                 android:textColor="@android:color/white"
                 android:background="@color/app_main"

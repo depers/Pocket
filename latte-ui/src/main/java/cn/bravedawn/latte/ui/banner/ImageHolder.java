@@ -3,13 +3,10 @@ package cn.bravedawn.latte.ui.banner;
 import android.content.Context;
 import android.support.v7.widget.AppCompatImageView;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.bigkoo.convenientbanner.holder.Holder;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-
-import cn.bravedawn.latte.R;
 
 /**
  * Created by 冯晓 on 2017/9/24.
