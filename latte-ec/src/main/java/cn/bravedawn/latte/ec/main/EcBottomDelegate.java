@@ -12,6 +12,7 @@ import cn.bravedawn.latte.delegates.bottom.ItemBuilder;
 import cn.bravedawn.latte.ec.main.cart.ShopCartDelegate;
 import cn.bravedawn.latte.ec.main.discover.DiscoverDelegate;
 import cn.bravedawn.latte.ec.main.index.IndexDelegate;
+import cn.bravedawn.latte.ec.main.personal.PersonalDelegate;
 import cn.bravedawn.latte.ec.main.sort.SortDelegate;
 
 /**
@@ -27,7 +28,7 @@ public class EcBottomDelegate extends BaseBottomDelegate {
         items.put(new BottomTabBean("{fa-sort}", "分类"), new SortDelegate());
         items.put(new BottomTabBean("{fa-compass}", "发现"), new DiscoverDelegate());
         items.put(new BottomTabBean("{fa-shopping-cart}", "购物车"), new ShopCartDelegate());
-        items.put(new BottomTabBean("{fa-user}", "我的"), new IndexDelegate());
+        items.put(new BottomTabBean("{fa-user}", "我的"), new PersonalDelegate());
         return builder.addItems(items).build();
     }
 

@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 
 import com.alipay.sdk.app.PayTask;
 
+import cn.bravedawn.latte.ui.loader.LatteLoader;
 import cn.bravedawn.latte.util.log.LatteLogger;
 
 
@@ -43,6 +44,7 @@ public class PayAsyncTask extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
+        LatteLoader.stopLoading();
         final PayResult payResult = new PayResult(result);
         // 支付宝返回此次支付结果及加签，建议对支付宝签名信息拿签约时的支付宝提供的公钥做验签
         final String resultInfo = payResult.getResult();

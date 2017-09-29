@@ -6,6 +6,7 @@ package cn.bravedawn.latte.ui.recycler;
 
 public enum MultipleFields {
     ITEM_TYPE,
+    TITLE,
     TEXT,
     IMAGE_URL,
     BANNERS,

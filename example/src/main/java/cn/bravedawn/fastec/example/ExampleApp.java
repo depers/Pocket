@@ -33,6 +33,7 @@ public class ExampleApp extends Application {
                 .withInterceptor(new DebugInterceptor("sort_content_list", R.raw.sort_content_data_1))
                 .withInterceptor(new DebugInterceptor("shop_cart_data", R.raw.shop_cart_data))
                 .withInterceptor(new DebugInterceptor("shop_cart_count", R.raw.shop_cart_data))
+                .withInterceptor(new DebugInterceptor("order_list", R.raw.shop_cart_data))
                 // 微信
                 .withWeChatAppId("")
                 .withWeChatAppSecret("")
