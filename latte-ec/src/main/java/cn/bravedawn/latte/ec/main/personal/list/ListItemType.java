@@ -7,4 +7,5 @@ package cn.bravedawn.latte.ec.main.personal.list;
 public class ListItemType {
 
     public static final int ITEM_NORMAL = 7;
+    public static final int ITEM_AVATAR = 8;
 }

@@ -19,6 +19,7 @@ import cn.bravedawn.latte.ec.main.personal.list.ListAdapter;
 import cn.bravedawn.latte.ec.main.personal.list.ListBean;
 import cn.bravedawn.latte.ec.main.personal.list.ListItemType;
 import cn.bravedawn.latte.ec.main.personal.order.OrderListDelegate;
+import cn.bravedawn.latte.ec.main.personal.profile.UserProfileDelegate;
 
 /**
  * Created by 冯晓 on 2017/9/29.
@@ -55,6 +56,11 @@ public class PersonalDelegate extends BottomItemDelegate{
     void onClickAfterOrder(){
         mArgs.putString(ORDER_TYPE, "all");
         startOrderListByType();
+    }
+
+    @OnClick(R2.id.img_user_avatar)
+    void onClickAvatar(){
+        getParentDelegate().getSupportDelegate().start(new UserProfileDelegate());
     }
 
 
