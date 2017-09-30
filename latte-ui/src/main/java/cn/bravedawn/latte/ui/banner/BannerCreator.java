@@ -6,7 +6,8 @@ import com.bigkoo.convenientbanner.listener.OnItemClickListener;
 
 import java.util.ArrayList;
 
-import cn.bravedawn.latte.R;
+import cn.bravedawn.latte.ui.R;
+
 
 /**
  * Created by 冯晓 on 2017/9/24.

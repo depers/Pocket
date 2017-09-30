@@ -38,6 +38,8 @@ public class LauncherDelegate extends LatteDelegate implements ITimeListener {
 
     @OnClick(R2.id.tv_launcher_timer)
     void onClickTimerView() {
+        // 这里一定要将mTimer置为null
+        mTimer = null;
         checkIsShowScroll();
     }
 

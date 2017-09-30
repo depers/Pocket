@@ -14,7 +14,8 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.bravedawn.latte.R;
+
+import cn.bravedawn.latte.ui.R;
 import cn.bravedawn.latte.ui.banner.BannerCreator;
 
 /**
