@@ -16,6 +16,7 @@ import cn.bravedawn.latte.ui.camera.RequestCodes;
 import cn.bravedawn.latte.util.callback.CallBackManager;
 import cn.bravedawn.latte.util.callback.CallBackType;
 import cn.bravedawn.latte.util.callback.IGlobalCallback;
+import cn.bravedawn.latte.util.log.LatteLogger;
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.OnNeverAskAgain;
 import permissions.dispatcher.OnPermissionDenied;
@@ -86,7 +87,7 @@ public abstract class PermissionCheckerDelegate extends BaseDelegate{
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RESULT_OK){
+        if (resultCode == RESULT_OK){
             switch (requestCode){
                 case RequestCodes.TAKE_PHOTO:
                     final Uri resultUri = CameraImageBean.getInstance().getPath();

@@ -15,11 +15,13 @@ import butterknife.OnClick;
 import cn.bravedawn.latte.delegates.bottom.BottomItemDelegate;
 import cn.bravedawn.latte.ec.R;
 import cn.bravedawn.latte.ec.R2;
+import cn.bravedawn.latte.ec.main.personal.address.AddressDelegate;
 import cn.bravedawn.latte.ec.main.personal.list.ListAdapter;
 import cn.bravedawn.latte.ec.main.personal.list.ListBean;
 import cn.bravedawn.latte.ec.main.personal.list.ListItemType;
 import cn.bravedawn.latte.ec.main.personal.order.OrderListDelegate;
 import cn.bravedawn.latte.ec.main.personal.profile.UserProfileDelegate;
+import cn.bravedawn.latte.ec.main.personal.settings.PersonalClickListener;
 
 /**
  * Created by 冯晓 on 2017/9/29.
@@ -74,6 +76,7 @@ public class PersonalDelegate extends BottomItemDelegate{
         final ListBean address = new ListBean.Builder()
                 .setItemType(ListItemType.ITEM_NORMAL)
                 .setId(1)
+                .setDelegate(new AddressDelegate())
                 .setText("收货地址")
                 .build();
         final ListBean system = new ListBean.Builder()
@@ -90,6 +93,7 @@ public class PersonalDelegate extends BottomItemDelegate{
         mRvSettings.setLayoutManager(manager);
         final ListAdapter adapter = new ListAdapter(data);
         mRvSettings.setAdapter(adapter);
+        mRvSettings.addOnItemTouchListener(new PersonalClickListener(this));
     }
 
     @Override

@@ -1,7 +1,6 @@
 package cn.bravedawn.latte.ui.camera;
 
 import android.content.ContentValues;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;

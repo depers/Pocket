@@ -4,14 +4,19 @@ import android.content.DialogInterface;
 import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.SimpleClickListener;
 
 import cn.bravedawn.latte.delegates.LatteDelegate;
 import cn.bravedawn.latte.ec.R;
 import cn.bravedawn.latte.ec.main.personal.list.ListBean;
+import cn.bravedawn.latte.net.RestClient;
+import cn.bravedawn.latte.net.callback.ISuccess;
 import cn.bravedawn.latte.ui.date.DateDialogUtil;
 import cn.bravedawn.latte.util.callback.CallBackManager;
 import cn.bravedawn.latte.util.callback.CallBackType;
@@ -44,6 +49,37 @@ public class UserProfileClickListener extends SimpleClickListener{
                             @Override
                             public void executeCallBack(Uri args) {
                                 LatteLogger.d("ON_CROP", args);
+                                final ImageView avator = (ImageView) view.findViewById(R.id.img_arrow_avatar);
+                                Glide.with(DELEGATE)
+                                        .load(args)
+                                        .into(avator);
+
+                                RestClient.builder()
+                                        .url(UploadConfig.UPLOAD_IMG)
+                                        .file(args.getPath())
+                                        .loader(DELEGATE.getContext())
+                                        .success(new ISuccess() {
+                                            @Override
+                                            public void onSuccess(String response) {
+                                                LatteLogger.d("ON_CROP_UPLOAD", response);
+                                                String path = JSON.parseObject(response).getString("path");
+                                                // 通知服务器更新信息
+                                                RestClient.builder()
+                                                        .url("user_profile")
+                                                        .params("avatar", path)
+                                                        .success(new ISuccess() {
+                                                            @Override
+                                                            public void onSuccess(String response) {
+                                                                //获取更新后的用户信息，然后更新本地数据库
+                                                                //没有本地数据的APP，每次打开APP都请求API，获取信息
+                                                            }
+                                                        })
+                                                        .build()
+                                                        .post();
+                                            }
+                                        })
+                                        .build()
+                                        .post();
                             }
                         });
                 DELEGATE.startCameraWithCheck();

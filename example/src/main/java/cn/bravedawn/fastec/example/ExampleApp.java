@@ -28,12 +28,14 @@ public class ExampleApp extends Application {
                 .withLoaderDelayed(1000)
                 .withApiHost("http://127.0.0.1:8080")
                 // 数据源
+                .withInterceptor(new DebugInterceptor("sign_up", R.raw.user_profile))
                 .withInterceptor(new DebugInterceptor("index", R.raw.test))
                 .withInterceptor(new DebugInterceptor("sort_list", R.raw.sort_list_data))
                 .withInterceptor(new DebugInterceptor("sort_content_list", R.raw.sort_content_data_1))
                 .withInterceptor(new DebugInterceptor("shop_cart_data", R.raw.shop_cart_data))
                 .withInterceptor(new DebugInterceptor("shop_cart_count", R.raw.shop_cart_data))
                 .withInterceptor(new DebugInterceptor("order_list", R.raw.shop_cart_data))
+                .withInterceptor(new DebugInterceptor("address", R.raw.address))
                 // 微信
                 .withWeChatAppId("")
                 .withWeChatAppSecret("")
