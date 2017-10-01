@@ -17,6 +17,7 @@ import cn.bravedawn.latte.ec.sign.ISignListener;
 import cn.bravedawn.latte.ec.sign.SignUpDelegate;
 import cn.bravedawn.latte.ui.launcher.ILauncherListener;
 import cn.bravedawn.latte.ui.launcher.OnLauncherFinishTag;
+import cn.jpush.android.api.JPushInterface;
 import qiu.niorgai.StatusBarCompat;
 
 public class ExampleMainActivity extends ProxyActivity implements
@@ -45,6 +46,18 @@ public class ExampleMainActivity extends ProxyActivity implements
                 }
             }
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        JPushInterface.onPause(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        JPushInterface.onResume(this);
     }
 
     @Override

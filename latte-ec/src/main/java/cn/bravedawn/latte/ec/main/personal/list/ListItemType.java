@@ -8,4 +8,5 @@ public class ListItemType {
 
     public static final int ITEM_NORMAL = 7;
     public static final int ITEM_AVATAR = 8;
+    public static final int ITEM_SWITCH = 9;
 }

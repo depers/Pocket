@@ -1,6 +1,7 @@
 package cn.bravedawn.fastec.example;
 
 import android.app.Application;
+import android.support.annotation.Nullable;
 
 import com.facebook.stetho.Stetho;
 import com.joanzapata.iconify.fonts.FontAwesomeModule;
@@ -11,6 +12,10 @@ import cn.bravedawn.latte.ec.database.DatabaseManager;
 import cn.bravedawn.latte.ec.icon.FontEcModule;
 import cn.bravedawn.latte.net.Interceptors.DebugInterceptor;
 import cn.bravedawn.latte.net.rx.AddCookiesInterceptor;
+import cn.bravedawn.latte.util.callback.CallBackManager;
+import cn.bravedawn.latte.util.callback.CallBackType;
+import cn.bravedawn.latte.util.callback.IGlobalCallback;
+import cn.jpush.android.api.JPushInterface;
 
 /**
  * Created by 冯晓 on 2017/9/13.
@@ -36,6 +41,7 @@ public class ExampleApp extends Application {
                 .withInterceptor(new DebugInterceptor("shop_cart_count", R.raw.shop_cart_data))
                 .withInterceptor(new DebugInterceptor("order_list", R.raw.shop_cart_data))
                 .withInterceptor(new DebugInterceptor("address", R.raw.address))
+                .withInterceptor(new DebugInterceptor("about", R.raw.about))
                 // 微信
                 .withWeChatAppId("")
                 .withWeChatAppSecret("")
@@ -50,6 +56,30 @@ public class ExampleApp extends Application {
                 .configure();
         initStetho();
         DatabaseManager.getInstance().init(this);
+        // 开启极光推送
+        JPushInterface.setDebugMode(true);
+        JPushInterface.init(this);
+
+        // 通过接口开关极光推送
+        CallBackManager.getInstance()
+                .addCallBack(CallBackType.TAG_OPEN_PUSH, new IGlobalCallback() {
+                    @Override
+                    public void executeCallBack(@Nullable Object args) {
+                        if (JPushInterface.isPushStopped(Latte.getApplicationContext())){
+                            // 开启极光推送
+                            JPushInterface.setDebugMode(true);
+                            JPushInterface.init(Latte.getApplicationContext());
+                        }
+                    }
+                })
+                .addCallBack(CallBackType.TAG_STOP_PUSH, new IGlobalCallback() {
+                    @Override
+                    public void executeCallBack(@Nullable Object args) {
+                        if (!JPushInterface.isPushStopped(Latte.getApplicationContext())){
+                            JPushInterface.stopPush(Latte.getApplicationContext());
+                        }
+                    }
+                });
     }
 
     private void initStetho(){

@@ -22,6 +22,7 @@ import cn.bravedawn.latte.ec.main.personal.list.ListItemType;
 import cn.bravedawn.latte.ec.main.personal.order.OrderListDelegate;
 import cn.bravedawn.latte.ec.main.personal.profile.UserProfileDelegate;
 import cn.bravedawn.latte.ec.main.personal.settings.PersonalClickListener;
+import cn.bravedawn.latte.ec.main.personal.settings.SettingsDelegate;
 
 /**
  * Created by 冯晓 on 2017/9/29.
@@ -83,6 +84,7 @@ public class PersonalDelegate extends BottomItemDelegate{
                 .setItemType(ListItemType.ITEM_NORMAL)
                 .setId(2)
                 .setText("系统设置")
+                .setDelegate(new SettingsDelegate())
                 .build();
         final List<ListBean> data = new ArrayList<>();
         data.add(address);
