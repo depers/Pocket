@@ -37,8 +37,14 @@ public class PersonalDelegate extends BottomItemDelegate{
     @BindView(R2.id.rv_personal_setting)
     RecyclerView mRvSettings = null;
 
+    @OnClick(R2.id.tv_all_order)
+    void onClickAllOrder(){
+        mArgs.putString(ORDER_TYPE, "all");
+        startOrderListByType();
+    }
+
     @OnClick(R2.id.ll_pay)
-    void onClickWaitOrder(){
+    void onClickPayOrder(){
         mArgs.putString(ORDER_TYPE, "all");
         startOrderListByType();
     }
