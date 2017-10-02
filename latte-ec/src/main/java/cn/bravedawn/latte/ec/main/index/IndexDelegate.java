@@ -21,6 +21,7 @@ import cn.bravedawn.latte.delegates.bottom.BottomItemDelegate;
 import cn.bravedawn.latte.ec.R;
 import cn.bravedawn.latte.ec.R2;
 import cn.bravedawn.latte.ec.main.EcBottomDelegate;
+import cn.bravedawn.latte.ec.main.index.search.SearchDelegate;
 import cn.bravedawn.latte.net.RestClient;
 import cn.bravedawn.latte.net.callback.ISuccess;
 import cn.bravedawn.latte.ui.recycler.BaseDecoration;
@@ -36,7 +37,7 @@ import cn.bravedawn.latte.util.callback.IGlobalCallback;
  * Created by 冯晓 on 2017/9/24.
  */
 
-public class IndexDelegate extends BottomItemDelegate {
+public class IndexDelegate extends BottomItemDelegate implements View.OnFocusChangeListener{
 
     @BindView(R2.id.rv_index)
     RecyclerView mRecyclerView = null;
@@ -71,6 +72,7 @@ public class IndexDelegate extends BottomItemDelegate {
                         Toast.makeText(getContext(), args, Toast.LENGTH_LONG).show();
                     }
                 });
+        mSearchView.setOnFocusChangeListener(this);
 
     }
 
@@ -106,4 +108,10 @@ public class IndexDelegate extends BottomItemDelegate {
         return R.layout.delegate_index;
     }
 
+    @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+        if (hasFocus){
+            getParentDelegate().getSupportDelegate().start(new SearchDelegate());
+        }
+    }
 }

@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import com.facebook.stetho.Stetho;
 import com.joanzapata.iconify.fonts.FontAwesomeModule;
 
+import cn.bravedawn.fastec.example.event.ShareEvent;
 import cn.bravedawn.latte.app.Latte;
 import cn.bravedawn.fastec.example.event.TestEvent;
 import cn.bravedawn.latte.ec.database.DatabaseManager;
@@ -42,6 +43,8 @@ public class ExampleApp extends Application {
                 .withInterceptor(new DebugInterceptor("order_list", R.raw.shop_cart_data))
                 .withInterceptor(new DebugInterceptor("address", R.raw.address))
                 .withInterceptor(new DebugInterceptor("about", R.raw.about))
+                .withInterceptor(new DebugInterceptor("refresh", R.raw.index_2_data))
+                .withInterceptor(new DebugInterceptor("goods_detail", R.raw.goods_detail_data_1))
                 // 微信
                 .withWeChatAppId("")
                 .withWeChatAppSecret("")
@@ -49,6 +52,7 @@ public class ExampleApp extends Application {
                 .withJavascriptInterface("latte")
                 // web事件
                 .withWebEvent("test", new TestEvent())
+                .withWebEvent("share", new ShareEvent())
                 // 添加cookie同步拦截器
                 .withInterceptor(new AddCookiesInterceptor())
                 // 浏览器加载的host
