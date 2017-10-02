@@ -4,7 +4,9 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.widget.Toast;
 
@@ -13,6 +15,7 @@ import com.yalantis.ucrop.UCrop;
 import cn.bravedawn.latte.ui.camera.CameraImageBean;
 import cn.bravedawn.latte.ui.camera.LatteCamera;
 import cn.bravedawn.latte.ui.camera.RequestCodes;
+import cn.bravedawn.latte.ui.scanner.ScannerDelegate;
 import cn.bravedawn.latte.util.callback.CallBackManager;
 import cn.bravedawn.latte.util.callback.CallBackType;
 import cn.bravedawn.latte.util.callback.IGlobalCallback;
@@ -47,6 +50,16 @@ public abstract class PermissionCheckerDelegate extends BaseDelegate{
     // 这才是正真调用的方法
     public void startCameraWithCheck(){
         PermissionCheckerDelegatePermissionsDispatcher.startCameraWithCheck(this);
+    }
+
+    // 扫描二维码（不直接调用）
+    @NeedsPermission(Manifest.permission.CAMERA)
+    void startScan(BaseDelegate delegate){
+        delegate.getSupportDelegate().startForResult(new ScannerDelegate(), RequestCodes.SCAN);
+    }
+
+    public void startScanWithCheck(BaseDelegate delegate){
+        PermissionCheckerDelegatePermissionsDispatcher.startScanWithCheck(this, delegate);
     }
 
     @OnPermissionDenied(Manifest.permission.CAMERA)
@@ -122,4 +135,5 @@ public abstract class PermissionCheckerDelegate extends BaseDelegate{
             }
         }
     }
+
 }

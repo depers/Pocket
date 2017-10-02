@@ -53,7 +53,7 @@
 			Plurk          http://www.plurk.com/API
     -->
 
-    <ShareSDK AppKey="1b471abf2d6e7" /> <!-- 修改成你在sharesdk后台注册的应用的appkey"-->
+    <ShareSDK AppKey="2165a02e469ac" /> <!-- 修改成你在sharesdk后台注册的应用的appkey"-->
 
     <!-- ShareByAppClient标识是否使用微博客户端分享，默认是false -->
     <SinaWeibo AppKey="568898243" AppSecret="38a4f8204cc784f81f9f0daaf31e02e3" Enable="true" Id="1"

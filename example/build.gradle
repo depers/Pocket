@@ -45,4 +45,5 @@ dependencies {
     compile 'com.facebook.stetho:stetho-okhttp3:1.5.0'
     compile 'cn.jiguang.sdk:jpush:3.0.9'
     compile 'cn.jiguang.sdk:jcore:1.1.7'
+
 }

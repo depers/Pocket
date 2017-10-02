@@ -84,4 +84,6 @@ dependencies {
     compile 'com.github.yalantis:ucrop:2.2.1-native'
     //工具包
     compile 'com.blankj:utilcode:1.7.1'
+    //二维码扫描
+    compile 'me.dm7.barcodescanner:zbar:1.9.3'
 }
