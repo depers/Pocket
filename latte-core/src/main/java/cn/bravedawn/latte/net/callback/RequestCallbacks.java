@@ -6,6 +6,7 @@ import cn.bravedawn.latte.app.ConfigKeys;
 import cn.bravedawn.latte.app.Latte;
 import cn.bravedawn.latte.ui.loader.LatteLoader;
 import cn.bravedawn.latte.ui.loader.LoaderStyle;
+import cn.bravedawn.latte.util.log.LatteLogger;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

@@ -16,6 +16,7 @@ import cn.bravedawn.latte.net.rx.AddCookiesInterceptor;
 import cn.bravedawn.latte.util.callback.CallBackManager;
 import cn.bravedawn.latte.util.callback.CallBackType;
 import cn.bravedawn.latte.util.callback.IGlobalCallback;
+import cn.bravedawn.latte.util.clipboard.ClipboardUtil;
 import cn.jpush.android.api.JPushInterface;
 
 /**
@@ -32,10 +33,10 @@ public class ExampleApp extends Application {
                 .withIcon(new FontEcModule())
                 // load延迟
                 .withLoaderDelayed(1000)
-                .withApiHost("http://127.0.0.1:8080")
+                .withApiHost("http://202.201.52.153:8081/")
                 // 数据源
                 .withInterceptor(new DebugInterceptor("sign_up", R.raw.user_profile))
-                .withInterceptor(new DebugInterceptor("index", R.raw.test))
+                //.withInterceptor(new DebugInterceptor("user_record", R.raw.test))
                 .withInterceptor(new DebugInterceptor("sort_list", R.raw.sort_list_data))
                 .withInterceptor(new DebugInterceptor("sort_content_list", R.raw.sort_content_data_1))
                 .withInterceptor(new DebugInterceptor("shop_cart_data", R.raw.shop_cart_data))
@@ -43,7 +44,7 @@ public class ExampleApp extends Application {
                 .withInterceptor(new DebugInterceptor("order_list", R.raw.shop_cart_data))
                 .withInterceptor(new DebugInterceptor("address", R.raw.address))
                 .withInterceptor(new DebugInterceptor("about", R.raw.about))
-                .withInterceptor(new DebugInterceptor("refresh", R.raw.index_2_data))
+                //.withInterceptor(new DebugInterceptor("refresh", R.raw.index_2_data))
                 .withInterceptor(new DebugInterceptor("goods_detail", R.raw.goods_detail_data_1))
                 // 微信
                 .withWeChatAppId("")
@@ -58,6 +59,7 @@ public class ExampleApp extends Application {
                 // 浏览器加载的host
                 .withWebHost("https://www.baidu/com/") //记得加一斜杆
                 .configure();
+
         initStetho();
         DatabaseManager.getInstance().init(this);
         // 开启极光推送

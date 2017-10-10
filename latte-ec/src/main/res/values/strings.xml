@@ -4,9 +4,22 @@
     <string name="search">搜索</string>
     <string name="scan_icon">{icon-scan}</string>
     <string name="message_icon">{fa-bullhorn}</string>
-    <!--delegate_sort-->
-    <string name="sort">分类</string>
+    <string name="group_dialog">选择分类</string>
+    <!--remote url-->
+    <!--分页查询记录-->
+    <string name="user_record">user_record</string>
+    <!--修改记录栏目-->
+    <string name="modify_channel">modify_channel</string>
+    <!--用户栏目-->
+    <string name="user_channel">user_channel</string>
+    <!--删除记录-->
+    <string name="delete_record">delete_record</string>
+    <!--新增记录-->
+    <string name="add_record">user_record</string>
+    <!--delegate_channel-->
+    <string name="sort">分类(7)</string>
     <string name="content_more">more ></string>
+    <string name="channel_refresh">刷新</string>
     <!--delegate_discover-->
     <string name="discover">发现</string>
     <!--delegate_shopCart-->

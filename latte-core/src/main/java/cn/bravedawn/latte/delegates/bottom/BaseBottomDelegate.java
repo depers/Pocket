@@ -34,7 +34,7 @@ public abstract class BaseBottomDelegate extends LatteDelegate implements View.O
     private final LinkedHashMap<BottomTabBean, BottomItemDelegate> ITEMS = new LinkedHashMap<>();
     private int mCurrentDelegate = 0;
     private int mIndexDelegate = 0;
-    private int mClickedColor = Color.RED;
+    private int mClickedColor = Color.parseColor("#0f88eb");
 
     @BindView(R2.id.bottom_bar)
     LinearLayoutCompat mBottomBar = null;

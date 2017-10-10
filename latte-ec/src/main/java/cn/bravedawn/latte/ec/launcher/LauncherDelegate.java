@@ -1,6 +1,7 @@
 package cn.bravedawn.latte.ec.launcher;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatTextView;
@@ -12,7 +13,9 @@ import java.util.Timer;
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.bravedawn.latte.app.AccountManager;
+import cn.bravedawn.latte.app.ConfigKeys;
 import cn.bravedawn.latte.app.IUserChecker;
+import cn.bravedawn.latte.app.Latte;
 import cn.bravedawn.latte.delegates.LatteDelegate;
 import cn.bravedawn.latte.ec.R;
 import cn.bravedawn.latte.ec.R2;
@@ -22,6 +25,7 @@ import cn.bravedawn.latte.ui.launcher.ScrollLauncherTag;
 import cn.bravedawn.latte.util.storage.LattePreference;
 import cn.bravedawn.latte.util.timer.BaseTimerTask;
 import cn.bravedawn.latte.util.timer.ITimeListener;
+import qiu.niorgai.StatusBarCompat;
 
 /**
  * Created by 冯晓 on 2017/9/20.
@@ -90,6 +94,8 @@ public class LauncherDelegate extends LatteDelegate implements ITimeListener {
 
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, View rootView) {
+        StatusBarCompat.setStatusBarColor((Activity) Latte.getConfiguration(ConfigKeys.ACTIVITY),
+                Color.WHITE);
         initTimer();
     }
 
@@ -99,7 +105,7 @@ public class LauncherDelegate extends LatteDelegate implements ITimeListener {
             @Override
             public void run() {
                 if (mTvTimer != null) {
-                    mTvTimer.setText(MessageFormat.format("跳过\n{0}s", mCount));
+                    mTvTimer.setText(MessageFormat.format("跳过 {0}s", mCount));
                     mCount--;
                     if (mCount < 0) {
                         if (mTimer != null) {

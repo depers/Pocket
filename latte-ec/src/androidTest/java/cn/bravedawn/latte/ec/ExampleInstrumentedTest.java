@@ -7,6 +7,10 @@ import android.support.test.runner.AndroidJUnit4;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.Random;
+
+import cn.bravedawn.latte.util.log.LatteLogger;
+
 import static org.junit.Assert.*;
 
 /**
@@ -23,4 +27,5 @@ public class ExampleInstrumentedTest {
 
         assertEquals("cn.bravedawn.latte.ec.test", appContext.getPackageName());
     }
+
 }

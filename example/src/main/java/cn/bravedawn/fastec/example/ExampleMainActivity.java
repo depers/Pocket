@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -32,7 +33,6 @@ public class ExampleMainActivity extends ProxyActivity implements
             actionBar.hide();
         }
         Latte.getConfigurator().withActivity(this);
-        StatusBarCompat.translucentStatusBar(this, true);
 
         if (Build.VERSION.SDK_INT >= 23) {
             int REQUEST_CODE_CONTACT = 101;
