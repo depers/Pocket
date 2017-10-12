@@ -34,6 +34,7 @@ public class ExampleMainActivity extends ProxyActivity implements
         }
         Latte.getConfigurator().withActivity(this);
 
+
         if (Build.VERSION.SDK_INT >= 23) {
             int REQUEST_CODE_CONTACT = 101;
             String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
