@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="InputTextLayoutCounterStyle" parent="TextAppearance.AppCompat.Small">
-        <item name="android:textColor">@color/colorSecondaryText</item>
+        <item name="android:textColor">@color/colorEditText</item>
+    </style>
+
+    <style name="TextInputLayoutLineColor" parent="Theme.AppCompat.Light">
+        <!--没有获取焦点时的颜色-->
+        <item name="colorControlNormal">@color/colorEditText</item>
+        <!--获取焦点时的颜色-->
+        <item name="colorControlActivated">@color/app_main</item>
     </style>
 </resources>

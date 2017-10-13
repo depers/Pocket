@@ -2,73 +2,72 @@
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:id="@+id/coordinatorLayout"
-    android:descendantFocusability="beforeDescendants"
-    android:focusableInTouchMode="true">
+    android:layout_height="match_parent">
 
-    <android.support.design.widget.AppBarLayout
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/add_channel_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/app_bar"
-        android:fitsSystemWindows="true">
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/app_main"
+        android:elevation="6dp">
 
-        <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/toolbar_layout"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/app_bar_height"
-            android:background="@drawable/banner_background_add"
-            app:contentScrim="@color/colorPrimary"
-            android:fitsSystemWindows="true">
+            android:layout_height="match_parent">
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
+            <android.support.v7.widget.AppCompatTextView
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"
-                app:background="@color/colorPrimary"/>
+                android:layout_height="match_parent"
+                android:gravity="center|left"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:text="添加栏目"/>
 
-        </android.support.design.widget.CollapsingToolbarLayout>
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginRight="10dp"
+                android:gravity="center|right"
+                android:id="@+id/finish_channel"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="16sp"
+                android:text="完成"/>
 
-    </android.support.design.widget.AppBarLayout>
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/scrollView"
         android:scrollbars="vertical"
-        android:scrollbarFadeDuration="1"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:fadeScrollbars="true">
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ProgressBar
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/progressBar"
-                android:visibility="gone"
-                android:indeterminate="true" />
-
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginLeft="@dimen/activity_vertical_margin"
-                android:layout_marginRight="@dimen/activity_vertical_margin"
-                android:layout_marginTop="@dimen/activity_horizontal_margin">
+                android:orientation="vertical">
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/add_channel_img"
+                    android:layout_marginTop="?attr/actionBarSize"
+                    android:layout_width="match_parent"
+                    android:layout_height="240dp"
+                    android:background="@drawable/banner_background_add"/>
 
                 <android.support.design.widget.TextInputLayout
+                    android:layout_marginLeft="@dimen/activity_vertical_margin"
+                    android:layout_marginRight="@dimen/activity_vertical_margin"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/inputLayoutNumber"
+                    android:theme="@style/TextInputLayoutLineColor"
                     app:counterEnabled="true"
                     app:counterTextAppearance="@style/InputTextLayoutCounterStyle"
                     app:counterMaxLength="24"
@@ -78,7 +77,7 @@
                     <android.support.design.widget.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/editTextNumber"
+                        android:id="@+id/edit_channel_name"
                         android:drawableStart="@drawable/ic_dialpad_black_24dp"
                         android:drawableTint="@color/colorPrimaryText"
                         android:drawablePadding="16dp"
@@ -90,16 +89,19 @@
 
 
                 <android.support.design.widget.TextInputLayout
+                    android:layout_marginLeft="@dimen/activity_vertical_margin"
+                    android:layout_marginRight="@dimen/activity_vertical_margin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/inputLayoutName"
+                    android:theme="@style/TextInputLayoutLineColor"
                     app:errorEnabled="true"
                     android:textColorHint="@color/colorSecondaryText">
 
                     <android.support.design.widget.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/editTextName"
+                        android:id="@+id/edit_channel_desc"
                         android:textColorHint="@color/colorSecondaryText"
                         android:drawableStart="@drawable/ic_assignment_black_24dp"
                         android:drawableTint="@color/colorPrimaryText"
@@ -114,17 +116,5 @@
         </FrameLayout>
 
     </android.support.v4.widget.NestedScrollView>
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/fab_margin"
-        android:tint="@android:color/white"
-        android:contentDescription="添加栏目"
-        app:srcCompat="@drawable/ic_done_white_24dp"
-        app:layout_anchor="@id/app_bar"
-        app:layout_anchorGravity="bottom|end"
-        android:transitionName="fabShare"/>
 
 </android.support.design.widget.CoordinatorLayout>

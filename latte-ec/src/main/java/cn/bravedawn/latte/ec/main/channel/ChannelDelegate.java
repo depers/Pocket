@@ -25,6 +25,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import cn.bravedawn.latte.app.ConfigKeys;
 import cn.bravedawn.latte.app.Latte;
+import cn.bravedawn.latte.delegates.LatteDelegate;
 import cn.bravedawn.latte.delegates.bottom.BottomItemDelegate;
 import cn.bravedawn.latte.ec.R;
 import cn.bravedawn.latte.ec.R2;
@@ -61,6 +62,7 @@ public class ChannelDelegate extends BottomItemDelegate implements ISuccess{
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
+        LatteLogger.d("onCreateView", "****************************");
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -122,4 +124,18 @@ public class ChannelDelegate extends BottomItemDelegate implements ISuccess{
                 .build()
                 .get();
     }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        LatteLogger.d("onResume()", "*****************************");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        LatteLogger.d("onPause()", "*****************************");
+    }
+
 }
