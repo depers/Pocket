@@ -20,6 +20,9 @@
     <string name="sort">分类(7)</string>
     <string name="content_more">more ></string>
     <string name="channel_refresh">刷新</string>
+    <!--delegate_channel_detail-->
+    <string name="channel_detail_menu_delete">删除栏目</string>
+    <string name="channel_detail_menu_modify">修改栏目</string>
     <!--delegate_discover-->
     <string name="discover">发现</string>
     <!--delegate_shopCart-->

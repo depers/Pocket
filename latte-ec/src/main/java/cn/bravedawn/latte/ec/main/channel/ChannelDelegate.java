@@ -3,15 +3,11 @@ package cn.bravedawn.latte.ec.main.channel;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,13 +19,11 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import cn.bravedawn.latte.app.ConfigKeys;
-import cn.bravedawn.latte.app.Latte;
-import cn.bravedawn.latte.delegates.LatteDelegate;
 import cn.bravedawn.latte.delegates.bottom.BottomItemDelegate;
 import cn.bravedawn.latte.ec.R;
 import cn.bravedawn.latte.ec.R2;
-import cn.bravedawn.latte.ec.main.channel.addchannel.AddChannelDelegate;
+import cn.bravedawn.latte.ec.main.EcBottomDelegate;
+import cn.bravedawn.latte.ec.main.channel.add.AddChannelDelegate;
 import cn.bravedawn.latte.net.RestClient;
 import cn.bravedawn.latte.net.callback.ISuccess;
 import cn.bravedawn.latte.ui.loader.LoaderStyle;
@@ -58,11 +52,12 @@ public class ChannelDelegate extends BottomItemDelegate implements ISuccess{
         getParentDelegate().getSupportDelegate().start(new AddChannelDelegate());
     }
 
+    private boolean IS_FIRST_LOAD = false;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-        LatteLogger.d("onCreateView", "****************************");
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -98,6 +93,7 @@ public class ChannelDelegate extends BottomItemDelegate implements ISuccess{
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
         initViewByData();
+        IS_FIRST_LOAD = true;
     }
 
     @Override
@@ -114,12 +110,14 @@ public class ChannelDelegate extends BottomItemDelegate implements ISuccess{
         final LinearLayoutManager manager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(manager);
         mRecyclerView.setAdapter(mAdapter);
+        final EcBottomDelegate ecBottomDelegate = getParentDelegate();
+        mRecyclerView.addOnItemTouchListener(ChannelItemClickListener.create(ecBottomDelegate));
     }
 
     private void initViewByData(){
         RestClient.builder()
                 .url("user_channel")
-                .loader(getContext(),  LoaderStyle.LineScaleIndicator)
+                .loader(getContext(), LoaderStyle.LineScaleIndicator)
                 .success(this)
                 .build()
                 .get();
@@ -127,15 +125,10 @@ public class ChannelDelegate extends BottomItemDelegate implements ISuccess{
 
 
     @Override
-    public void onResume() {
-        super.onResume();
-        LatteLogger.d("onResume()", "*****************************");
+    public void onSupportVisible() {
+        super.onSupportVisible();
+        if (IS_FIRST_LOAD){
+            initViewByData();
+        }
     }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        LatteLogger.d("onPause()", "*****************************");
-    }
-
 }

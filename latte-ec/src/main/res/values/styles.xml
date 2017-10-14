@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:textColorSecondary">@android:color/white</item>
+    </style>
 
     <style name="InputTextLayoutCounterStyle" parent="TextAppearance.AppCompat.Small">
         <item name="android:textColor">@color/colorEditText</item>
@@ -11,4 +15,5 @@
         <!--获取焦点时的颜色-->
         <item name="colorControlActivated">@color/app_main</item>
     </style>
+
 </resources>

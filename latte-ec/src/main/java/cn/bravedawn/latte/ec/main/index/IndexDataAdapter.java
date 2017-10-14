@@ -22,7 +22,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class IndexDataAdapter extends BaseItemDraggableAdapter<MultipleItemEntity, MultipleViewHolder>{
 
 
-    protected IndexDataAdapter(List<MultipleItemEntity> data) {
+    public IndexDataAdapter(List<MultipleItemEntity> data) {
         super(R.layout.item_record, data);
     }
 

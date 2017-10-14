@@ -259,7 +259,7 @@ public class RefreshHandler implements
                                     }
                                 })
                                 .build()
-                                .get();
+                                .delete();
                         return true;
 
                     }

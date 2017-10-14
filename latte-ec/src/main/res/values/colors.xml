@@ -10,4 +10,6 @@
 
     <color name="colorSecondaryText">#757575</color>
     <color name="colorEditText">#757575</color>
+
+    <color name="colorMenuText">#fff</color>
 </resources>

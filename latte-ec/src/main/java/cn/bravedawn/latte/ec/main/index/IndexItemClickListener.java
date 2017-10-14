@@ -73,7 +73,7 @@ public class IndexItemClickListener extends SimpleClickListener {
     public void onItemLongClick(BaseQuickAdapter adapter, View view, int position) {
         float dx = adapter.getViewByPosition(position, R.id.layoutRecordItemMain).getX();
         if (!(dx > 0)){
-            System.out.println(Latte.getHandler().postDelayed(new Runnable() {
+            Latte.getHandler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     new MaterialDialog.Builder(DELEGATE.getContext())
@@ -89,7 +89,7 @@ public class IndexItemClickListener extends SimpleClickListener {
                             .positiveText("确定")
                             .show();
                 }
-            }, 1000));
+            }, 500);
         }
     }
 
