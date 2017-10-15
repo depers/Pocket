@@ -16,5 +16,6 @@ public enum MultipleFields {
     TAG,
     COLOR_AVATAR,
     URL,
-    COUNT
+    COUNT,
+    BOOL
 }

@@ -12,6 +12,7 @@ import cn.bravedawn.latte.delegates.web.IPageLoadListener;
 import cn.bravedawn.latte.delegates.web.WebDelegate;
 import cn.bravedawn.latte.delegates.web.route.Router;
 import cn.bravedawn.latte.ui.loader.LatteLoader;
+import cn.bravedawn.latte.ui.loader.LoaderStyle;
 import cn.bravedawn.latte.util.log.LatteLogger;
 import cn.bravedawn.latte.util.storage.LattePreference;
 
@@ -45,7 +46,7 @@ public class WebViewClientImpl extends WebViewClient {
         if (mPageLoadListener != null){
             mPageLoadListener.onLoadStart();
         }
-        LatteLoader.showLoading(view.getContext());
+        LatteLoader.showLoading(view.getContext(), LoaderStyle.LineScaleIndicator);
     }
 
     @Override

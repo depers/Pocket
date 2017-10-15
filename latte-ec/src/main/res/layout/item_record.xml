@@ -12,16 +12,21 @@
         android:layout_centerVertical="true"
         android:layout_marginStart="@dimen/activity_horizontal_margin_two"/>
 
-    <android.support.v7.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingLeft="4dp"
-        android:paddingRight="@dimen/activity_vertical_margin"
-        android:paddingTop="@dimen/activity_horizontal_margin"
-        android:paddingBottom="@dimen/activity_horizontal_margin"
+    <RelativeLayout
         android:id="@+id/layoutRecordItemMain"
-        android:background="@color/layout_background">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/layoutRecordItemMain2"
+            android:paddingLeft="4dp"
+            android:paddingRight="@dimen/activity_vertical_margin"
+            android:paddingTop="@dimen/activity_horizontal_margin"
+            android:paddingBottom="@dimen/activity_horizontal_margin"
+            android:background="@color/layout_background">
 
         <FrameLayout
             android:layout_width="wrap_content"
@@ -74,6 +79,17 @@
 
         </android.support.v7.widget.LinearLayoutCompat>
 
-    </android.support.v7.widget.LinearLayoutCompat>
+        </android.support.v7.widget.LinearLayoutCompat>
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/record_star"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:visibility="gone"
+            android:layout_alignBottom="@+id/layoutRecordItemMain2"
+            android:src="@drawable/star"/>
+
+    </RelativeLayout>
+
 
 </RelativeLayout>

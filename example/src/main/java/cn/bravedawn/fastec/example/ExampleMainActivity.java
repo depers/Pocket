@@ -15,10 +15,12 @@ import cn.bravedawn.latte.delegates.LatteDelegate;
 import cn.bravedawn.latte.ec.launcher.LauncherDelegate;
 import cn.bravedawn.latte.ec.main.EcBottomDelegate;
 import cn.bravedawn.latte.ec.sign.ISignListener;
+import cn.bravedawn.latte.ec.sign.SignInDelegate;
 import cn.bravedawn.latte.ec.sign.SignUpDelegate;
 import cn.bravedawn.latte.ui.launcher.ILauncherListener;
 import cn.bravedawn.latte.ui.launcher.OnLauncherFinishTag;
 import cn.jpush.android.api.JPushInterface;
+import me.yokeyword.fragmentation.ISupportFragment;
 import qiu.niorgai.StatusBarCompat;
 
 public class ExampleMainActivity extends ProxyActivity implements
@@ -87,7 +89,7 @@ public class ExampleMainActivity extends ProxyActivity implements
                 break;
             case NOT_SIGNED:
                 Toast.makeText(this, "启动结束，用户未登录", Toast.LENGTH_LONG).show();
-                getSupportDelegate().start(new SignUpDelegate());
+                getSupportDelegate().start(new SignInDelegate(), ISupportFragment.SINGLETOP);
                 break;
             default:
                 break;

@@ -11,7 +11,9 @@ import com.bigkoo.convenientbanner.listener.OnItemClickListener;
 import java.util.ArrayList;
 
 import cn.bravedawn.latte.app.AccountManager;
+import cn.bravedawn.latte.app.ConfigKeys;
 import cn.bravedawn.latte.app.IUserChecker;
+import cn.bravedawn.latte.app.Latte;
 import cn.bravedawn.latte.delegates.LatteDelegate;
 import cn.bravedawn.latte.ec.R;
 import cn.bravedawn.latte.ui.launcher.ILauncherListener;
@@ -19,6 +21,7 @@ import cn.bravedawn.latte.ui.launcher.LauncherHolderCreator;
 import cn.bravedawn.latte.ui.launcher.OnLauncherFinishTag;
 import cn.bravedawn.latte.ui.launcher.ScrollLauncherTag;
 import cn.bravedawn.latte.util.storage.LattePreference;
+import qiu.niorgai.StatusBarCompat;
 
 /**
  * Created by 冯晓 on 2017/9/20.
@@ -59,6 +62,7 @@ public class LauncherScrollDelegate extends LatteDelegate implements OnItemClick
 
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, View rootView) {
+        StatusBarCompat.translucentStatusBar((Activity) Latte.getConfiguration(ConfigKeys.ACTIVITY), true);
         initBanner();
     }
 

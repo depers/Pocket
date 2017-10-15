@@ -9,7 +9,7 @@
     <color name="colorGrey">#a1a1a1</color>
 
     <color name="colorSecondaryText">#757575</color>
-    <color name="colorEditText">#757575</color>
+    <color name="colorEditText">#b9b7b7</color>
 
     <color name="colorMenuText">#fff</color>
 </resources>

@@ -75,8 +75,6 @@ public class ChannelDelegate extends BottomItemDelegate implements ISuccess{
                 return false;
             }
         });
-
-
     }
 
     @Override

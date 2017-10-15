@@ -1,6 +1,7 @@
-package cn.bravedawn.latte.ec.main.personal.settings;
+package cn.bravedawn.latte.ec.main.personal;
 
 import android.view.View;
+import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.SimpleClickListener;
@@ -9,13 +10,14 @@ import cn.bravedawn.latte.delegates.LatteDelegate;
 import cn.bravedawn.latte.ec.main.personal.list.ListBean;
 
 /**
- * Created by 冯晓 on 2017/10/1.
+ * Created by 冯晓 on 2017/9/30.
  */
 
-public class SettingsClickListener extends SimpleClickListener {
+public class PersonalClickListener extends SimpleClickListener{
+
     private final LatteDelegate DELEGATE;
 
-    public SettingsClickListener (LatteDelegate delegate) {
+    public PersonalClickListener(LatteDelegate delegate) {
         this.DELEGATE = delegate;
     }
 
@@ -24,20 +26,13 @@ public class SettingsClickListener extends SimpleClickListener {
         final ListBean bean = (ListBean) baseQuickAdapter.getData().get(position);
         int id = bean.getId();
         switch (id){
-            case 1:
-                // 这是消息推送的开关
-                break;
             case 2:
-                DELEGATE.getSupportDelegate().start(bean.getDelegate());
-                break;
-            case 3:
-                DELEGATE.getSupportDelegate().start(bean.getDelegate());
+                DELEGATE.getParentDelegate().getSupportDelegate().start(bean.getDelegate());
                 break;
             default:
                 break;
         }
     }
-
 
     @Override
     public void onItemLongClick(BaseQuickAdapter adapter, View view, int position) {

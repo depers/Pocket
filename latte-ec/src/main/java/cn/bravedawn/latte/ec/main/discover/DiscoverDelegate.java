@@ -2,13 +2,17 @@ package cn.bravedawn.latte.ec.main.discover;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import butterknife.BindView;
 import cn.bravedawn.latte.delegates.bottom.BottomItemDelegate;
 import cn.bravedawn.latte.delegates.web.IPageLoadListener;
 import cn.bravedawn.latte.delegates.web.WebDelegateImpl;
 import cn.bravedawn.latte.ec.R;
+import cn.bravedawn.latte.ec.R2;
 import me.yokeyword.fragmentation.anim.DefaultHorizontalAnimator;
 import me.yokeyword.fragmentation.anim.FragmentAnimator;
 
@@ -25,13 +29,13 @@ public class DiscoverDelegate extends BottomItemDelegate {
 
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, View rootView) {
-
     }
+
 
     @Override
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
-        final WebDelegateImpl delegate = WebDelegateImpl.create("index.html");
+        final WebDelegateImpl delegate = WebDelegateImpl.create("https://juejin.im/");
         delegate.setPageLoadListener(new IPageLoadListener() {
             @Override
             public void onLoadStart() {
@@ -55,4 +59,6 @@ public class DiscoverDelegate extends BottomItemDelegate {
     public FragmentAnimator onCreateFragmentAnimator() {
         return new DefaultHorizontalAnimator();
     }
+
+
 }

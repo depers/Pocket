@@ -94,8 +94,7 @@ public class LauncherDelegate extends LatteDelegate implements ITimeListener {
 
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, View rootView) {
-        StatusBarCompat.setStatusBarColor((Activity) Latte.getConfiguration(ConfigKeys.ACTIVITY),
-                Color.WHITE);
+        StatusBarCompat.translucentStatusBar((Activity) Latte.getConfiguration(ConfigKeys.ACTIVITY), true);
         initTimer();
     }
 
@@ -107,7 +106,7 @@ public class LauncherDelegate extends LatteDelegate implements ITimeListener {
                 if (mTvTimer != null) {
                     mTvTimer.setText(MessageFormat.format("跳过 {0}s", mCount));
                     mCount--;
-                    if (mCount < 0) {
+                    if (mCount <= 0) {
                         if (mTimer != null) {
                             mTimer.cancel();
                             mTimer = null;

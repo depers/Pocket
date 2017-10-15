@@ -13,10 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import cn.bravedawn.latte.delegates.LatteDelegate;
 import cn.bravedawn.latte.ec.R;
 import cn.bravedawn.latte.ec.R2;
-import cn.bravedawn.latte.ec.main.personal.address.AddressDelegate;
 import cn.bravedawn.latte.ec.main.personal.list.ListAdapter;
 import cn.bravedawn.latte.ec.main.personal.list.ListBean;
 import cn.bravedawn.latte.ec.main.personal.list.ListItemType;
@@ -32,6 +32,11 @@ public class SettingsDelegate extends LatteDelegate{
     @BindView(R2.id.rv_settings)
     RecyclerView mRecyclerView = null;
 
+    @OnClick(R2.id.icon_setting_back)
+    void onClickBack(){
+        getSupportDelegate().pop();
+    }
+
 
     @Override
     public Object setLayout() {
@@ -42,8 +47,8 @@ public class SettingsDelegate extends LatteDelegate{
     public void onBindView(@Nullable Bundle savedInstanceState, @NonNull View rootView) {
         final ListBean push = new ListBean.Builder()
                 .setItemType(ListItemType.ITEM_SWITCH)
+                .setResImage(getResources().getIdentifier("comments", "drawable", "cn.bravedawn.fastec.example"))
                 .setId(1)
-                .setDelegate(new AddressDelegate())
                 .setText("消息推送")
                 .setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
@@ -63,12 +68,21 @@ public class SettingsDelegate extends LatteDelegate{
         final ListBean about = new ListBean.Builder()
                 .setItemType(ListItemType.ITEM_NORMAL)
                 .setId(2)
+                .setResImage(getResources().getIdentifier("about", "drawable", "cn.bravedawn.fastec.example"))
                 .setText("关于")
-                .setDelegate(new AboutDelegate())
+                .setDelegate(AboutDelegate.create(AboutUrl.ABOUT))
+                .build();
+        final ListBean protocol = new ListBean.Builder()
+                .setItemType(ListItemType.ITEM_NORMAL)
+                .setId(3)
+                .setResImage(getResources().getIdentifier("github", "drawable", "cn.bravedawn.fastec.example"))
+                .setText("开源协议")
+                .setDelegate(AboutDelegate.create(AboutUrl.PROTOCOL))
                 .build();
         final List<ListBean> data = new ArrayList<>();
         data.add(push);
         data.add(about);
+        data.add(protocol);
 
         // 设置RecyclerView
         final LinearLayoutManager manager = new LinearLayoutManager(getContext());

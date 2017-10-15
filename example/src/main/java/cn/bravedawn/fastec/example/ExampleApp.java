@@ -35,7 +35,7 @@ public class ExampleApp extends Application {
                 .withLoaderDelayed(1000)
                 .withApiHost("http://202.201.52.153:8081/")
                 // 数据源
-                .withInterceptor(new DebugInterceptor("sign_up", R.raw.user_profile))
+                /*.withInterceptor(new DebugInterceptor("sign_up", R.raw.user_profile))
                 //.withInterceptor(new DebugInterceptor("user_record", R.raw.test))
                 .withInterceptor(new DebugInterceptor("sort_list", R.raw.sort_list_data))
                 .withInterceptor(new DebugInterceptor("sort_content_list", R.raw.sort_content_data_1))
@@ -45,7 +45,7 @@ public class ExampleApp extends Application {
                 .withInterceptor(new DebugInterceptor("address", R.raw.address))
                 .withInterceptor(new DebugInterceptor("about", R.raw.about))
                 //.withInterceptor(new DebugInterceptor("refresh", R.raw.index_2_data))
-                .withInterceptor(new DebugInterceptor("goods_detail", R.raw.goods_detail_data_1))
+                .withInterceptor(new DebugInterceptor("goods_detail", R.raw.goods_detail_data_1))*/
                 // 微信
                 .withWeChatAppId("")
                 .withWeChatAppSecret("")

@@ -20,6 +20,8 @@
         android:layout_alignParentRight="true"
         android:layout_marginRight="20dp"
         android:gravity="center"
-        android:text="{fa-chevron-right}" />
+        android:textSize="25sp"
+        android:textColor="@android:color/darker_gray"
+        android:text="{fa-angle-right}"/>
 
 </RelativeLayout>

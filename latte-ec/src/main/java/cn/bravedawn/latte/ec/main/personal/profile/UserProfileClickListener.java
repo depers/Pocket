@@ -3,10 +3,13 @@ package cn.bravedawn.latte.ec.main.personal.profile;
 import android.content.DialogInterface;
 import android.net.Uri;
 import android.support.v7.app.AlertDialog;
+import android.text.InputType;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -85,9 +88,26 @@ public class UserProfileClickListener extends SimpleClickListener{
                 DELEGATE.startCameraWithCheck();
                 break;
             case 2:
-                final LatteDelegate nameDelegate = bean.getDelegate();
-                DELEGATE.getSupportDelegate().start(nameDelegate);
+
+                new MaterialDialog.Builder(DELEGATE.getContext())
+                        .title("修改用户名")
+                        .titleColorRes(R.color.app_main)
+                        .inputType(InputType.TYPE_CLASS_TEXT)
+                        .widgetColorRes(R.color.app_main)
+                        .inputRangeRes(2, 20, R.color.colorGrey)
+                        .input("请输入您的用户名", null, new MaterialDialog.InputCallback() {
+                            @Override
+                            public void onInput(MaterialDialog dialog, CharSequence input) {
+                                Toast.makeText(DELEGATE.getContext(), input.toString(), Toast.LENGTH_SHORT).show();
+                                final TextView textView = (TextView) view.findViewById(R.id.tv_arrow_value);
+                                textView.setText(input);
+                                // Do something
+                            }
+                        }).show();
+
                 break;
+
+
             case 3:
                 getGenderDialog(new DialogInterface.OnClickListener() {
                     @Override
@@ -97,17 +117,6 @@ public class UserProfileClickListener extends SimpleClickListener{
                         dialog.cancel();
                     }
                 });
-                break;
-            case 4:
-                final DateDialogUtil dateDialogUtil = new DateDialogUtil();
-                dateDialogUtil.setDateListener(new DateDialogUtil.IDateListener() {
-                    @Override
-                    public void onDateChange(String date) {
-                        final TextView textView = (TextView) view.findViewById(R.id.tv_arrow_value);
-                        textView.setText(date);
-                    }
-                });
-                dateDialogUtil.showDialog(DELEGATE.getContext());
                 break;
             default:
                 break;

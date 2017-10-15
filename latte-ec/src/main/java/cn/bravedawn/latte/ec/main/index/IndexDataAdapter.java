@@ -2,6 +2,7 @@ package cn.bravedawn.latte.ec.main.index;
 
 import android.graphics.Color;
 import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
 
@@ -37,5 +38,10 @@ public class IndexDataAdapter extends BaseItemDraggableAdapter<MultipleItemEntit
         circleImageView.setColorFilter(Color.parseColor(colorAvatar));
         holder.setText(R.id.textViewAvatar, title.substring(0, 1));
         holder.setText(R.id.textViewResource, resource);
+        final AppCompatImageView star = holder.getView(R.id.record_star);
+        final boolean isStar = item.getField(MultipleFields.BOOL);
+        if (isStar){
+            star.setVisibility(View.VISIBLE);
+        }
     }
 }

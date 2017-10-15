@@ -90,6 +90,7 @@ public class RefreshHandler implements
                 .success(new ISuccess() {
                     @Override
                     public void onSuccess(String response) {
+                        LatteLogger.d("response", response);
                         final JSONObject object = JSON.parseObject(response);
                         BEAN.setTotal(object.getInteger("total"))
                                 .setPageSize(object.getInteger("page_size"));

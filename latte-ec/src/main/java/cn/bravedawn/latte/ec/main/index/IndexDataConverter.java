@@ -30,6 +30,7 @@ public class IndexDataConverter extends DataConverter{
             final String title = data.getString("title");
             final String resource = data.getString("resource");
             final String colorAvatar = data.getString("colorAvatar");
+            final boolean isStar = data.getBoolean("isStar");
 
             final MultipleItemEntity entity = MultipleItemEntity.builder()
                     .setItemField(MultipleFields.ITEM_TYPE, ItemType.TEXT_IMAGE)
@@ -38,6 +39,7 @@ public class IndexDataConverter extends DataConverter{
                     .setItemField(MultipleFields.COLOR_AVATAR, colorAvatar)
                     .setItemField(MultipleFields.URL, url)
                     .setItemField(MultipleFields.TEXT, resource)
+                    .setItemField(MultipleFields.BOOL, isStar)
                     .build();
             dataList.add(entity);
         }

@@ -10,11 +10,13 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import cn.bravedawn.latte.delegates.LatteDelegate;
 import cn.bravedawn.latte.ec.R;
 import cn.bravedawn.latte.ec.R2;
 import cn.bravedawn.latte.net.RestClient;
 import cn.bravedawn.latte.net.callback.ISuccess;
+import cn.bravedawn.latte.ui.loader.LoaderStyle;
 
 /**
  * Created by 冯晓 on 2017/10/1.
@@ -25,6 +27,30 @@ public class AboutDelegate extends LatteDelegate{
     @BindView(R2.id.tv_info)
     AppCompatTextView mTextView = null;
 
+    @BindView(R2.id.about_toolBar_title)
+    AppCompatTextView mToolTitle = null;
+
+    @OnClick(R2.id.icon_about_back)
+    void onClickAbout(){
+        getSupportDelegate().pop();
+    }
+
+    private String URL = null;
+
+    public static AboutDelegate create(String url){
+        Bundle bundle = new Bundle();
+        bundle.putString("url", url);
+        AboutDelegate delegate = new AboutDelegate();
+        delegate.setArguments(bundle);
+        return delegate;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle bundle = getArguments();
+        URL = bundle.getString("url");
+    }
 
     @Override
     public Object setLayout() {
@@ -33,9 +59,14 @@ public class AboutDelegate extends LatteDelegate{
 
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, @NonNull View rootView) {
+        if(URL.equals(AboutUrl.ABOUT)){
+            mToolTitle.setText("关于");
+        } else{
+            mToolTitle.setText("开源协议");
+        }
         RestClient.builder()
-                .loader(getContext())
-                .url("about")
+                .loader(getContext(), LoaderStyle.LineScaleIndicator)
+                .url(URL)
                 .success(new ISuccess() {
                     @Override
                     public void onSuccess(String response) {

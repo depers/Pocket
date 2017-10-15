@@ -6,9 +6,40 @@
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
-        android:background="@android:color/holo_orange_dark"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/app_main"
+        android:elevation="6dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.joanzapata.iconify.widget.IconTextView
+            android:id="@+id/icon_user_profile_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingRight="10dp"
+            android:paddingLeft="5dp"
+            android:gravity="center"
+            android:text="{fa-angle-left}"
+            android:textColor="@android:color/white"
+            android:textSize="30sp" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="35dp"
+            android:gravity="center"
+            android:text="个人信息"
+            android:textColor="@android:color/white"
+            android:textSize="20sp" />
+
+    </RelativeLayout>
+
+    </android.support.v7.widget.Toolbar>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_user_profile"

@@ -5,12 +5,23 @@
                 android:layout_marginBottom="5dp"
                 android:background="@android:color/white">
 
+    <android.support.v7.widget.AppCompatImageView
+        android:layout_marginLeft="20dp"
+        android:layout_width="25dp"
+        android:id="@+id/img_arrow_icon"
+        android:layout_alignParentLeft="true"
+        android:layout_height="match_parent"
+        android:gravity="center"/>
+
+
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/tv_arrow_text"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_marginLeft="20dp"
-        android:gravity="center" />
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/img_arrow_icon"
+        android:gravity="center"
+        android:textColor="@android:color/black"/>
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/tv_arrow_value"
@@ -28,6 +39,8 @@
         android:layout_alignParentRight="true"
         android:layout_marginRight="20dp"
         android:gravity="center"
-        android:text="{fa-chevron-right}" />
+        android:textSize="25sp"
+        android:textColor="@android:color/darker_gray"
+        android:text="{fa-angle-right}" />
 
 </RelativeLayout>

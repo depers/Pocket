@@ -4,12 +4,15 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
+import android.support.v4.content.ContextCompat;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.bravedawn.latte.app.ConfigKeys;
+import cn.bravedawn.latte.app.Latte;
 import cn.bravedawn.latte.delegates.LatteDelegate;
 import cn.bravedawn.latte.ec.R;
 import cn.bravedawn.latte.ec.R2;
@@ -18,6 +21,7 @@ import cn.bravedawn.latte.net.callback.ISuccess;
 import cn.bravedawn.latte.util.log.LatteLogger;
 import cn.bravedawn.latte.wechat.LatteWeChat;
 import cn.bravedawn.latte.wechat.callbacks.IWeChatSignInCallback;
+import qiu.niorgai.StatusBarCompat;
 
 /**
  * Created by 冯晓 on 2017/9/21.
@@ -32,6 +36,10 @@ public class SignInDelegate extends LatteDelegate {
     TextInputEditText mPwd = null;
 
     private ISignListener mISignListener = null;
+
+    // 再点一次退出程序时间设置
+    private static final long WAIT_TIME = 2000L;
+    private long TOUCH_TIME = 0;
 
     @OnClick(R2.id.icon_sign_in_weChat)
     void onClickWeiXinSignIn() {
@@ -106,6 +114,19 @@ public class SignInDelegate extends LatteDelegate {
 
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, View rootView) {
+        StatusBarCompat.setStatusBarColor((Activity) Latte.getConfiguration(ConfigKeys.ACTIVITY),
+                ContextCompat.getColor(getContext(), R.color.colorPrimary));
+    }
 
+
+    @Override
+    public boolean onBackPressedSupport() {
+        if (System.currentTimeMillis() - TOUCH_TIME < WAIT_TIME) {
+            _mActivity.finish();
+        } else {
+            TOUCH_TIME = System.currentTimeMillis();
+            Toast.makeText(_mActivity, "双击退出" + Latte.getApplicationContext().getString(cn.bravedawn.latte.R.string.app_name), Toast.LENGTH_SHORT).show();
+        }
+        return true;
     }
 }
