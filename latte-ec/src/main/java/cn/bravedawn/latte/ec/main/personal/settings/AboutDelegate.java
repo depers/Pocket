@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatTextView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.alibaba.fastjson.JSON;
@@ -29,6 +30,9 @@ public class AboutDelegate extends LatteDelegate{
 
     @BindView(R2.id.about_toolBar_title)
     AppCompatTextView mToolTitle = null;
+
+    @BindView(R2.id.about_toolbar)
+    Toolbar mToolbar = null;
 
     @OnClick(R2.id.icon_about_back)
     void onClickAbout(){
@@ -59,6 +63,7 @@ public class AboutDelegate extends LatteDelegate{
 
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, @NonNull View rootView) {
+        mToolbar.setContentInsetsAbsolute(0, 0);
         if(URL.equals(AboutUrl.ABOUT)){
             mToolTitle.setText("关于");
         } else{

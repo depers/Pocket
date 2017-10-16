@@ -109,6 +109,7 @@ public class ChannelDetailDelegate extends LatteDelegate implements ISuccess,
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mToolbar.setContentInsetsAbsolute(0, 0);
         mToolbar.inflateMenu(R.menu.channel_detail_menu);
         mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override

@@ -35,7 +35,7 @@ public class DiscoverDelegate extends BottomItemDelegate {
     @Override
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
-        final WebDelegateImpl delegate = WebDelegateImpl.create("https://juejin.im/");
+        final WebDelegateImpl delegate = WebDelegateImpl.create("index.html");
         delegate.setPageLoadListener(new IPageLoadListener() {
             @Override
             public void onLoadStart() {

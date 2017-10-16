@@ -47,8 +47,8 @@ public class ExampleApp extends Application {
                 //.withInterceptor(new DebugInterceptor("refresh", R.raw.index_2_data))
                 .withInterceptor(new DebugInterceptor("goods_detail", R.raw.goods_detail_data_1))*/
                 // 微信
-                .withWeChatAppId("")
-                .withWeChatAppSecret("")
+                .withWeChatAppId("wx7d79fb81a4d8bc9f")
+                .withWeChatAppSecret("692710c7042b098ca24b57b81653c03a")
                 // js事配置
                 .withJavascriptInterface("latte")
                 // web事件

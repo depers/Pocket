@@ -29,19 +29,19 @@
         android:elevation="6dp">
 
         <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/channel_bar_title"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:gravity="center|left"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"/>
 
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/channel_bar_title"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_centerInParent="true"
-                android:gravity="center|left"
-                android:textColor="@android:color/white"
-                android:textSize="20sp"/>
-
-        </RelativeLayout>
+    </RelativeLayout>
 
     </android.support.v7.widget.Toolbar>
 

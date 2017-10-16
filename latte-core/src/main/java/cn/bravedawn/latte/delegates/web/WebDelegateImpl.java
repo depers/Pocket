@@ -21,6 +21,8 @@ public class WebDelegateImpl extends WebDelegate{
 
     private IPageLoadListener mPageLoadListener = null;
 
+    private WebChromeClientImpl webChromeClient = null;
+
     public static WebDelegateImpl create(String url){
         final Bundle args = new Bundle();
         args.putString(RouteKeys.URL.name(), url);
@@ -66,6 +68,16 @@ public class WebDelegateImpl extends WebDelegate{
 
     @Override
     public WebChromeClient initWebChromeClient() {
-        return new WebChromeClientImpl();
+        if (this.webChromeClient == null){
+            return new WebChromeClientImpl();
+        }else{
+            return this.webChromeClient;
+        }
+
     }
+
+    public void setWebChromeClient(WebChromeClientImpl webChromeClient){
+        this.webChromeClient = webChromeClient;
+    }
+
 }

@@ -27,20 +27,8 @@
     <string name="discover">发现</string>
     <!--delegate_star-->
     <string name="star">集锦</string>
-    <!--delegate_shopCart-->
-    <string name="shop_cart">购物车</string>
-    <string name="shop_cart_clear">清空</string>
-    <string name="shop_cart_del">删除</string>
-    <string name="shop_cart_settlement">结算</string>
-    <string name="shop_cart_settle_all">全选</string>
-    <string name="shop_cart_total">合计</string>
-    <string name="shop_cart_price">￥0.01</string>
-    <string name="icon_shop_cart_select">{fa-check-circle}</string>
-    <!--item-shop-cart-->
-    <string name="item_shop_cart_minus">{fa-minus-square-o}</string>
-    <string name="item_shop_cart_plus">{fa-plus-square-o}</string>
-    <!--stub_shop_cart_no_item-->
-    <string name="go_buy">去购物</string>
+    <!--delegate_record_detail-->
+    <string name="record_detail_delete">删除</string>
     <!--dialog_pay_panel-->
     <string name="icon_alipay">{icon-ali-pay}</string>
     <string name="icon_weixin">{fa-weixin}</string>

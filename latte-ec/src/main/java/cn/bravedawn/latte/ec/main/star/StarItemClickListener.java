@@ -18,6 +18,7 @@ import cn.bravedawn.latte.delegates.LatteDelegate;
 import cn.bravedawn.latte.delegates.web.WebDelegate;
 import cn.bravedawn.latte.delegates.web.WebDelegateImpl;
 import cn.bravedawn.latte.ec.R;
+import cn.bravedawn.latte.ec.detail.RecordDetailDelegate;
 import cn.bravedawn.latte.net.RestClient;
 import cn.bravedawn.latte.net.callback.ISuccess;
 import cn.bravedawn.latte.ui.recycler.MultipleFields;
@@ -59,7 +60,8 @@ public class StarItemClickListener extends SimpleClickListener {
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         final MultipleItemEntity entity = (MultipleItemEntity) baseQuickAdapter.getData().get(position);
         final String url = entity.getField(MultipleFields.URL);
-        final WebDelegate delegate = WebDelegateImpl.create(url);
+        final boolean isStar = entity.getField(MultipleFields.BOOL);
+        final RecordDetailDelegate delegate = RecordDetailDelegate.create(url, isStar);
         DELEGATE.getSupportDelegate().start(delegate);
     }
 

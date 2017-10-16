@@ -1,17 +1,24 @@
 package cn.bravedawn.latte.delegates.web;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.os.Build;
 import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
+import cn.bravedawn.latte.app.ConfigKeys;
+import cn.bravedawn.latte.app.Latte;
+import cn.bravedawn.latte.util.net.NetWorkUtils;
+
 /**
  * Created by 冯晓 on 2017/9/26.
  */
 
 public class WebViewInitializer {
+
+    private static final String APP_CACHE_DIRNAME = "APP_CACHE_DIR";
 
     @SuppressLint("SetJavaScriptEnabled")
     public WebView createWebView(WebView webView){
@@ -56,7 +63,16 @@ public class WebViewInitializer {
         settings.setAppCacheEnabled(true);
         settings.setDomStorageEnabled(true);
         settings.setDatabaseEnabled(true);
-        settings.setCacheMode(WebSettings.LOAD_DEFAULT);
+        if (NetWorkUtils.isNetworkConnected(webView.getContext())){
+            settings.setCacheMode(WebSettings.LOAD_DEFAULT);
+        } else{
+            settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+        }
+
+        String cacheDirPath = ((Activity)Latte.getConfiguration(ConfigKeys.ACTIVITY)).getFilesDir()
+                .getAbsolutePath() + APP_CACHE_DIRNAME;
+        settings.setAppCachePath(cacheDirPath);
+
         return webView;
     }
 }

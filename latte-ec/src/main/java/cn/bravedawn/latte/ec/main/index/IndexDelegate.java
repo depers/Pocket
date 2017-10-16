@@ -145,6 +145,7 @@ public class IndexDelegate extends BottomItemDelegate implements
                 if (URL != null){
                     mRelativeLayout.setVisibility(View.VISIBLE);
                     mBottomSheet_text.setText(URL);
+                    LatteLogger.d("onPrimaryClipChanged", URL);
                 }
             }
         }

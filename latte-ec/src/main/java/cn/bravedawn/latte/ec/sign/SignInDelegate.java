@@ -65,13 +65,14 @@ public class SignInDelegate extends LatteDelegate {
         }
     }
 
+    // TODO: 2017/10/16 登录请求
     @OnClick(R2.id.btn_sign_in)
     void onClickSignIn() {
         if (checkForm()) {
             RestClient.builder()
                     .url("sign_up")
-                    .params("phone", mPhone.getText().toString())
-                    .params("password", mPwd.getText().toString())
+                    //.params("phone", mPhone.getText().toString())
+                    //.params("password", mPwd.getText().toString())
                     .success(new ISuccess() {
                         @Override
                         public void onSuccess(String response) {
@@ -80,7 +81,8 @@ public class SignInDelegate extends LatteDelegate {
                         }
                     })
                     .build()
-                    .post();
+                    .get();
+                    //.post();
         }
     }
 

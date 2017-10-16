@@ -5,6 +5,7 @@
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
+        android:id="@+id/about_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/app_main"
@@ -16,14 +17,12 @@
 
             <com.joanzapata.iconify.widget.IconTextView
                 android:id="@+id/icon_about_back"
-                android:layout_width="wrap_content"
+                android:layout_width="50dp"
                 android:layout_height="match_parent"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:paddingRight="10dp"
-                android:paddingLeft="5dp"
+                android:layout_alignParentLeft="true"
                 android:gravity="center"
                 android:text="{fa-angle-left}"
+                style="@style/Widget.AppCompat.Button.Borderless"
                 android:textColor="@android:color/white"
                 android:textSize="30sp" />
 
@@ -31,7 +30,7 @@
                 android:id="@+id/about_toolBar_title"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="35dp"
+                android:layout_toRightOf="@+id/icon_about_back"
                 android:gravity="center"
                 android:textColor="@android:color/white"
                 android:textSize="20sp" />

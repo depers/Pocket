@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Toast;
@@ -37,6 +38,9 @@ public class SettingsDelegate extends LatteDelegate{
         getSupportDelegate().pop();
     }
 
+    @BindView(R2.id.setting_toolbar)
+    Toolbar mToolbar = null;
+
 
     @Override
     public Object setLayout() {
@@ -45,6 +49,7 @@ public class SettingsDelegate extends LatteDelegate{
 
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, @NonNull View rootView) {
+        mToolbar.setContentInsetsAbsolute(0, 0);
         final ListBean push = new ListBean.Builder()
                 .setItemType(ListItemType.ITEM_SWITCH)
                 .setResImage(getResources().getIdentifier("comments", "drawable", "cn.bravedawn.fastec.example"))
