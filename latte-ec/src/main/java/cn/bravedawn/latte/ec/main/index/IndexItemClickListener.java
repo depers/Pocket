@@ -67,6 +67,7 @@ public class IndexItemClickListener extends SimpleClickListener {
         final MultipleItemEntity entity = (MultipleItemEntity) baseQuickAdapter.getData().get(position);
         final String url = entity.getField(MultipleFields.URL);
         final boolean isStar = entity.getField(MultipleFields.BOOL);
+        LatteLogger.d("info", url);
         final RecordDetailDelegate delegate = RecordDetailDelegate.create(url, isStar);
         DELEGATE.getSupportDelegate().start(delegate);
     }

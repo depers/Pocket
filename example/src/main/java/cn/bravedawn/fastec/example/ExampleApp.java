@@ -33,7 +33,7 @@ public class ExampleApp extends Application {
                 .withIcon(new FontEcModule())
                 // load延迟
                 .withLoaderDelayed(1000)
-                .withApiHost("http://202.201.52.153:8081/")
+                .withApiHost("http://202.201.52.153:8080/")
                 // 数据源
                 /*.withInterceptor(new DebugInterceptor("sign_up", R.raw.user_profile))
                 //.withInterceptor(new DebugInterceptor("user_record", R.raw.test))

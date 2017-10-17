@@ -11,6 +11,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
+    <android.support.v7.widget.ViewStubCompat
+        android:id="@+id/star_stun_no_item"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:layout="@layout/item_stud_connect_icon"/>
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/tb_star"

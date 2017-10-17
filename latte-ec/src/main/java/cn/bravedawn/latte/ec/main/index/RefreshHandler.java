@@ -81,7 +81,7 @@ public class RefreshHandler implements
         }, 2000);
     }
 
-
+    // TODO: 2017/10/17 分页获取用户的记录 
     public void firstPage(String url) {
         BEAN.setDelayed(1000);
         RestClient.builder()

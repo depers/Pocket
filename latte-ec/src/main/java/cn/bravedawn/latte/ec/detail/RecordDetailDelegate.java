@@ -1,5 +1,6 @@
 package cn.bravedawn.latte.ec.detail;
 
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -20,6 +21,9 @@ import cn.bravedawn.latte.delegates.web.WebDelegateImpl;
 import cn.bravedawn.latte.delegates.web.chromeClient.WebChromeClientImpl;
 import cn.bravedawn.latte.ec.R;
 import cn.bravedawn.latte.ec.R2;
+import cn.bravedawn.latte.util.log.LatteLogger;
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.onekeyshare.OnekeyShare;
 import me.yokeyword.fragmentation.anim.DefaultHorizontalAnimator;
 import me.yokeyword.fragmentation.anim.FragmentAnimator;
 
@@ -31,8 +35,9 @@ public class RecordDetailDelegate extends LatteDelegate{
 
     private String mUrl = null;
     private boolean mIsStar = false;
-
     private WebDelegateImpl mDelegate = null;
+    private String mIconUrl = null;
+    private String mTitle = null;
 
     @BindView(R2.id.record_detail_title)
     AppCompatTextView mTextView = null;
@@ -59,6 +64,20 @@ public class RecordDetailDelegate extends LatteDelegate{
             mStarIconTextView.setTag(true);
             Toast.makeText(getContext(), "该项目已从集锦菜单中移除！", Toast.LENGTH_LONG).show();
         }
+    }
+
+    @OnClick(R2.id.icon_add_share)
+    void onClickShare(){
+        ShareSDK.initSDK(getContext());
+        final OnekeyShare oks = new OnekeyShare();
+        oks.disableSSOWhenAuthorize();
+        LatteLogger.d("title", mTitle);
+        LatteLogger.d("iconUrl", getShareIcon(mUrl));
+        LatteLogger.d("url", mUrl);
+        oks.setTitle(mTitle);
+        oks.setImageUrl(getShareIcon(mUrl));
+        oks.setUrl(mUrl);
+        oks.show(getContext());
     }
 
 
@@ -132,8 +151,28 @@ public class RecordDetailDelegate extends LatteDelegate{
             public void onReceivedTitle(WebView view, String title) {
                 super.onReceivedTitle(view, title);
                 mTextView.setText(title);
+                mTitle = title;
+            }
+
+            @Override
+            public void onReceivedTouchIconUrl(WebView view, String url, boolean precomposed) {
+                super.onReceivedTouchIconUrl(view, url, precomposed);
+                LatteLogger.d("webViewIcon", url);
+                mIconUrl = url;
             }
         };
         return webChromeClient;
     }
+
+    private String getShareIcon(String url){
+        if (url.contains("mp.weixin.qq.com")){
+            return "http://oxut2e6if.bkt.clouddn.com/weixin.png";
+        } else if(mIconUrl == null){
+            return "http://oxut2e6if.bkt.clouddn.com/icecream-01.png";
+        }
+        else{
+            return mIconUrl;
+        }
+    }
+
 }

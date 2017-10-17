@@ -7,10 +7,13 @@ import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.ViewStubCompat;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -29,6 +32,7 @@ import cn.bravedawn.latte.net.callback.ISuccess;
 import cn.bravedawn.latte.ui.loader.LoaderStyle;
 import cn.bravedawn.latte.ui.recycler.MultipleItemEntity;
 import cn.bravedawn.latte.util.log.LatteLogger;
+import cn.bravedawn.latte.util.net.NetWorkUtils;
 
 /**
  * Created by 冯晓 on 2017/10/10.
@@ -52,6 +56,10 @@ public class ChannelDelegate extends BottomItemDelegate implements ISuccess{
         getParentDelegate().getSupportDelegate().start(new AddChannelDelegate());
     }
 
+    @BindView(R2.id.stun_no_item)
+    ViewStubCompat mViewStubCompat = null;
+
+    private View studView = null;
     private boolean IS_FIRST_LOAD = false;
 
     @Nullable
@@ -113,6 +121,7 @@ public class ChannelDelegate extends BottomItemDelegate implements ISuccess{
     }
 
     private void initViewByData(){
+        checkNetConnect();
         RestClient.builder()
                 .url("user_channel")
                 .loader(getContext(), LoaderStyle.LineScaleIndicator)
@@ -127,6 +136,26 @@ public class ChannelDelegate extends BottomItemDelegate implements ISuccess{
         super.onSupportVisible();
         if (IS_FIRST_LOAD){
             initViewByData();
+        }
+    }
+
+    private void checkNetConnect(){
+        if (!IS_FIRST_LOAD){
+            studView = mViewStubCompat.inflate();
+        }
+        if (!NetWorkUtils.isNetworkConnected(getContext())){
+            mTextViewTitle.setText("分类");
+            final RelativeLayout tvShow = (RelativeLayout) studView.findViewById(R.id.stud_connect);
+            tvShow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(getContext(), "请稍后重试", Toast.LENGTH_LONG).show();
+                }
+            });
+            mRecyclerView.setVisibility(View.GONE);
+        } else{
+            mRecyclerView.setVisibility(View.VISIBLE);
+            mViewStubCompat.setVisibility(View.GONE);
         }
     }
 }

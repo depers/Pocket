@@ -70,19 +70,18 @@ public class SignInDelegate extends LatteDelegate {
     void onClickSignIn() {
         if (checkForm()) {
             RestClient.builder()
-                    .url("sign_up")
-                    //.params("phone", mPhone.getText().toString())
-                    //.params("password", mPwd.getText().toString())
+                    .url("sign_in")
+                    .params("phone", mPhone.getText().toString())
+                    .params("password", mPwd.getText().toString())
                     .success(new ISuccess() {
                         @Override
                         public void onSuccess(String response) {
                             LatteLogger.json("USER_PROFILE", response);
-                            SignHandler.onSignIn(response, mISignListener);
+                            //SignHandler.onSignIn(response, mISignListener);
                         }
                     })
                     .build()
-                    .get();
-                    //.post();
+                    .post();
         }
     }
 

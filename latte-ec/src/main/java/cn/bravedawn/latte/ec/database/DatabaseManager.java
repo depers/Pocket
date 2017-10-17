@@ -12,6 +12,7 @@ public class DatabaseManager {
 
     private DaoSession mDaoSession = null;
     private UserProfileDao mDao = null;
+    private RecordProfileDao mRecordDao = null;
 
     private DatabaseManager(){
     }
@@ -29,6 +30,7 @@ public class DatabaseManager {
         final Database db = helper.getWritableDb();
         mDaoSession = new DaoMaster(db).newSession();
         mDao = mDaoSession.getUserProfileDao();
+        mRecordDao = mDaoSession.getRecordProfileDao();
     }
 
     public DatabaseManager init(Context context){
@@ -38,6 +40,10 @@ public class DatabaseManager {
 
     public final UserProfileDao getDao(){
         return mDao;
+    }
+
+    public final RecordProfileDao getRecordDao(){
+        return mRecordDao;
     }
 
 }

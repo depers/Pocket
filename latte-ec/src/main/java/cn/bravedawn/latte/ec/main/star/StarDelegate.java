@@ -8,9 +8,11 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.ViewStubCompat;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
@@ -32,6 +34,7 @@ import cn.bravedawn.latte.ui.loader.LoaderStyle;
 import cn.bravedawn.latte.ui.recycler.BaseDecoration;
 import cn.bravedawn.latte.ui.recycler.MultipleItemEntity;
 import cn.bravedawn.latte.util.log.LatteLogger;
+import cn.bravedawn.latte.util.net.NetWorkUtils;
 
 /**
  * Created by 冯晓 on 2017/10/15.
@@ -45,9 +48,15 @@ public class StarDelegate extends BottomItemDelegate implements ISuccess{
     @BindView(R2.id.tb_star)
     Toolbar mToolbar = null;
 
+    @BindView(R2.id.star_stun_no_item)
+    ViewStubCompat mStubCompat = null;
+
     private IndexDataAdapter mAdapter = null;
 
     private String MODIFY_CHANNEL_URL = Latte.getApplicationContext().getString(R.string.modify_channel);
+
+    private View studView = null;
+    private boolean IS_FIRST_LOAD = false;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -80,9 +89,11 @@ public class StarDelegate extends BottomItemDelegate implements ISuccess{
         super.onLazyInitView(savedInstanceState);
         initViewByData();
         initSwipeView();
+        IS_FIRST_LOAD = true;
     }
 
     public void initViewByData(){
+        checkNetConnect();
         RestClient.builder()
                 .url("user_star_record")
                 .loader(getContext(), LoaderStyle.LineScaleIndicator)
@@ -140,5 +151,24 @@ public class StarDelegate extends BottomItemDelegate implements ISuccess{
             }
         });
         itemTouchHelper.attachToRecyclerView(mRecyclerView);
+    }
+
+    private void checkNetConnect(){
+        if (!IS_FIRST_LOAD){
+            studView = mStubCompat.inflate();
+        }
+        if (!NetWorkUtils.isNetworkConnected(getContext())){
+            final RelativeLayout tvShow = (RelativeLayout) studView.findViewById(R.id.stud_connect);
+            tvShow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(getContext(), "请稍后重试", Toast.LENGTH_LONG).show();
+                }
+            });
+            mRecyclerView.setVisibility(View.GONE);
+        } else{
+            mRecyclerView.setVisibility(View.VISIBLE);
+            mStubCompat.setVisibility(View.GONE);
+        }
     }
 }

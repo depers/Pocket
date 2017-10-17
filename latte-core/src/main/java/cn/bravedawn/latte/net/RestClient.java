@@ -13,6 +13,7 @@ import cn.bravedawn.latte.net.callback.RequestCallbacks;
 import cn.bravedawn.latte.net.download.DownloadHandler;
 import cn.bravedawn.latte.ui.loader.LatteLoader;
 import cn.bravedawn.latte.ui.loader.LoaderStyle;
+import cn.bravedawn.latte.util.log.LatteLogger;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -88,6 +89,8 @@ public class RestClient {
                 call = service.get(URL, PARAMS);
                 break;
             case POST:
+                LatteLogger.d("params", PARAMS.toString());
+                LatteLogger.d("url", URL);
                 call = service.post(URL, PARAMS);
                 break;
             case POST_RAW:
