@@ -1,6 +1,7 @@
 package cn.bravedawn.latte.ec.main.personal;
 
 import android.os.Bundle;
+import android.support.annotation.IntegerRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatTextView;
@@ -33,6 +34,7 @@ import cn.bravedawn.latte.ec.main.personal.profile.UserProfileDelegate;
 import cn.bravedawn.latte.ec.main.personal.settings.SettingsDelegate;
 import cn.bravedawn.latte.ec.sign.SignInDelegate;
 import cn.bravedawn.latte.util.log.LatteLogger;
+import cn.bravedawn.latte.util.storage.LattePreference;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
@@ -63,9 +65,10 @@ public class PersonalDelegate extends BottomItemDelegate{
 
     @OnClick(R2.id.drop_out)
     void onClickDropUp(){
+        String userId = LattePreference.getCustomAppProfile("userId");
         AccountManager.setSignState(false);
         UserProfile userProfile = new UserProfile();
-        userProfile.setUserId(1);
+        userProfile.setUserId(Integer.parseInt(userId));
         DatabaseManager.getInstance().getDao().delete(userProfile);
         getParentDelegate().getSupportDelegate().startWithPop(new SignInDelegate());
     }
@@ -116,7 +119,8 @@ public class PersonalDelegate extends BottomItemDelegate{
 
 
     private void initPersonInfo(){
-        UserProfile userProfile = DatabaseManager.getInstance().getDao().loadByRowId(1);
+        String userId = LattePreference.getCustomAppProfile("userId");
+        UserProfile userProfile = DatabaseManager.getInstance().getDao().loadByRowId(Integer.parseInt(userId));
         Glide.with(getContext())
                 .load(userProfile.getAvatar())
                 .diskCacheStrategy(DiskCacheStrategy.ALL)

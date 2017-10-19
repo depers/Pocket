@@ -89,8 +89,6 @@ public class RestClient {
                 call = service.get(URL, PARAMS);
                 break;
             case POST:
-                LatteLogger.d("params", PARAMS.toString());
-                LatteLogger.d("url", URL);
                 call = service.post(URL, PARAMS);
                 break;
             case POST_RAW:

@@ -30,6 +30,7 @@ import cn.bravedawn.latte.net.callback.ISuccess;
 import cn.bravedawn.latte.ui.recycler.MultipleFields;
 import cn.bravedawn.latte.ui.recycler.MultipleItemEntity;
 import cn.bravedawn.latte.util.log.LatteLogger;
+import cn.bravedawn.latte.util.storage.LattePreference;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
@@ -64,11 +65,13 @@ public class IndexItemClickListener extends SimpleClickListener {
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-        final MultipleItemEntity entity = (MultipleItemEntity) baseQuickAdapter.getData().get(position);
+
+        final MultipleItemEntity entity = (MultipleItemEntity) adapter.getData().get(position);
         final String url = entity.getField(MultipleFields.URL);
         final boolean isStar = entity.getField(MultipleFields.BOOL);
-        LatteLogger.d("info", url);
-        final RecordDetailDelegate delegate = RecordDetailDelegate.create(url, isStar);
+        final Integer id = entity.getField(MultipleFields.ID);
+        LatteLogger.d(entity.getField(MultipleFields.TITLE));
+        final RecordDetailDelegate delegate = RecordDetailDelegate.create(url, isStar, id);
         DELEGATE.getSupportDelegate().start(delegate);
     }
 
@@ -145,9 +148,7 @@ public class IndexItemClickListener extends SimpleClickListener {
     // TODO: 2017/10/10 查询用户栏目
     private void getChannel(){
         RestClient.builder()
-                .url("user_channel")
-                //.loader(DELEGATE.getContext())
-                //.loader(Latte.getApplicationContext(), LoaderStyle.LineSpinFadeLoaderIndicator)
+                .url("channel/" + LattePreference.getCustomAppProfile("userId"))
                 .success(new ISuccess() {
                     @Override
                     public void onSuccess(String response) {
@@ -158,10 +159,8 @@ public class IndexItemClickListener extends SimpleClickListener {
                         for(int i = 0; i < size; i++){
                             final JSONObject obj = array.getJSONObject(i);
                             LatteLogger.d("JSONObject", obj);
-                            channelList.add(obj.getString("title"));
-
+                            channelList.add(obj.getString("channel"));
                         }
-
                     }
                 })
                 .build()

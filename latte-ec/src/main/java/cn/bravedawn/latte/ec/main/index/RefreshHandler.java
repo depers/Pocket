@@ -22,10 +22,14 @@ import cn.bravedawn.latte.ec.Spider.SpiderUtil;
 import cn.bravedawn.latte.ec.bean.Record;
 import cn.bravedawn.latte.net.RestClient;
 import cn.bravedawn.latte.net.callback.ISuccess;
+import cn.bravedawn.latte.ui.loader.LatteLoader;
 import cn.bravedawn.latte.ui.loader.LoaderStyle;
 import cn.bravedawn.latte.ui.recycler.DataConverter;
+import cn.bravedawn.latte.ui.recycler.MultipleFields;
+import cn.bravedawn.latte.ui.recycler.MultipleItemEntity;
 import cn.bravedawn.latte.ui.refresh.PagingBean;
 import cn.bravedawn.latte.util.log.LatteLogger;
+import cn.bravedawn.latte.util.storage.LattePreference;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -75,13 +79,13 @@ public class RefreshHandler implements
         Latte.getHandler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                    firstPage("user_record");
+                BEAN.setPageIndex(0);
+                firstPage("record/"+ LattePreference.getCustomAppProfile("userId"));
                 REFRESH_LAYOUT.setRefreshing(false);
             }
         }, 2000);
     }
 
-    // TODO: 2017/10/17 分页获取用户的记录 
     public void firstPage(String url) {
         BEAN.setDelayed(1000);
         RestClient.builder()
@@ -90,14 +94,15 @@ public class RefreshHandler implements
                 .success(new ISuccess() {
                     @Override
                     public void onSuccess(String response) {
-                        LatteLogger.d("response", response);
+                        //LatteLogger.d("response", response);
                         final JSONObject object = JSON.parseObject(response);
                         BEAN.setTotal(object.getInteger("total"))
-                                .setPageSize(object.getInteger("page_size"));
+                                .setPageSize(object.getInteger("page_size"))
+                                .setTotalPage(object.getInteger("total_page"));
                         // 设置Adapter
                         mAdapter = new IndexDataAdapter(CONVERTER.setJsonData(response).convert());
                         mAdapter.setOnLoadMoreListener(RefreshHandler.this, RECYCLERVIEW);
-                        mAdapter.enableSwipeItem();
+                        //mAdapter.notifyDataSetChanged();
                         RECYCLERVIEW.setAdapter(mAdapter);
                         BEAN.addIndex();
                     }
@@ -109,27 +114,26 @@ public class RefreshHandler implements
 
     private void paging(final String url) {
         final int pageSize = BEAN.getPageSize();
-        final int currentCount = BEAN.getCurrentCount();
+        final int totalPage = BEAN.getTotalPage();
         final int total = BEAN.getTotal();
         final int index = BEAN.getPageIndex();
 
-        if (mAdapter.getData().size() < pageSize || currentCount >= total) {
+        if (mAdapter.getData().size() >= total  || index > totalPage) {
             mAdapter.loadMoreEnd();
         } else {
             Latte.getHandler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     RestClient.builder()
-                            .url(url + index)
+                            .url(url + "/?page=" + index)
                             .loader(RECYCLERVIEW.getContext(), LoaderStyle.LineScaleIndicator)
                             .success(new ISuccess() {
                                 @Override
                                 public void onSuccess(String response) {
-                                    LatteLogger.d("onLoadMoreRequested", response);
+                                    //LatteLogger.d("onLoadMoreRequested", response);
                                     CONVERTER.clearData();
                                     mAdapter.addData(CONVERTER.setJsonData(response).convert());
                                     // 累加数量
-                                    BEAN.setCurrentCount(mAdapter.getData().size());
                                     mAdapter.loadMoreComplete();
                                     BEAN.addIndex();
                                 }
@@ -150,7 +154,7 @@ public class RefreshHandler implements
 
     @Override
     public void onLoadMoreRequested() {
-        paging("refresh");
+        paging("record/"+ LattePreference.getCustomAppProfile("userId"));
     }
 
     private void initSwipeView(){
@@ -162,8 +166,13 @@ public class RefreshHandler implements
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                LatteLogger.d("getLayoutPosition", viewHolder.getLayoutPosition());
+                LatteLogger.d("getAdapterPosition", viewHolder.getAdapterPosition());
+                MultipleItemEntity entity = mAdapter.getData().get(viewHolder.getAdapterPosition());
                 mAdapter.remove(viewHolder.getLayoutPosition());
-                Toast.makeText(Latte.getApplicationContext(), "删除成功", Toast.LENGTH_LONG).show();
+                int recordId = entity.getField(MultipleFields.ID);
+                LatteLogger.d("recordId", recordId);
+                delete(recordId);
             }
 
 
@@ -186,7 +195,6 @@ public class RefreshHandler implements
         itemTouchHelper.attachToRecyclerView(RECYCLERVIEW);
     }
 
-    // TODO: 2017/10/10 这里是记录的新增请求
     public void spider(final String url) {
         LatteLogger.d("URL", url);
         final WeakHashMap<String, Object> info = new WeakHashMap<>();
@@ -210,25 +218,30 @@ public class RefreshHandler implements
                         info.put("title", record.getTitle());
                         info.put("colorAvatar", record.getColorAvatar());
                         info.put("url", record.getUrl());
-                        LatteLogger.d("spider_title", info.get("title"));
-                        LatteLogger.d("spider_colorAvatar", info.get("colorAvatar"));
+                        info.put("userId", Integer.parseInt(LattePreference.getCustomAppProfile("userId")));
+                        LatteLogger.d("SPIDER", info.toString());
                         RestClient.builder()
-                                .url("one_record")
+                                .url("record")
+                                .params(info)
                                 .loader(RECYCLERVIEW.getContext(), LoaderStyle.LineScaleIndicator)
                                 .success(new ISuccess() {
                                     @Override
                                     public void onSuccess(String response) {
                                         LatteLogger.d("add", response);
                                         CONVERTER.clearData();
-                                        mAdapter.addData(0, CONVERTER.setJsonData(response).convert());
+                                        if (mAdapter == null){
+                                            mAdapter = new IndexDataAdapter(CONVERTER.setJsonData(response).convert());
+                                            RECYCLERVIEW.setAdapter(mAdapter);
+                                        } else{
+                                            mAdapter.addData(0, CONVERTER.setJsonData(response).convert());
+                                        }
                                         // 累加数量
-                                        BEAN.setCurrentCount(mAdapter.getData().size());
                                         LatteLogger.d("size", mAdapter.getData().size());
                                         RECYCLERVIEW.scrollToPosition(0);
                                     }
                                 })
                                 .build()
-                                .get();
+                                .post();
                     }
 
                     @Override
@@ -244,15 +257,15 @@ public class RefreshHandler implements
 
     }
 
-    // TODO: 2017/10/10 这里是记录的删除请求
-    private void delete(final int pos){
-        Observable.just("delete/")
+    private void delete(final int id){
+        LatteLoader.showLoading(RECYCLERVIEW.getContext(), LoaderStyle.LineScaleIndicator);
+        Observable.just("record/"+id)
                 .map(new Function<String, Boolean>() {
                     @Override
                     public Boolean apply(@NonNull String s) throws Exception {
+                        final boolean flag;
                         RestClient.builder()
-                                .url("delete/")
-                                .loader(RECYCLERVIEW.getContext(), LoaderStyle.LineScaleIndicator)
+                                .url(s)
                                 .success(new ISuccess() {
                                     @Override
                                     public void onSuccess(String response) {
@@ -270,8 +283,9 @@ public class RefreshHandler implements
                 .subscribe(new Consumer<Boolean>() {
                     @Override
                     public void accept(@NonNull Boolean aBoolean) throws Exception {
+                        LatteLoader.stopLoading();
                         if (aBoolean) {
-                            Toast.makeText(Latte.getApplicationContext(), "删除成功, "+pos, Toast.LENGTH_LONG).show();
+                            Toast.makeText(Latte.getApplicationContext(), "删除成功", Toast.LENGTH_LONG).show();
                         } else {
                             Toast.makeText(Latte.getApplicationContext(), "删除失败", Toast.LENGTH_LONG).show();
                         }

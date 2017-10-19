@@ -25,12 +25,12 @@ public class IndexDataConverter extends DataConverter{
         for (int i = 0; i < size; i++){
             final JSONObject data = dataArray.getJSONObject(i);
 
-            final int id = data.getInteger("recordId");
+            final int id = data.getInteger("id");
             final String url = data.getString("url");
             final String title = data.getString("title");
             final String resource = data.getString("resource");
             final String colorAvatar = data.getString("colorAvatar");
-            final boolean isStar = data.getBoolean("isStar");
+            final boolean isStar = data.getBoolean("mstar");
 
             final MultipleItemEntity entity = MultipleItemEntity.builder()
                     .setItemField(MultipleFields.ITEM_TYPE, ItemType.TEXT_IMAGE)

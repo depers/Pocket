@@ -61,7 +61,8 @@ public class StarItemClickListener extends SimpleClickListener {
         final MultipleItemEntity entity = (MultipleItemEntity) baseQuickAdapter.getData().get(position);
         final String url = entity.getField(MultipleFields.URL);
         final boolean isStar = entity.getField(MultipleFields.BOOL);
-        final RecordDetailDelegate delegate = RecordDetailDelegate.create(url, isStar);
+        final Integer id = entity.getField(MultipleFields.ID);
+        final RecordDetailDelegate delegate = RecordDetailDelegate.create(url, isStar, id);
         DELEGATE.getSupportDelegate().start(delegate);
     }
 

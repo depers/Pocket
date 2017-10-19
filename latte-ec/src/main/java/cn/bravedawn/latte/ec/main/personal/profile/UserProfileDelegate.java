@@ -21,6 +21,7 @@ import cn.bravedawn.latte.ec.database.UserProfile;
 import cn.bravedawn.latte.ec.main.personal.list.ListAdapter;
 import cn.bravedawn.latte.ec.main.personal.list.ListBean;
 import cn.bravedawn.latte.ec.main.personal.list.ListItemType;
+import cn.bravedawn.latte.util.storage.LattePreference;
 
 /**
  * Created by 冯晓 on 2017/9/29.
@@ -87,7 +88,8 @@ public class UserProfileDelegate extends LatteDelegate {
     }
 
     private void initPersonInfo(){
-        UserProfile userProfile = DatabaseManager.getInstance().getDao().loadByRowId(1);
+        int userId = Integer.parseInt(LattePreference.getCustomAppProfile("userId"));
+        UserProfile userProfile = DatabaseManager.getInstance().getDao().loadByRowId(userId);
         USER_GENDER = userProfile.getGender();
         USER_AVATAR = userProfile.getAvatar();
         USER_NAME = userProfile.getName();

@@ -9,6 +9,9 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.bravedawn.latte.app.ConfigKeys;
@@ -76,8 +79,13 @@ public class SignInDelegate extends LatteDelegate {
                     .success(new ISuccess() {
                         @Override
                         public void onSuccess(String response) {
-                            LatteLogger.json("USER_PROFILE", response);
-                            //SignHandler.onSignIn(response, mISignListener);
+                            //LatteLogger.json("USER_PROFILE", response);
+                            JSONObject data = JSON.parseObject(response);
+                            if (data.getInteger("code") != 0){
+                                Toast.makeText(getContext(), data.getString("msg"), Toast.LENGTH_LONG).show();
+                            } else{
+                                SignHandler.onSignIn(response, mISignListener);
+                            }
                         }
                     })
                     .build()

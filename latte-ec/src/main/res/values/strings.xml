@@ -5,9 +5,6 @@
     <string name="scan_icon">{icon-scan}</string>
     <string name="message_icon">{fa-bullhorn}</string>
     <string name="group_dialog">选择分类</string>
-    <!--remote url-->
-    <!--分页查询记录-->
-    <string name="user_record">user_record</string>
     <!--修改记录栏目-->
     <string name="modify_channel">modify_channel</string>
     <!--用户栏目-->

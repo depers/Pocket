@@ -16,14 +16,24 @@ import com.joanzapata.iconify.widget.IconTextView;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.bravedawn.latte.app.Latte;
 import cn.bravedawn.latte.delegates.LatteDelegate;
 import cn.bravedawn.latte.delegates.web.WebDelegateImpl;
 import cn.bravedawn.latte.delegates.web.chromeClient.WebChromeClientImpl;
 import cn.bravedawn.latte.ec.R;
 import cn.bravedawn.latte.ec.R2;
+import cn.bravedawn.latte.net.RestClient;
+import cn.bravedawn.latte.net.callback.ISuccess;
+import cn.bravedawn.latte.ui.loader.LatteLoader;
+import cn.bravedawn.latte.ui.loader.LoaderStyle;
 import cn.bravedawn.latte.util.log.LatteLogger;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 import me.yokeyword.fragmentation.anim.DefaultHorizontalAnimator;
 import me.yokeyword.fragmentation.anim.FragmentAnimator;
 
@@ -37,6 +47,7 @@ public class RecordDetailDelegate extends LatteDelegate{
     private boolean mIsStar = false;
     private WebDelegateImpl mDelegate = null;
     private String mIconUrl = null;
+    private Integer mId = null;
     private String mTitle = null;
 
     @BindView(R2.id.record_detail_title)
@@ -58,11 +69,11 @@ public class RecordDetailDelegate extends LatteDelegate{
         if ((boolean)mStarIconTextView.getTag()){
             mStarIconTextView.setTextColor(Color.WHITE);
             mStarIconTextView.setTag(false);
-            Toast.makeText(getContext(), "已添加该项目到集锦菜单！", Toast.LENGTH_LONG).show();
+            deleteStar(mId);
         } else{
             mStarIconTextView.setTextColor(Color.parseColor("#f4ea2a"));
             mStarIconTextView.setTag(true);
-            Toast.makeText(getContext(), "该项目已从集锦菜单中移除！", Toast.LENGTH_LONG).show();
+            addStar(mId);
         }
     }
 
@@ -81,10 +92,11 @@ public class RecordDetailDelegate extends LatteDelegate{
     }
 
 
-    public static RecordDetailDelegate create(String url, boolean isStar){
+    public static RecordDetailDelegate create(String url, boolean isStar, Integer id){
         Bundle bundle = new Bundle();
         bundle.putString("url", url);
         bundle.putBoolean("isStar", isStar);
+        bundle.putInt("id", id);
         RecordDetailDelegate delegate = new RecordDetailDelegate();
         delegate.setArguments(bundle);
         return delegate;
@@ -96,6 +108,7 @@ public class RecordDetailDelegate extends LatteDelegate{
         Bundle args = getArguments();
         mUrl = args.getString("url");
         mIsStar = args.getBoolean("isStar");
+        mId = args.getInt("id");
     }
 
     @Override
@@ -114,8 +127,7 @@ public class RecordDetailDelegate extends LatteDelegate{
                     mDelegate.getWebView().loadUrl(mUrl);
                 }
                 if (item.getItemId() == R.id.record_detail_action_delete){
-                    // TODO: 2017/10/16 删除记录请求
-                    Toast.makeText(getContext(), "删除成功", Toast.LENGTH_LONG).show();
+                    delete(mId);
                     getSupportDelegate().pop();
                 }
                 return false;
@@ -175,4 +187,106 @@ public class RecordDetailDelegate extends LatteDelegate{
         }
     }
 
+    private void addStar(final int id){
+        LatteLoader.showLoading(getContext(), LoaderStyle.LineScaleIndicator);
+        Observable.just("record/star/"+id)
+                .map(new Function<String, Boolean>() {
+                    @Override
+                    public Boolean apply(@io.reactivex.annotations.NonNull String s) throws Exception {
+                        RestClient.builder()
+                                .url(s)
+                                .success(new ISuccess() {
+                                    @Override
+                                    public void onSuccess(String response) {
+                                        LatteLogger.d("addStar", response);
+                                    }
+                                })
+                                .build()
+                                .post();
+                        return true;
+
+                    }
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Boolean>() {
+                    @Override
+                    public void accept(@io.reactivex.annotations.NonNull Boolean aBoolean) throws Exception {
+                        LatteLoader.stopLoading();
+                        if (aBoolean) {
+                            Toast.makeText(Latte.getApplicationContext(), "已添加该项目到集锦菜单！", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+    }
+
+
+    private void deleteStar(final int id){
+        LatteLoader.showLoading(getContext(), LoaderStyle.LineScaleIndicator);
+        Observable.just("record/star/"+id)
+                .map(new Function<String, Boolean>() {
+                    @Override
+                    public Boolean apply(@io.reactivex.annotations.NonNull String s) throws Exception {
+                        RestClient.builder()
+                                .url(s)
+                                .success(new ISuccess() {
+                                    @Override
+                                    public void onSuccess(String response) {
+                                        LatteLogger.d("addStar", response);
+                                    }
+                                })
+                                .build()
+                                .delete();
+                        return true;
+
+                    }
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Boolean>() {
+                    @Override
+                    public void accept(@io.reactivex.annotations.NonNull Boolean aBoolean) throws Exception {
+                        LatteLoader.stopLoading();
+                        if (aBoolean) {
+                            Toast.makeText(Latte.getApplicationContext(), "该项目已从集锦菜单中移除！", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+    }
+
+    private void delete(final int id){
+        LatteLoader.showLoading(getContext(), LoaderStyle.LineScaleIndicator);
+        Observable.just("record/"+id)
+                .map(new Function<String, Boolean>() {
+                    @Override
+                    public Boolean apply(@io.reactivex.annotations.NonNull String s) throws Exception {
+                        final boolean flag;
+                        RestClient.builder()
+                                .url(s)
+                                .success(new ISuccess() {
+                                    @Override
+                                    public void onSuccess(String response) {
+                                        LatteLogger.d("delete", response);
+                                    }
+                                })
+                                .build()
+                                .delete();
+                        return true;
+
+                    }
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Boolean>() {
+                    @Override
+                    public void accept(@io.reactivex.annotations.NonNull Boolean aBoolean) throws Exception {
+                        LatteLoader.stopLoading();
+                        if (aBoolean) {
+                            Toast.makeText(Latte.getApplicationContext(), "删除成功", Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(Latte.getApplicationContext(), "删除失败", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+    }
 }

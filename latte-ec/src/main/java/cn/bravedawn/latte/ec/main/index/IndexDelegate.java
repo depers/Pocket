@@ -39,6 +39,7 @@ import cn.bravedawn.latte.util.callback.CallBackType;
 import cn.bravedawn.latte.util.callback.IGlobalCallback;
 import cn.bravedawn.latte.util.clipboard.ClipboardUtil;
 import cn.bravedawn.latte.util.log.LatteLogger;
+import cn.bravedawn.latte.util.storage.LattePreference;
 import qiu.niorgai.StatusBarCompat;
 
 /**
@@ -122,7 +123,7 @@ public class IndexDelegate extends BottomItemDelegate implements
         super.onLazyInitView(savedInstanceState);
         initRefreshLayout();
         initRecyclerView();
-        mRefreshHandler.firstPage(getString(R.string.user_record));
+        mRefreshHandler.firstPage("record/"+ LattePreference.getCustomAppProfile("userId"));
     }
 
     @Override

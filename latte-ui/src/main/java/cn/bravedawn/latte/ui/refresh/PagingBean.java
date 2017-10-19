@@ -12,8 +12,8 @@ public class PagingBean {
     private int mTotal = 0;
     // 一页显示几条数据
     private int mPageSize = 0;
-    // 当前已经显示了几条数据
-    private int mCurrentCount = 0;
+    // 当前总页数
+    private int mTotalPage = 0;
     // 加载延迟
     private int mDelayed = 0;
 
@@ -44,12 +44,12 @@ public class PagingBean {
         return this;
     }
 
-    public int getCurrentCount() {
-        return mCurrentCount;
+    public int getTotalPage() {
+        return mTotalPage;
     }
 
-    public PagingBean setCurrentCount(int currentCount) {
-        this.mCurrentCount = currentCount;
+    public PagingBean setTotalPage(int totalPage) {
+        this.mTotalPage = totalPage;
         return this;
     }
 
@@ -65,5 +65,16 @@ public class PagingBean {
     public PagingBean addIndex() {
         mPageIndex++;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return "PagingBean{" +
+                "mPageIndex=" + mPageIndex +
+                ", mTotal=" + mTotal +
+                ", mPageSize=" + mPageSize +
+                ", mCurrentCount=" + mTotalPage +
+                ", mDelayed=" + mDelayed +
+                '}';
     }
 }
