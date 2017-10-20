@@ -118,18 +118,6 @@ public class ChannelDetailDelegate extends LatteDelegate implements ISuccess,
                     initData();
                     return true;
                 }
-                if (item.getItemId() == R.id.channel_detail_action_modify){
-                    getSupportDelegate().start(new AddChannelDelegate());
-                    return true;
-                }
-                if (item.getItemId() == R.id.channel_detail_action_delete){
-                    if (mAdapter.getData().size() > 0){
-                        Toast.makeText(getContext(), "抱歉，该栏目下尚有子项", Toast.LENGTH_LONG).show();
-                        return true;
-                    }
-                    delete();
-                    getSupportDelegate().pop();
-                }
                 return false;
             }
         });
@@ -199,40 +187,6 @@ public class ChannelDetailDelegate extends LatteDelegate implements ISuccess,
     @Override
     public FragmentAnimator onCreateFragmentAnimator() {
         return new DefaultHorizontalAnimator();
-    }
-
-    private void delete(){
-        Observable.just("delete/")
-                .map(new Function<String, Boolean>() {
-                    @Override
-                    public Boolean apply(@io.reactivex.annotations.NonNull String s) throws Exception {
-                        RestClient.builder()
-                                .url("delete/"+mChannelId)
-                                .loader(Latte.getApplicationContext(), LoaderStyle.LineScaleIndicator)
-                                .success(new ISuccess() {
-                                    @Override
-                                    public void onSuccess(String response) {
-                                        LatteLogger.d("delete", response);
-                                    }
-                                })
-                                .build()
-                                .delete();
-                        return true;
-
-                    }
-                })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<Boolean>() {
-                    @Override
-                    public void accept(@io.reactivex.annotations.NonNull Boolean aBoolean) throws Exception {
-                        if (aBoolean) {
-                            Toast.makeText(getContext(), "删除成功, "+mChannelId, Toast.LENGTH_LONG).show();
-                        } else {
-                            Toast.makeText(getContext(), "删除失败", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
     }
 
 

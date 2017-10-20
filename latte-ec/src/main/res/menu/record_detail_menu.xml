@@ -5,9 +5,4 @@
         android:title="@string/channel_refresh"
         android:orderInCategory="1"/>
 
-    <item
-        android:id="@+id/record_detail_action_delete"
-        android:title="@string/record_detail_delete"
-        android:orderInCategory="2"/>
-
 </menu>

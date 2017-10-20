@@ -26,16 +26,18 @@ public class ChannelConverter extends DataConverter {
         final int size = dataArray.size();
         for (int i = 0; i < size; i++){
             final JSONObject data = dataArray.getJSONObject(i);
-            final String thumb = data.getString("image");
-            final String desc = data.getString("desc");
-            final String title = data.getString("title");
-            final int id = data.getInteger("channelId");
+            final String thumb = data.getString("imageUrl");
+            final String desc = data.getString("descText");
+            final String title = data.getString("channel");
+            final int count = data.getInteger("count");
+            final int id = data.getInteger("id");
             final MultipleItemEntity entity = MultipleItemEntity.builder()
                     .setItemField(MultipleFields.ITEM_TYPE, ItemType.CHANNEL_CARD_VIEW)
                     .setItemField(MultipleFields.ID, id)
                     .setItemField(MultipleFields.IMAGE_URL, thumb)
                     .setItemField(MultipleFields.TITLE, title)
                     .setItemField(MultipleFields.TEXT, desc)
+                    .setItemField(MultipleFields.COUNT, count)
                     .build();
             dataList.add(entity);
         }

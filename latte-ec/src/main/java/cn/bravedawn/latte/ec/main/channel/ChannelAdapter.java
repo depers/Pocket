@@ -38,6 +38,7 @@ public class ChannelAdapter extends MultipleRecycleAdapter {
                 // 控件赋值
                 helper.setText(R.id.tv_channel_title, title);
                 helper.setText(R.id.tv_channel_desc, desc);
+                helper.addOnClickListener(R.id.popup_menu);
                 final AppCompatImageView imageView = helper.getView(R.id.image_channel_thumb);
                 Glide.with(mContext)
                         .load(thumb)

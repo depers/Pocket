@@ -72,7 +72,7 @@ public class IndexItemClickListener extends SimpleClickListener {
         final Integer id = entity.getField(MultipleFields.ID);
         LatteLogger.d(entity.getField(MultipleFields.TITLE));
         final RecordDetailDelegate delegate = RecordDetailDelegate.create(url, isStar, id);
-        DELEGATE.getSupportDelegate().start(delegate);
+        DELEGATE.getParentDelegate().getSupportDelegate().startForResult(delegate, 200);
     }
 
     @Override
@@ -95,7 +95,7 @@ public class IndexItemClickListener extends SimpleClickListener {
                             .positiveText("确定")
                             .show();
                 }
-            }, 500);
+            }, 200);
         }
     }
 
@@ -158,7 +158,7 @@ public class IndexItemClickListener extends SimpleClickListener {
                         final int size = array.size();
                         for(int i = 0; i < size; i++){
                             final JSONObject obj = array.getJSONObject(i);
-                            LatteLogger.d("JSONObject", obj);
+                            //LatteLogger.d("JSONObject", obj);
                             channelList.add(obj.getString("channel"));
                         }
                     }
@@ -167,4 +167,6 @@ public class IndexItemClickListener extends SimpleClickListener {
                 .get();
 
     }
+
+
 }

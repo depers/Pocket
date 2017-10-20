@@ -12,6 +12,9 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.bravedawn.latte.delegates.LatteDelegate;
@@ -21,6 +24,7 @@ import cn.bravedawn.latte.net.RestClient;
 import cn.bravedawn.latte.net.callback.ISuccess;
 import cn.bravedawn.latte.ui.loader.LoaderStyle;
 import cn.bravedawn.latte.util.log.LatteLogger;
+import cn.bravedawn.latte.util.storage.LattePreference;
 import me.yokeyword.fragmentation.anim.DefaultHorizontalAnimator;
 import me.yokeyword.fragmentation.anim.FragmentAnimator;
 
@@ -39,29 +43,50 @@ public class AddChannelDelegate extends LatteDelegate {
     @BindView(R2.id.finish_channel)
     AppCompatTextView mFinishText = null;
 
-    // TODO: 2017/10/14  修改新增
+    @BindView(R2.id.add_channel_title)
+    AppCompatTextView mDelegateTile = null;
+
     @OnClick(R2.id.finish_channel)
     void onClickFinish(){
         if (checkForm()){
-            RestClient.builder()
-                    .url("")
-                    .loader(getContext(), LoaderStyle.LineScaleIndicator)
-                    .params("","")
-                    .success(new ISuccess() {
-                        @Override
-                        public void onSuccess(String response) {
+            if (mChannelId != null && mChannelId != 0){
+                RestClient.builder()
+                        .url("channel/"+mChannelId)
+                        .loader(getContext(), LoaderStyle.LineScaleIndicator)
+                        .params("title", mEditChannelName.getText().toString())
+                        .params("desc", mEditChannelDesc.getText().toString())
+                        .success(new ISuccess() {
+                            @Override
+                            public void onSuccess(String response) {
+                                //LatteLogger.d("channel_modify", response);
+                                getSupportDelegate().pop();
+                            }
+                        })
+                        .build()
+                        .put();
+            } else{
+                RestClient.builder()
+                        .url("channel")
+                        .loader(getContext(), LoaderStyle.LineScaleIndicator)
+                        .params("title", mEditChannelName.getText().toString())
+                        .params("desc", mEditChannelDesc.getText().toString())
+                        .params("userId", LattePreference.getCustomAppProfile("userId"))
+                        .success(new ISuccess() {
+                            @Override
+                            public void onSuccess(String response) {
+                                //LatteLogger.d("channel_add", response);
+                                getSupportDelegate().pop();
+                            }
+                        })
+                        .build()
+                        .post();
+            }
 
-                        }
-                    })
-                    .build()
-                    .post();
-            getSupportDelegate().pop();
         }
     }
 
     private String CHANNEL_TITLE = null;
     private String CHANNEL_DESC = null;
-
     private Integer mChannelId = null;
 
     public static AddChannelDelegate create(Integer id){
@@ -89,7 +114,23 @@ public class AddChannelDelegate extends LatteDelegate {
 
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, @NonNull View rootView) {
-
+        if (mChannelId != null && mChannelId != 0){
+            RestClient.builder()
+                    .url("channel/info/"+mChannelId)
+                    .success(new ISuccess() {
+                        @Override
+                        public void onSuccess(String response) {
+                            LatteLogger.d("channel/info", response);
+                            JSONObject channel = JSON.parseObject(response);
+                            JSONObject data = channel.getJSONObject("data");
+                            mEditChannelName.setText(data.getString("channel"));
+                            mEditChannelDesc.setText(data.getString("descText"));
+                            mDelegateTile.setText("修改栏目");
+                        }
+                    })
+                    .build()
+                    .get();
+        }
         mEditChannelName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

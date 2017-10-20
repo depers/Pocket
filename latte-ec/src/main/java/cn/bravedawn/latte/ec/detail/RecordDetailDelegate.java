@@ -125,10 +125,7 @@ public class RecordDetailDelegate extends LatteDelegate{
             public boolean onMenuItemClick(MenuItem item) {
                 if (item.getItemId() == R.id.record_detail_action_refresh){
                     mDelegate.getWebView().loadUrl(mUrl);
-                }
-                if (item.getItemId() == R.id.record_detail_action_delete){
-                    delete(mId);
-                    getSupportDelegate().pop();
+                    return true;
                 }
                 return false;
             }
@@ -289,4 +286,5 @@ public class RecordDetailDelegate extends LatteDelegate{
                     }
                 });
     }
+
 }

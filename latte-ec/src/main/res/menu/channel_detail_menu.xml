@@ -5,13 +5,4 @@
         android:title="@string/channel_refresh"
         android:orderInCategory="1"/>
 
-    <item
-        android:id="@+id/channel_detail_action_modify"
-        android:title="@string/channel_detail_menu_modify"
-        android:orderInCategory="2"/>
-
-    <item
-        android:id="@+id/channel_detail_action_delete"
-        android:title="@string/channel_detail_menu_delete"
-        android:orderInCategory="3"/>
 </menu>

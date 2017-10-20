@@ -2,6 +2,7 @@ package cn.bravedawn.latte.ec.main;
 
 
 import android.graphics.Color;
+import android.os.Bundle;
 
 import java.util.LinkedHashMap;
 
@@ -14,6 +15,7 @@ import cn.bravedawn.latte.ec.main.discover.DiscoverDelegate;
 import cn.bravedawn.latte.ec.main.index.IndexDelegate;
 import cn.bravedawn.latte.ec.main.personal.PersonalDelegate;
 import cn.bravedawn.latte.ec.main.star.StarDelegate;
+import cn.bravedawn.latte.util.log.LatteLogger;
 
 /**
  * Created by 冯晓 on 2017/9/24.
@@ -41,4 +43,5 @@ public class EcBottomDelegate extends BaseBottomDelegate {
     public int setClickedColor() {
         return Color.parseColor("#0f88eb");
     }
+
 }

@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.ViewStubCompat;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.bravedawn.latte.app.Latte;
 import cn.bravedawn.latte.delegates.bottom.BottomItemDelegate;
 import cn.bravedawn.latte.ec.R;
 import cn.bravedawn.latte.ec.R2;
@@ -33,6 +35,12 @@ import cn.bravedawn.latte.ui.loader.LoaderStyle;
 import cn.bravedawn.latte.ui.recycler.MultipleItemEntity;
 import cn.bravedawn.latte.util.log.LatteLogger;
 import cn.bravedawn.latte.util.net.NetWorkUtils;
+import cn.bravedawn.latte.util.storage.LattePreference;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by 冯晓 on 2017/10/10.
@@ -61,6 +69,7 @@ public class ChannelDelegate extends BottomItemDelegate implements ISuccess{
 
     private View studView = null;
     private boolean IS_FIRST_LOAD = false;
+    private Integer mCount = null;
 
     @Nullable
     @Override
@@ -99,15 +108,15 @@ public class ChannelDelegate extends BottomItemDelegate implements ISuccess{
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
         initViewByData();
-        IS_FIRST_LOAD = true;
+        mRecyclerView.addOnItemTouchListener(ChannelItemClickListener.create(this));
     }
 
     @Override
     public void onSuccess(String response) {
         LatteLogger.d("channel_response", response);
         final JSONObject channls = JSON.parseObject(response);
-        final int count = channls.getInteger("size");
-        mTextViewTitle.setText("分类("+count+")");
+        mCount = channls.getInteger("total");
+        mTextViewTitle.setText("分类("+mCount+")");
         final ArrayList<MultipleItemEntity> data =
                 new ChannelConverter()
                         .setJsonData(response)
@@ -116,14 +125,12 @@ public class ChannelDelegate extends BottomItemDelegate implements ISuccess{
         final LinearLayoutManager manager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(manager);
         mRecyclerView.setAdapter(mAdapter);
-        final EcBottomDelegate ecBottomDelegate = getParentDelegate();
-        mRecyclerView.addOnItemTouchListener(ChannelItemClickListener.create(ecBottomDelegate));
+        checkNetConnect();
     }
 
-    private void initViewByData(){
-        checkNetConnect();
+    public void initViewByData(){
         RestClient.builder()
-                .url("user_channel")
+                .url("channel/" + LattePreference.getCustomAppProfile("userId"))
                 .loader(getContext(), LoaderStyle.LineScaleIndicator)
                 .success(this)
                 .build()
@@ -143,7 +150,7 @@ public class ChannelDelegate extends BottomItemDelegate implements ISuccess{
         if (!IS_FIRST_LOAD){
             studView = mViewStubCompat.inflate();
         }
-        if (!NetWorkUtils.isNetworkConnected(getContext())){
+        if (!NetWorkUtils.isNetworkConnected(getContext()) || mCount == 0){
             mTextViewTitle.setText("分类");
             final RelativeLayout tvShow = (RelativeLayout) studView.findViewById(R.id.stud_connect);
             tvShow.setOnClickListener(new View.OnClickListener() {
@@ -157,5 +164,7 @@ public class ChannelDelegate extends BottomItemDelegate implements ISuccess{
             mRecyclerView.setVisibility(View.VISIBLE);
             mViewStubCompat.setVisibility(View.GONE);
         }
+        IS_FIRST_LOAD = true;
     }
+
 }

@@ -102,7 +102,7 @@ public class RefreshHandler implements
                         // 设置Adapter
                         mAdapter = new IndexDataAdapter(CONVERTER.setJsonData(response).convert());
                         mAdapter.setOnLoadMoreListener(RefreshHandler.this, RECYCLERVIEW);
-                        //mAdapter.notifyDataSetChanged();
+                        mAdapter.notifyDataSetChanged();
                         RECYCLERVIEW.setAdapter(mAdapter);
                         BEAN.addIndex();
                     }
@@ -171,7 +171,6 @@ public class RefreshHandler implements
                 MultipleItemEntity entity = mAdapter.getData().get(viewHolder.getAdapterPosition());
                 mAdapter.remove(viewHolder.getLayoutPosition());
                 int recordId = entity.getField(MultipleFields.ID);
-                LatteLogger.d("recordId", recordId);
                 delete(recordId);
             }
 

@@ -165,9 +165,8 @@ public class IndexDelegate extends BottomItemDelegate implements
         mRecyclerView.setLayoutManager(manager);
         mRecyclerView.addItemDecoration(BaseDecoration.create(
                 ContextCompat.getColor(getContext(), R.color.app_background), 3));
-        final EcBottomDelegate ecBottomDelegate = getParentDelegate();
         mRecyclerView.addOnItemTouchListener(IndexItemClickListener
-                .create(ecBottomDelegate, MODIFY_CHANNEL_URL));
+                .create(this, MODIFY_CHANNEL_URL));
 
         //是否显示添加菜单
         isAddRecord();
@@ -197,6 +196,5 @@ public class IndexDelegate extends BottomItemDelegate implements
         super.onDestroy();
         mClipboard.removeOnPrimaryClipChangedListener(this);
     }
-
 
 }
