@@ -39,6 +39,7 @@ import cn.bravedawn.latte.util.callback.CallBackType;
 import cn.bravedawn.latte.util.callback.IGlobalCallback;
 import cn.bravedawn.latte.util.clipboard.ClipboardUtil;
 import cn.bravedawn.latte.util.log.LatteLogger;
+import cn.bravedawn.latte.util.net.NetWorkUtils;
 import cn.bravedawn.latte.util.storage.LattePreference;
 import qiu.niorgai.StatusBarCompat;
 
@@ -46,8 +47,7 @@ import qiu.niorgai.StatusBarCompat;
  * Created by 冯晓 on 2017/9/24.
  */
 
-public class IndexDelegate extends BottomItemDelegate implements
-        View.OnFocusChangeListener, ClipboardUtil.OnPrimaryClipChangedListener {
+public class IndexDelegate extends BottomItemDelegate implements ClipboardUtil.OnPrimaryClipChangedListener {
 
     @BindView(R2.id.rv_index)
     RecyclerView mRecyclerView = null;
@@ -61,9 +61,6 @@ public class IndexDelegate extends BottomItemDelegate implements
     @BindView(R2.id.icon_index_scan)
     IconTextView mIconTextView = null;
 
-    @BindView(R2.id.et_search_view)
-    AppCompatEditText mSearchView = null;
-
     @OnClick(R2.id.icon_index_scan)
     void onClickSanQrCode() {
         startScanWithCheck(this.getParentDelegate());
@@ -75,6 +72,11 @@ public class IndexDelegate extends BottomItemDelegate implements
     @BindView(R2.id.bottomsheet_text)
     AppCompatTextView mBottomSheet_text = null;
 
+    @OnClick(R2.id.icon_index_search)
+    void onClickSearch(){
+        getParentDelegate().getSupportDelegate().start(new SearchDelegate());
+    }
+
     @OnClick(R2.id.add_to_list)
     void onClickAdd(){
         mRefreshHandler.spider(URL);
@@ -83,12 +85,13 @@ public class IndexDelegate extends BottomItemDelegate implements
     }
 
     private RefreshHandler mRefreshHandler = null;
+    private LocalHandler mLocalHandler = null;
 
     private ClipboardUtil mClipboard;
 
     private String URL = null;
 
-    private String MODIFY_CHANNEL_URL = Latte.getApplicationContext().getString(R.string.modify_channel);
+    private boolean IS_FIRST_LOAD = false;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -113,7 +116,6 @@ public class IndexDelegate extends BottomItemDelegate implements
                         Toast.makeText(getContext(), args, Toast.LENGTH_LONG).show();
                     }
                 });
-        mSearchView.setOnFocusChangeListener(this);
 
     }
 
@@ -121,21 +123,29 @@ public class IndexDelegate extends BottomItemDelegate implements
     @Override
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
-        initRefreshLayout();
-        initRecyclerView();
-        mRefreshHandler.firstPage("record/"+ LattePreference.getCustomAppProfile("userId"));
+        if (NetWorkUtils.isNetworkConnected(getContext())){
+            initRefreshLayout();
+            initRecyclerView();
+            final EcBottomDelegate ecBottomDelegate = getParentDelegate();
+            mRecyclerView.addOnItemTouchListener(IndexItemClickListener
+                    .create(ecBottomDelegate));
+            //是否显示添加菜单
+            isAddRecord();
+            IS_FIRST_LOAD = true;
+            mRefreshHandler.firstPage("record/"+ LattePreference.getCustomAppProfile("userId"));
+        } else{
+            mRefreshLayout.setEnabled(false);
+            initRecyclerView();
+            final EcBottomDelegate ecBottomDelegate = getParentDelegate();
+            mLocalHandler = LocalHandler.create(mRecyclerView, new IndexDataConverter(), ecBottomDelegate);
+            mLocalHandler.firstLocalLoad();
+        }
+
     }
 
     @Override
     public Object setLayout() {
         return R.layout.delegate_index;
-    }
-
-    @Override
-    public void onFocusChange(View v, boolean hasFocus) {
-        if (hasFocus){
-            getParentDelegate().getSupportDelegate().start(new SearchDelegate());
-        }
     }
 
     @Override
@@ -165,11 +175,6 @@ public class IndexDelegate extends BottomItemDelegate implements
         mRecyclerView.setLayoutManager(manager);
         mRecyclerView.addItemDecoration(BaseDecoration.create(
                 ContextCompat.getColor(getContext(), R.color.app_background), 3));
-        mRecyclerView.addOnItemTouchListener(IndexItemClickListener
-                .create(this, MODIFY_CHANNEL_URL));
-
-        //是否显示添加菜单
-        isAddRecord();
     }
 
     private void isAddRecord(){
@@ -197,4 +202,11 @@ public class IndexDelegate extends BottomItemDelegate implements
         mClipboard.removeOnPrimaryClipChangedListener(this);
     }
 
+    @Override
+    public void onSupportVisible() {
+        super.onSupportVisible();
+        if (IS_FIRST_LOAD){
+            mRefreshHandler.refresh();
+        }
+    }
 }

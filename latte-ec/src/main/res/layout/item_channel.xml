@@ -4,7 +4,7 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/channel_card"
     android:layout_width="match_parent"
-    android:layout_height="270dp"
+    android:layout_height="220dp"
     android:layout_gravity="center"
     card_view:cardBackgroundColor="@android:color/white"
     card_view:cardCornerRadius="6dp"

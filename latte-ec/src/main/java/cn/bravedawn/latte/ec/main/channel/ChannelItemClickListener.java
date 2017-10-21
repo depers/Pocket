@@ -6,6 +6,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.SimpleClickListener;
 
@@ -36,7 +37,9 @@ public class ChannelItemClickListener extends SimpleClickListener {
 
     private final ChannelDelegate DELEGATE;
 
-    private PopupMenu popupMenu;
+    private PopupMenu popupMenu = null;
+
+    private Integer mCount;
 
     private ChannelItemClickListener(ChannelDelegate delegate) {
         this.DELEGATE = delegate;
@@ -61,12 +64,21 @@ public class ChannelItemClickListener extends SimpleClickListener {
     }
 
     @Override
-    public void onItemChildClick(final BaseQuickAdapter adapter, View view, final int position) {
+    public void onItemChildClick(final BaseQuickAdapter adapter, final View view, final int position) {
         final Integer channelId = ((MultipleItemEntity) adapter.getData()
                 .get(position)).getField(MultipleFields.ID);
-        final Integer count = ((MultipleItemEntity) adapter.getData()
-                .get(position)).getField(MultipleFields.COUNT);
-        popupMenu = new PopupMenu(DELEGATE.getContext(), view, Gravity.BOTTOM);
+        RestClient.builder()
+                .url("record_channel/count/" + channelId)
+                .success(new ISuccess() {
+                    @Override
+                    public void onSuccess(String response) {
+                        LatteLogger.d("channel_count", response);
+                        mCount = JSON.parseObject(response).getInteger("data");
+                    }
+                })
+                .build()
+                .get();
+        popupMenu = new PopupMenu(DELEGATE.getContext(), view);
         popupMenu.inflate(R.menu.channel_item_menu);
         popupMenu.show();
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -80,7 +92,7 @@ public class ChannelItemClickListener extends SimpleClickListener {
                 }
                 if (i == R.id.channel_item_action_delete){
                     popupMenu.dismiss();
-                    if (count > 0){
+                    if (mCount > 0){
                         Toast.makeText(DELEGATE.getContext(), "抱歉，该栏目下尚有子项", Toast.LENGTH_LONG).show();
                         return true;
                     }
@@ -134,5 +146,10 @@ public class ChannelItemClickListener extends SimpleClickListener {
                         }
                     }
                 });
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return true;
     }
 }

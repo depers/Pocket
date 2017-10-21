@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/father"
+                android:layout_width="match_parent"
+                android:layout_height="70dp">
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/app_title"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:gravity="center_vertical"
+        android:text="口袋"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"/>
+
+    <com.joanzapata.iconify.widget.IconTextView
+        android:id="@+id/icon_index_search"
+        android:layout_width="40dp"
+        android:layout_height="match_parent"
+        android:layout_toLeftOf="@+id/icon_index_scan"
+        android:layout_marginRight="10dp"
+        android:gravity="center"
+        android:text="@string/search_icon"
+        android:textColor="@android:color/white"
+        android:textSize="25sp"/>
+
+    <com.joanzapata.iconify.widget.IconTextView
+        android:id="@+id/icon_index_scan"
+        android:layout_width="40dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:gravity="center"
+        android:text="@string/scan_icon"
+        android:textColor="@android:color/white"
+        android:textSize="25sp"/>
+
+
+</RelativeLayout>

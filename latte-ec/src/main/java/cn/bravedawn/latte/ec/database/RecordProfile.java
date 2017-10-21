@@ -18,17 +18,17 @@ public class RecordProfile {
     private String colorAvatar;
     private String resource;
     private String channel;
-    private boolean isStar;
-    @Generated(hash = 1303937318)
+    private boolean mstar;
+    @Generated(hash = 1497629287)
     public RecordProfile(long id, String url, String title, String colorAvatar,
-            String resource, String channel, boolean isStar) {
+            String resource, String channel, boolean mstar) {
         this.id = id;
         this.url = url;
         this.title = title;
         this.colorAvatar = colorAvatar;
         this.resource = resource;
         this.channel = channel;
-        this.isStar = isStar;
+        this.mstar = mstar;
     }
     @Generated(hash = 1901040962)
     public RecordProfile() {
@@ -69,10 +69,11 @@ public class RecordProfile {
     public void setChannel(String channel) {
         this.channel = channel;
     }
-    public boolean getIsStar() {
-        return this.isStar;
+    public boolean getMstar() {
+        return this.mstar;
     }
-    public void setIsStar(boolean isStar) {
-        this.isStar = isStar;
+    public void setMstar(boolean mstar) {
+        this.mstar = mstar;
     }
+
 }

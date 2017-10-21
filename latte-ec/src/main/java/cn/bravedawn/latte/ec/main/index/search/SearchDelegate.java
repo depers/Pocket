@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.alibaba.fastjson.JSON;
@@ -40,6 +41,9 @@ public class SearchDelegate extends LatteDelegate {
 
     @BindView(R2.id.et_search_view)
     AppCompatEditText mEditText = null;
+
+    @BindView(R2.id.tb_main_page)
+    Toolbar mToolbar = null;
 
     @OnClick(R2.id.tv_top_search)
     void onClickSearch() {
@@ -89,6 +93,7 @@ public class SearchDelegate extends LatteDelegate {
 
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, @NonNull View rootView) {
+        mToolbar.setContentInsetsAbsolute(0, 0);
         final LinearLayoutManager manager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(manager);
 

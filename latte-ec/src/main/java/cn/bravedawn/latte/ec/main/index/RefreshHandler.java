@@ -20,6 +20,8 @@ import cn.bravedawn.latte.app.Latte;
 import cn.bravedawn.latte.ec.R;
 import cn.bravedawn.latte.ec.Spider.SpiderUtil;
 import cn.bravedawn.latte.ec.bean.Record;
+import cn.bravedawn.latte.ec.database.DatabaseManager;
+import cn.bravedawn.latte.ec.database.RecordProfile;
 import cn.bravedawn.latte.net.RestClient;
 import cn.bravedawn.latte.net.callback.ISuccess;
 import cn.bravedawn.latte.ui.loader.LatteLoader;
@@ -74,13 +76,14 @@ public class RefreshHandler implements
         return new RefreshHandler(refreshLayout, recyclerView, converter, pagingBean);
     }
 
-    private void refresh() {
+    public void refresh() {
         REFRESH_LAYOUT.setRefreshing(true);
         Latte.getHandler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 BEAN.setPageIndex(0);
                 firstPage("record/"+ LattePreference.getCustomAppProfile("userId"));
+                mAdapter.notifyDataSetChanged();
                 REFRESH_LAYOUT.setRefreshing(false);
             }
         }, 2000);
@@ -102,7 +105,6 @@ public class RefreshHandler implements
                         // 设置Adapter
                         mAdapter = new IndexDataAdapter(CONVERTER.setJsonData(response).convert());
                         mAdapter.setOnLoadMoreListener(RefreshHandler.this, RECYCLERVIEW);
-                        mAdapter.notifyDataSetChanged();
                         RECYCLERVIEW.setAdapter(mAdapter);
                         BEAN.addIndex();
                     }
@@ -214,11 +216,11 @@ public class RefreshHandler implements
 
                     @Override
                     public void onNext(@NonNull Record record) {
+                        //remote
                         info.put("title", record.getTitle());
                         info.put("colorAvatar", record.getColorAvatar());
                         info.put("url", record.getUrl());
                         info.put("userId", Integer.parseInt(LattePreference.getCustomAppProfile("userId")));
-                        LatteLogger.d("SPIDER", info.toString());
                         RestClient.builder()
                                 .url("record")
                                 .params(info)
@@ -233,6 +235,18 @@ public class RefreshHandler implements
                                             RECYCLERVIEW.setAdapter(mAdapter);
                                         } else{
                                             mAdapter.addData(0, CONVERTER.setJsonData(response).convert());
+                                            JSONObject jsonObject = JSON.parseObject(response)
+                                                    .getJSONArray("data").getJSONObject(0);
+                                            final long id = jsonObject.getInteger("id");
+                                            final String url = jsonObject.getString("url");
+                                            final String title = jsonObject.getString("title");
+                                            final String colorAvatar = jsonObject.getString("colorAvatar");
+                                            final String resource = jsonObject.getString("resource");
+                                            final boolean isStar = jsonObject.getBoolean("mstar");
+
+                                            final RecordProfile recordProfile = new RecordProfile(id, url,
+                                                    title, colorAvatar, resource, "", isStar);
+                                           DatabaseManager.getInstance().getRecordDao().insert(recordProfile);
                                         }
                                         // 累加数量
                                         LatteLogger.d("size", mAdapter.getData().size());

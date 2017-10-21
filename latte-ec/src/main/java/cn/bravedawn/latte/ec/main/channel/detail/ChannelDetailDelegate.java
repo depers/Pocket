@@ -14,10 +14,12 @@ import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.ViewStubCompat;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
@@ -39,6 +41,7 @@ import cn.bravedawn.latte.ec.main.EcBottomDelegate;
 import cn.bravedawn.latte.ec.main.channel.add.AddChannelDelegate;
 import cn.bravedawn.latte.ec.main.index.IndexDataAdapter;
 import cn.bravedawn.latte.ec.main.index.IndexDataConverter;
+import cn.bravedawn.latte.ec.main.index.IndexDelegate;
 import cn.bravedawn.latte.ec.main.index.IndexItemClickListener;
 import cn.bravedawn.latte.net.RestClient;
 import cn.bravedawn.latte.net.callback.ISuccess;
@@ -46,6 +49,7 @@ import cn.bravedawn.latte.ui.loader.LoaderStyle;
 import cn.bravedawn.latte.ui.recycler.BaseDecoration;
 import cn.bravedawn.latte.ui.recycler.MultipleItemEntity;
 import cn.bravedawn.latte.util.log.LatteLogger;
+import cn.bravedawn.latte.util.net.NetWorkUtils;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
@@ -84,11 +88,24 @@ public class ChannelDetailDelegate extends LatteDelegate implements ISuccess,
     @BindView(R2.id.tv_channel_title_text)
     AppCompatTextView mTitleTextView = null;
 
+    @BindView(R2.id.detail_stun_no_item)
+    ViewStubCompat mViewStubCompat = null;
+
+    @BindView(R2.id.channel_detail_bar_count)
+    AppCompatTextView mChannelCount = null;
+
+    @BindView(R2.id.channel_detail_bar_desc)
+    AppCompatTextView mChannelDesc = null;
+
     private IndexDataAdapter mAdapter = null;
 
     private Integer mChannelId = null;
 
-    private String MODIFY_CHANNEL_URL = Latte.getApplicationContext().getString(R.string.modify_channel);
+    private Integer mCount = null;
+
+    private boolean IS_FIRST_LOAD = false;
+
+    private View studView = null;
 
     public static ChannelDetailDelegate create(Integer id){
         Bundle bundle = new Bundle();
@@ -139,12 +156,14 @@ public class ChannelDetailDelegate extends LatteDelegate implements ISuccess,
         super.onLazyInitView(savedInstanceState);
         initData();
         initSwipeView();
+        mRecyclerView.addItemDecoration(BaseDecoration.create(
+                ContextCompat.getColor(getContext(), R.color.app_background), 10));
     }
 
 
     private void initData(){
         RestClient.builder()
-                .url("one_channel_detail")
+                .url("channel/detail/"+mChannelId)
                 .loader(getContext(), LoaderStyle.LineScaleIndicator)
                 .success(this)
                 .build()
@@ -157,27 +176,27 @@ public class ChannelDetailDelegate extends LatteDelegate implements ISuccess,
         final JSONObject data = JSON.parseObject(response);
         final String title = data.getString("title");
         final String desc = data.getString("desc");
-        final String image = data.getString("image");
-        final Integer count = data.getInteger("count");
+        final String image = data.getString("imageUrl");
+        mCount = data.getInteger("total");
         mTitleTextView.setText(title);
+        mChannelCount.setText(mCount.toString());
+        mChannelDesc.setText(desc);
         Glide.with(getContext())
                 .load(image)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .centerCrop()
                 .dontAnimate()
                 .into(mImageView);
-
         final ArrayList<MultipleItemEntity> dataList = new IndexDataConverter()
                 .setJsonData(response).convert();
         mAdapter = new IndexDataAdapter(dataList);
         final LinearLayoutManager manager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(manager);
         mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.addItemDecoration(BaseDecoration.create(
-                ContextCompat.getColor(getContext(), R.color.app_background), 10));
         mRecyclerView.addOnItemTouchListener(IndexItemClickListener
-                .create(this, MODIFY_CHANNEL_URL));
+                .create(this));
         mAdapter.bindToRecyclerView(mRecyclerView);
+        checkCount();
     }
 
     @Override
@@ -223,5 +242,20 @@ public class ChannelDetailDelegate extends LatteDelegate implements ISuccess,
         itemTouchHelper.attachToRecyclerView(mRecyclerView);
     }
 
+    private void checkCount(){
+        if (!IS_FIRST_LOAD){
+            studView = mViewStubCompat.inflate();
+        }
+        if (mCount == 0){
+            final AppCompatTextView tvStudText = (AppCompatTextView)studView.findViewById(R.id.stud_connect_text);
+            tvStudText.setText("快将你喜欢的项目加入该分组吧");
+            mViewStubCompat.setVisibility(View.VISIBLE);
+            mRecyclerView.setVisibility(View.GONE);
+        } else{
+            mRecyclerView.setVisibility(View.VISIBLE);
+            mViewStubCompat.setVisibility(View.GONE);
+        }
+        IS_FIRST_LOAD = true;
+    }
 
 }

@@ -29,6 +29,7 @@ public class IndexDataConverter extends DataConverter{
             final String url = data.getString("url");
             final String title = data.getString("title");
             final String resource = data.getString("resource");
+            final String channel = data.getString("channel");
             final String colorAvatar = data.getString("colorAvatar");
             final boolean isStar = data.getBoolean("mstar");
 
@@ -40,6 +41,7 @@ public class IndexDataConverter extends DataConverter{
                     .setItemField(MultipleFields.URL, url)
                     .setItemField(MultipleFields.TEXT, resource)
                     .setItemField(MultipleFields.BOOL, isStar)
+                    .setItemField(MultipleFields.NAME, channel)
                     .build();
             dataList.add(entity);
         }

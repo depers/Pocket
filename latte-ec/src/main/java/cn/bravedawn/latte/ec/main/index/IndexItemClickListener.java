@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v4.app.NavUtils;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
+import android.widget.BaseAdapter;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -37,6 +38,7 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
+import me.yokeyword.fragmentation.ISupportFragment;
 
 /**
  * Created by 冯晓 on 2017/9/25.
@@ -46,21 +48,23 @@ public class IndexItemClickListener extends SimpleClickListener {
 
     private final LatteDelegate DELEGATE;
 
-    private final String URL;
+    private Integer mIndex;
 
-    private Integer RESPONSE_CODE = null;
+    private Integer mPosition;
+
+    private BaseQuickAdapter mAdapter;
 
     private final List<String> channelList = new ArrayList<>();
+    private final List<Integer> channelIdList = new ArrayList<>();
 
-    private IndexItemClickListener(LatteDelegate delegate, String url) {
+    private IndexItemClickListener(LatteDelegate delegate) {
         this.DELEGATE = delegate;
-        this.URL = url;
         getChannel();
     }
 
 
-    public static SimpleClickListener create(LatteDelegate delegate, String url) {
-        return new IndexItemClickListener(delegate, url);
+    public static SimpleClickListener create(LatteDelegate delegate) {
+        return new IndexItemClickListener(delegate);
     }
 
     @Override
@@ -72,23 +76,29 @@ public class IndexItemClickListener extends SimpleClickListener {
         final Integer id = entity.getField(MultipleFields.ID);
         LatteLogger.d(entity.getField(MultipleFields.TITLE));
         final RecordDetailDelegate delegate = RecordDetailDelegate.create(url, isStar, id);
-        DELEGATE.getParentDelegate().getSupportDelegate().startForResult(delegate, 200);
+        DELEGATE.getSupportDelegate().start(delegate, ISupportFragment.SINGLETASK);
     }
 
     @Override
     public void onItemLongClick(BaseQuickAdapter adapter, View view, int position) {
+        mAdapter = adapter;
+        mPosition = position;
+        final MultipleItemEntity entity = (MultipleItemEntity) adapter.getData().get(position);
+        final String channel = entity.getField(MultipleFields.NAME);
+        final Integer id = entity.getField(MultipleFields.ID);
+        mIndex = channelList.indexOf(channel);
         float dx = adapter.getViewByPosition(position, R.id.layoutRecordItemMain).getX();
-        if (!(dx > 0)){
+        if (!(dx > 0) || view.isLongClickable()){
             Latte.getHandler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     new MaterialDialog.Builder(DELEGATE.getContext())
                             .title(R.string.group_dialog)
                             .items(channelList)
-                            .itemsCallbackSingleChoice(0, new MaterialDialog.ListCallbackSingleChoice() {
+                            .itemsCallbackSingleChoice(mIndex, new MaterialDialog.ListCallbackSingleChoice() {
                                 @Override
                                 public boolean onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
-                                    modifyChannel(which);
+                                    modifyChannel(which, id);
                                     return true;
                                 }
                             })
@@ -108,25 +118,27 @@ public class IndexItemClickListener extends SimpleClickListener {
 
     }
 
-    // TODO: 2017/10/10 与服务器配合添加上传修改分类数据
-    private void modifyChannel(final int pos) {
-        Observable.just(URL)
+    private void modifyChannel(int pos, Integer recordId) {
+        final Integer channelId = channelIdList.get(pos);
+        Observable.just("record_channel/"+recordId)
                 .map(new Function<String, Boolean>() {
                     @Override
                     public Boolean apply(@NonNull String s) throws Exception {
                         RestClient.builder()
-                                .url(URL)
+                                .url(s)
+                                .params("channelId", channelId)
                                 .success(new ISuccess() {
                                     @Override
                                     public void onSuccess(String response) {
                                         LatteLogger.d("modify_channel", response);
-                                        JSONObject result = JSON.parseObject(response);
-                                        RESPONSE_CODE = result.getInteger("code");
-                                        LatteLogger.d("RESPONSE_CODE2", RESPONSE_CODE);
+                                        JSONObject data = JSON.parseObject(response);
+                                        MultipleItemEntity entity =  (MultipleItemEntity) mAdapter.getData().get(mPosition);
+                                        entity.setField(MultipleFields.NAME, data.getString("data"));
+                                        mAdapter.notifyItemChanged(mPosition);
                                     }
                                 })
                                 .build()
-                                .get();
+                                .put();
                         return true;
 
                     }
@@ -137,7 +149,7 @@ public class IndexItemClickListener extends SimpleClickListener {
                     @Override
                     public void accept(@NonNull Boolean aBoolean) throws Exception {
                         if (aBoolean) {
-                            Toast.makeText(Latte.getApplicationContext(), "修改成功, "+pos, Toast.LENGTH_LONG).show();
+                            Toast.makeText(Latte.getApplicationContext(), "修改成功", Toast.LENGTH_LONG).show();
                         } else {
                             Toast.makeText(Latte.getApplicationContext(), "修改失败", Toast.LENGTH_LONG).show();
                         }
@@ -145,7 +157,6 @@ public class IndexItemClickListener extends SimpleClickListener {
                 });
     }
 
-    // TODO: 2017/10/10 查询用户栏目
     private void getChannel(){
         RestClient.builder()
                 .url("channel/" + LattePreference.getCustomAppProfile("userId"))
@@ -158,7 +169,7 @@ public class IndexItemClickListener extends SimpleClickListener {
                         final int size = array.size();
                         for(int i = 0; i < size; i++){
                             final JSONObject obj = array.getJSONObject(i);
-                            //LatteLogger.d("JSONObject", obj);
+                            channelIdList.add(obj.getInteger("id"));
                             channelList.add(obj.getString("channel"));
                         }
                     }
@@ -169,4 +180,8 @@ public class IndexItemClickListener extends SimpleClickListener {
     }
 
 
+    @Override
+    public boolean equals(Object obj) {
+        return true;
+    }
 }

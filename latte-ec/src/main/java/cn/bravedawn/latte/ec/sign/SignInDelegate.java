@@ -22,6 +22,7 @@ import cn.bravedawn.latte.ec.R2;
 import cn.bravedawn.latte.net.RestClient;
 import cn.bravedawn.latte.net.callback.ISuccess;
 import cn.bravedawn.latte.util.log.LatteLogger;
+import cn.bravedawn.latte.util.net.NetWorkUtils;
 import cn.bravedawn.latte.wechat.LatteWeChat;
 import cn.bravedawn.latte.wechat.callbacks.IWeChatSignInCallback;
 import qiu.niorgai.StatusBarCompat;
@@ -72,6 +73,9 @@ public class SignInDelegate extends LatteDelegate {
     @OnClick(R2.id.btn_sign_in)
     void onClickSignIn() {
         if (checkForm()) {
+            if (!NetWorkUtils.isNetworkConnected(getContext())){
+                Toast.makeText(getContext(), "请连接网络后重试", Toast.LENGTH_LONG).show();
+            }
             RestClient.builder()
                     .url("sign_in")
                     .params("phone", mPhone.getText().toString())

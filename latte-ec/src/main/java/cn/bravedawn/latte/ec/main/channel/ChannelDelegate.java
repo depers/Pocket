@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.chad.library.adapter.base.entity.MultiItemEntity;
 
 import java.util.ArrayList;
 
@@ -30,6 +31,7 @@ import cn.bravedawn.latte.ec.R2;
 import cn.bravedawn.latte.ec.main.EcBottomDelegate;
 import cn.bravedawn.latte.ec.main.channel.add.AddChannelDelegate;
 import cn.bravedawn.latte.net.RestClient;
+import cn.bravedawn.latte.net.callback.IFailure;
 import cn.bravedawn.latte.net.callback.ISuccess;
 import cn.bravedawn.latte.ui.loader.LoaderStyle;
 import cn.bravedawn.latte.ui.recycler.MultipleItemEntity;
@@ -108,7 +110,6 @@ public class ChannelDelegate extends BottomItemDelegate implements ISuccess{
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
         initViewByData();
-        mRecyclerView.addOnItemTouchListener(ChannelItemClickListener.create(this));
     }
 
     @Override
@@ -125,6 +126,10 @@ public class ChannelDelegate extends BottomItemDelegate implements ISuccess{
         final LinearLayoutManager manager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(manager);
         mRecyclerView.setAdapter(mAdapter);
+        if (IS_FIRST_LOAD){
+            mRecyclerView.removeOnItemTouchListener(ChannelItemClickListener.create(this));
+        }
+        mRecyclerView.addOnItemTouchListener(ChannelItemClickListener.create(this));
         checkNetConnect();
     }
 
@@ -133,6 +138,12 @@ public class ChannelDelegate extends BottomItemDelegate implements ISuccess{
                 .url("channel/" + LattePreference.getCustomAppProfile("userId"))
                 .loader(getContext(), LoaderStyle.LineScaleIndicator)
                 .success(this)
+                .failure(new IFailure() {
+                    @Override
+                    public void onFailure() {
+                        checkNetConnect();
+                    }
+                })
                 .build()
                 .get();
     }
@@ -156,9 +167,14 @@ public class ChannelDelegate extends BottomItemDelegate implements ISuccess{
             tvShow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(getContext(), "请稍后重试", Toast.LENGTH_LONG).show();
+                    if (!NetWorkUtils.isNetworkConnected(getContext())){
+                        Toast.makeText(getContext(), "请稍后重试", Toast.LENGTH_LONG).show();
+                    } else{
+                        initViewByData();
+                    }
                 }
             });
+            mViewStubCompat.setVisibility(View.VISIBLE);
             mRecyclerView.setVisibility(View.GONE);
         } else{
             mRecyclerView.setVisibility(View.VISIBLE);
@@ -167,4 +183,7 @@ public class ChannelDelegate extends BottomItemDelegate implements ISuccess{
         IS_FIRST_LOAD = true;
     }
 
+    public ChannelAdapter getAdapter(){
+        return mAdapter;
+    }
 }
