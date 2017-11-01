@@ -2,8 +2,10 @@ package cn.bravedawn.latte.ui.scanner;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 
+import cn.bravedawn.latte.R;
 import me.dm7.barcodescanner.core.ViewFinderView;
 
 /**
@@ -20,7 +22,7 @@ public class LatteViewFinderView extends ViewFinderView{
     public LatteViewFinderView(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
         mSquareViewFinder = true;
-        mBorderPaint.setColor(Color.YELLOW);
-        mLaserPaint.setColor(Color.YELLOW);
+        mBorderPaint.setColor(ContextCompat.getColor(getContext(), R.color.app_main));
+        mLaserPaint.setColor(ContextCompat.getColor(getContext(), R.color.app_main));
     }
 }

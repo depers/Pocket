@@ -83,8 +83,8 @@ public class RefreshHandler implements
             public void run() {
                 BEAN.setPageIndex(0);
                 firstPage("record/"+ LattePreference.getCustomAppProfile("userId"));
-                mAdapter.notifyDataSetChanged();
                 REFRESH_LAYOUT.setRefreshing(false);
+                mAdapter.notifyDataSetChanged();
             }
         }, 2000);
     }
@@ -103,6 +103,7 @@ public class RefreshHandler implements
                                 .setPageSize(object.getInteger("page_size"))
                                 .setTotalPage(object.getInteger("total_page"));
                         // 设置Adapter
+                        CONVERTER.clearData();
                         mAdapter = new IndexDataAdapter(CONVERTER.setJsonData(response).convert());
                         mAdapter.setOnLoadMoreListener(RefreshHandler.this, RECYCLERVIEW);
                         RECYCLERVIEW.setAdapter(mAdapter);

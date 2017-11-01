@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -28,6 +30,7 @@ import butterknife.OnClick;
 import cn.bravedawn.latte.app.ConfigKeys;
 import cn.bravedawn.latte.app.Latte;
 import cn.bravedawn.latte.delegates.bottom.BottomItemDelegate;
+import cn.bravedawn.latte.delegates.web.WebDelegateImpl;
 import cn.bravedawn.latte.ec.R;
 import cn.bravedawn.latte.ec.R2;
 import cn.bravedawn.latte.ec.main.EcBottomDelegate;
@@ -114,6 +117,9 @@ public class IndexDelegate extends BottomItemDelegate implements ClipboardUtil.O
                     @Override
                     public void executeCallBack(@Nullable String args) {
                         Toast.makeText(getContext(), args, Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        intent.setData(Uri.parse(args));
+                        startActivity(intent);
                     }
                 });
 
@@ -202,11 +208,4 @@ public class IndexDelegate extends BottomItemDelegate implements ClipboardUtil.O
         mClipboard.removeOnPrimaryClipChangedListener(this);
     }
 
-    @Override
-    public void onSupportVisible() {
-        super.onSupportVisible();
-        if (IS_FIRST_LOAD){
-            mRefreshHandler.refresh();
-        }
-    }
 }

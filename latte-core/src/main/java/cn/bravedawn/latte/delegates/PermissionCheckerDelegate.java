@@ -135,5 +135,4 @@ public abstract class PermissionCheckerDelegate extends BaseDelegate{
             }
         }
     }
-
 }

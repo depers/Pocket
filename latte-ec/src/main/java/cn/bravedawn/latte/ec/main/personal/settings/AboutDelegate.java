@@ -18,6 +18,7 @@ import cn.bravedawn.latte.ec.R2;
 import cn.bravedawn.latte.net.RestClient;
 import cn.bravedawn.latte.net.callback.ISuccess;
 import cn.bravedawn.latte.ui.loader.LoaderStyle;
+import cn.bravedawn.latte.util.log.LatteLogger;
 
 /**
  * Created by 冯晓 on 2017/10/1.
@@ -75,6 +76,7 @@ public class AboutDelegate extends LatteDelegate{
                 .success(new ISuccess() {
                     @Override
                     public void onSuccess(String response) {
+                        LatteLogger.d("about");
                         final String info = JSON.parseObject(response).getString("data");
                         mTextView.setText(info);
                     }

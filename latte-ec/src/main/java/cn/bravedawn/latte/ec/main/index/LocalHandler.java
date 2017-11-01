@@ -16,6 +16,7 @@ import java.util.List;
 import cn.bravedawn.latte.delegates.LatteDelegate;
 import cn.bravedawn.latte.ec.database.DatabaseManager;
 import cn.bravedawn.latte.ec.database.RecordProfile;
+import cn.bravedawn.latte.ec.database.RecordProfileDao;
 import cn.bravedawn.latte.ec.detail.RecordDetailDelegate;
 import cn.bravedawn.latte.ec.main.EcBottomDelegate;
 import cn.bravedawn.latte.ui.recycler.DataConverter;
@@ -48,7 +49,7 @@ public class LocalHandler {
 
     public void firstLocalLoad(){
         Query<RecordProfile> recordProfileQuery = DatabaseManager.getInstance().getRecordDao()
-                .queryBuilder().build();
+                .queryBuilder().orderDesc(RecordProfileDao.Properties.Id).build();
         List<RecordProfile> recordProfiles = recordProfileQuery.list();
         JSONObject data = new JSONObject();
         data.put("data", recordProfiles);

@@ -92,7 +92,7 @@
                 android:id="@+id/icon_index_search"
                 android:layout_width="50dp"
                 android:layout_height="match_parent"
-                android:layout_marginRight="10dp"
+                android:layout_marginRight="5dp"
                 android:layout_toLeftOf="@+id/icon_index_scan"
                 android:gravity="center"
                 android:text="@string/search_icon"
@@ -110,7 +110,7 @@
                 android:text="@string/scan_icon"
                 android:textColor="@android:color/white"
                 style="@style/Widget.AppCompat.Button.Borderless"
-                android:textSize="25sp"/>
+                android:textSize="27sp"/>
 
 
         </RelativeLayout>

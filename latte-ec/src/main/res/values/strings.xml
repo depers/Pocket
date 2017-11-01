@@ -3,7 +3,7 @@
     <!--delegate_index-->
     <string name="search">搜索</string>
     <string name="scan_icon">{icon-scan}</string>
-    <string name="search_icon">{fa-search}</string>
+    <string name="search_icon">{icon-search}</string>
     <string name="group_dialog">选择分类</string>
     <!--修改记录栏目-->
     <string name="modify_channel">modify_channel</string>

@@ -71,7 +71,7 @@ public class ChannelDelegate extends BottomItemDelegate implements ISuccess{
 
     private View studView = null;
     private boolean IS_FIRST_LOAD = false;
-    private Integer mCount = null;
+    private Integer mCount = 0;
 
     @Nullable
     @Override

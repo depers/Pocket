@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import cn.bravedawn.latte.ui.recycler.DataConverter;
 import cn.bravedawn.latte.ui.recycler.MultipleFields;
 import cn.bravedawn.latte.ui.recycler.MultipleItemEntity;
+import cn.bravedawn.latte.util.log.LatteLogger;
 import cn.bravedawn.latte.util.storage.LattePreference;
 
 /**
@@ -17,13 +18,14 @@ import cn.bravedawn.latte.util.storage.LattePreference;
 public class SearchDateConverter extends DataConverter {
 
     public static final String TAG_SEARCH_HISTORY = "search_history";
-
+    private final ArrayList<MultipleItemEntity> dataList = new ArrayList<>();
 
     @Override
     public ArrayList<MultipleItemEntity> convert() {
 
         final String jsonStr = LattePreference.getCustomAppProfile(TAG_SEARCH_HISTORY);
         if (!jsonStr.equals("")){
+            LatteLogger.d(JSON.toJSONString(jsonStr));
             final JSONArray array = JSONArray.parseArray(jsonStr);
             final int size = array.size();
             for (int i = 0; i < size; i++){
@@ -32,10 +34,10 @@ public class SearchDateConverter extends DataConverter {
                         .setItemType(SearchItemType.ITEM_SEARCH)
                         .setItemField(MultipleFields.TEXT, historyItemText)
                         .build();
-                ENTITIES.add(entity);
+                dataList.add(entity);
             }
         }
 
-        return ENTITIES;
+        return dataList;
     }
 }
