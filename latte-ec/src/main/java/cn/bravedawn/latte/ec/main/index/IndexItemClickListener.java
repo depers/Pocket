@@ -157,7 +157,7 @@ public class IndexItemClickListener extends SimpleClickListener {
                 });
     }
 
-    private void getChannel(){
+    public void getChannel(){
         RestClient.builder()
                 .url("channel/" + LattePreference.getCustomAppProfile("userId"))
                 .success(new ISuccess() {
@@ -167,6 +167,10 @@ public class IndexItemClickListener extends SimpleClickListener {
                         final JSONObject result = JSON.parseObject(response);
                         final JSONArray array = result.getJSONArray("data");
                         final int size = array.size();
+                        if (!channelList.isEmpty()){
+                            channelList.clear();
+                            channelIdList.clear();
+                        }
                         for(int i = 0; i < size; i++){
                             final JSONObject obj = array.getJSONObject(i);
                             channelIdList.add(obj.getInteger("id"));

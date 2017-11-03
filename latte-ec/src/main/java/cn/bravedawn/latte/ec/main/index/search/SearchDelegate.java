@@ -93,8 +93,6 @@ public class SearchDelegate extends LatteDelegate {
                                 }
                             });
                         }
-
-                        saveItem(searchItemText);
                         mEditText.setText("");
                     }
                 })

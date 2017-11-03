@@ -129,6 +129,7 @@ public class StarDelegate extends BottomItemDelegate implements ISuccess{
         }
         if (IS_FIRST_LOAD){
             mRecyclerView.removeOnItemTouchListener(StarItemClickListener.create(this));
+            mRecyclerView.removeOnItemTouchListener(StarItemClickListener.create(this));
         }
         mRecyclerView.addOnItemTouchListener(StarItemClickListener.create(this));
         mAdapter.bindToRecyclerView(mRecyclerView);

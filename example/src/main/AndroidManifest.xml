@@ -19,6 +19,11 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />
 
+    <!-- 闪光灯权限 -->
+    <uses-permission android:name="android.permission.FLASHLIGHT"/>
+    <!-- 振动器权限 -->
+    <uses-permission android:name="android.permission.VIBRATE"/>
+
     <application
         android:name=".ExampleApp"
         android:allowBackup="true"
@@ -159,7 +164,7 @@
         <!-- Required. AppKey copied from Portal -->
         <meta-data
             android:name="JPUSH_APPKEY"
-            android:value="81bd3ba26bac73e8376b7b34" />
+            android:value="144f9d0361c7acb229926c83" />
         <!--极光推送结束-->
 
         <!--分享-->

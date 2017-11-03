@@ -82,7 +82,7 @@ public class StarItemClickListener extends SimpleClickListener {
         mIndex = channelList.indexOf(channel);
         float dx = adapter.getViewByPosition(position, R.id.layoutRecordItemMain).getX();
         if (!(dx > 0) && !view.isLongClickable()){
-            MaterialDialog dialog =  new MaterialDialog.Builder(DELEGATE.getContext())
+            new MaterialDialog.Builder(DELEGATE.getContext())
                     .items("取消集锦","重新分组")
                     .itemsColorRes(R.color.app_main)
                     .itemsCallback(new MaterialDialog.ListCallback() {

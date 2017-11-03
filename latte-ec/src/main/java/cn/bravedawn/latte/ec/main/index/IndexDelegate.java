@@ -1,6 +1,9 @@
 package cn.bravedawn.latte.ec.main.index;
 
 import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -10,7 +13,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.AppCompatEditText;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -45,6 +48,8 @@ import cn.bravedawn.latte.util.log.LatteLogger;
 import cn.bravedawn.latte.util.net.NetWorkUtils;
 import cn.bravedawn.latte.util.storage.LattePreference;
 import qiu.niorgai.StatusBarCompat;
+
+import static android.content.Context.NOTIFICATION_SERVICE;
 
 /**
  * Created by 冯晓 on 2017/9/24.
@@ -94,6 +99,8 @@ public class IndexDelegate extends BottomItemDelegate implements ClipboardUtil.O
 
     private String URL = null;
 
+    private IndexItemClickListener mIndexItemClickListener = null;
+
     private boolean IS_FIRST_LOAD = false;
 
     @Override
@@ -133,8 +140,8 @@ public class IndexDelegate extends BottomItemDelegate implements ClipboardUtil.O
             initRefreshLayout();
             initRecyclerView();
             final EcBottomDelegate ecBottomDelegate = getParentDelegate();
-            mRecyclerView.addOnItemTouchListener(IndexItemClickListener
-                    .create(ecBottomDelegate));
+            mIndexItemClickListener = (IndexItemClickListener) IndexItemClickListener.create(ecBottomDelegate);
+            mRecyclerView.addOnItemTouchListener(mIndexItemClickListener);
             //是否显示添加菜单
             isAddRecord();
             IS_FIRST_LOAD = true;
@@ -162,7 +169,8 @@ public class IndexDelegate extends BottomItemDelegate implements ClipboardUtil.O
                 if (URL != null){
                     mRelativeLayout.setVisibility(View.VISIBLE);
                     mBottomSheet_text.setText(URL);
-                    LatteLogger.d("onPrimaryClipChanged", URL);
+                    LatteLogger.d("URL", URL);
+                    notificationSet(URL);
                 }
             }
         }
@@ -208,4 +216,36 @@ public class IndexDelegate extends BottomItemDelegate implements ClipboardUtil.O
         mClipboard.removeOnPrimaryClipChangedListener(this);
     }
 
+    private void notificationSet(String url){
+        NotificationManager mNotificationManager = (NotificationManager) _mActivity
+                .getSystemService(NOTIFICATION_SERVICE);
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getContext());
+        final Intent intent = new Intent(getContext(), Latte.getConfiguration(ConfigKeys.ACTIVITY).getClass());
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        PendingIntent contentIntent = PendingIntent.getActivity(getContext(), 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        mBuilder.setContentTitle("是否将链接添加至口袋？")
+                .setContentText(url)
+                .setTicker("通知来啦！")
+                .setFullScreenIntent(contentIntent, true)
+                .setContentIntent(contentIntent)
+                .setWhen(System.currentTimeMillis())
+                .setPriority(Notification.PRIORITY_DEFAULT)
+                .setDefaults(Notification.DEFAULT_ALL)
+                .setSmallIcon(R.mipmap.logo)
+                .setAutoCancel(true)
+                .setVisibility(Notification.VISIBILITY_PUBLIC);
+
+
+        LatteLogger.d("notification");
+        mNotificationManager.notify(1, mBuilder.build());
+    }
+
+
+    @Override
+    public void onSupportVisible() {
+        super.onSupportVisible();
+        if (NetWorkUtils.isNetworkConnected(getContext()) && IS_FIRST_LOAD){
+            mIndexItemClickListener.getChannel();
+        }
+    }
 }

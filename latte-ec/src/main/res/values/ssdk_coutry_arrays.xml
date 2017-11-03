@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools"
+		   tools:ignore="MissingTranslation">
     <string-array name="smssdk_country_group_a">
 		<item>阿尔巴尼亚,355,110,27601|27602|27603|27604</item>
 		<item>阿尔及利亚,213,52,60303|60302|60301</item>
