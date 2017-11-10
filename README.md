@@ -21,7 +21,7 @@ The source code in this repository reflects the app which supports mobile device
 ### Demo Vedio
 
 <video id="video" controls="" preload="none" poster="http://media.w3.org/2010/05/sintel/poster.png">
-      <source id="mp4" src="http://media.w3.org/2010/05/sintel/trailer.mp4" type="video/mp4">
+      <source id="mp4" src="http://oxut2e6if.bkt.clouddn.com/pocket.mp4" type="video/mp4">
 </video>
 
 ### How to Work with the Source
