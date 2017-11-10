@@ -1,7 +1,7 @@
 # Pocket Android App
+![icon](https://github.com/depers/Pocket-/blob/master/example/src/main/res/mipmap-xxxhdpi/logo.png)
 
-
-Pocket(口袋收藏)该项目获2016年西北师范大学本科生能力提升计划资助开发，在这里我先由衷的感谢计算机科学与工程学院和西北师范大学。
+Pocket(口袋收藏)该项目获2016年西北师范大学本科生能力提升计划资助开发，在这里我由衷的感谢计算机科学与工程学院和西北师范大学的支持。
 
 Pocket Collection is a project similar to Pocket App. In this era of mobile internet boom, Pocket Collection is dedicated to providing "fragmented knowledge management solutions" to every user in the pocket.App using a single Activity architecture with RxJava2, Retrofit2, greenDao and zBar so on.
 
@@ -15,7 +15,7 @@ The source code in this repository reflects the app which supports mobile device
 + Manage your favorite information through your pocket collection.
 + You can share the information into the WeChat.
 
-### Demo Video
+### Demo Vedio
 
 <video id="video" controls="" preload="none" poster="http://media.w3.org/2010/05/sintel/poster.png">
       <source id="mp4" src="http://media.w3.org/2010/05/sintel/trailer.mp4" type="video/mp4">
@@ -27,7 +27,7 @@ I hope the source code for this app is useful for you as a reference or starting
 Clone the Repository:
 
 ```
-git clone https://github.com/TonnyL/Espresso.git
+git clone https://github.com/depers/Pocket.git
 ```
 
 Check out the master branch:
@@ -46,7 +46,7 @@ This project is still in progress. The project will be suspended for a year or s
 
 ### License
 ```
-Copyright 2017 lizhaotailang
+Copyright 2017 depers
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
