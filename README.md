@@ -18,11 +18,9 @@ The source code in this repository reflects the app which supports mobile device
 + Manage your favorite information through your pocket collection.
 + You can share the information into the WeChat.
 
-### Demo Vedio
+### Demo Video
 
-<video id="video" controls="" preload="none" poster="http://media.w3.org/2010/05/sintel/poster.png">
-      <source id="mp4" src="http://oxut2e6if.bkt.clouddn.com/pocket.mp4" type="video/mp4">
-</video>
+[Demo Video Link](http://oxut2e6if.bkt.clouddn.com/pocket.mp4)
 
 ### How to Work with the Source
 I hope the source code for this app is useful for you as a reference or starting point for creating your own app. Here is some instructions to help you better build and run the code in Android Studio.
