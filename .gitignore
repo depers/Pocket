@@ -5,3 +5,10 @@ build
 .idea
 local.properties
 
+
+example/libs/
+latte-annotations/libs/
+latte-compiler/libs/
+latte-ec/src/androidTest/java/cn/bravedawn/latteec/
+latte-ec/src/test/java/cn/bravedawn/latteec/
+latte-ui/libs/
