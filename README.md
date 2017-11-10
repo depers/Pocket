@@ -2,7 +2,7 @@
 [![Build Status](https://travis-ci.org/TonnyL/Espresso.svg?branch=master)]
 
 <div align="center">
-	<img src="https://github.com/depers/Pocket-/blob/master/example/src/main/res/mipmap-xxxhdpi/logo.png" width="128" alt="logo">
+	<img src="./example/src/main/res/mipmap-xxxhdpi/logo.png" width="128" alt="logo">
 </div>
 
 Pocket(口袋收藏)该项目获2016年西北师范大学本科生能力提升计划资助开发，在这里我由衷的感谢计算机科学与工程学院和西北师范大学的支持。
