@@ -1,6 +1,5 @@
 # Pocket Android App
-[![Build Status](https://travis-ci.org/TonnyL/Espresso.svg?branch=master)]
-
+[![Build Status](https://travis-ci.org/TonnyL/Espresso.svg?branch=master)](https://travis-ci.org/TonnyL/Espresso)
 <div align="center">
 	<img src="./example/src/main/res/mipmap-xxxhdpi/logo.png" width="128" alt="logo">
 </div>
