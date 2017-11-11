@@ -4,7 +4,7 @@
 	<img src="./example/src/main/res/mipmap-xxxhdpi/logo.png" width="100" alt="logo">
 </div>
   <br />
-Pocket(口袋收藏)该项目获2016年西北师范大学本科生能力提升计划资助开发，在这里我由衷的感谢计算机科学与工程学院和西北师范大学的支持。
+Pocket(口袋收藏)该项目获2017年西北师范大学本科生能力提升计划资助开发，在这里我由衷的感谢计算机科学与工程学院和西北师范大学的支持。
 
 Pocket Collection is a project similar to Pocket App. In this era of mobile internet boom, Pocket Collection is dedicated to providing "fragmented knowledge management solutions" to every user in the pocket.App using a single Activity architecture with RxJava2, Retrofit2, greenDao and zBar so on.
 
